@@ -41,6 +41,12 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
         return lesson_completed
 
 
+class PhotoAndAudioLessonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Lesson
+        fields = ('__all__')
+
+
 class LessonSerializer(serializers.ModelSerializer):
     lessonCompleted = serializers.SerializerMethodField()
     # user = serializers.SerializerMethodField()

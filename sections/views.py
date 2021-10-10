@@ -6,17 +6,19 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 
 
 from .models import Section
+from lessons.models import Lesson
 from .serializers import SectionSerializer
+from lessons.serializers import PhotoAndAudioLessonSerializer
 
 
 class SectionListView(generics.ListAPIView):
     permission_classes = (AllowAny,)
-    serializer_class = SectionSerializer
+    serializer_class = PhotoAndAudioLessonSerializer
     # serializer_class = RoadSerializer
 
     def get_queryset(self):
         id = self.kwargs['pk']
-        return Section.objects.filter(course=id)
+        return Lesson.objects.filter(section=id)
 
     # def get_queryset(self):
     #     qs = Section.objects.all()

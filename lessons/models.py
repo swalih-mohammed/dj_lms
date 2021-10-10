@@ -1,7 +1,8 @@
 
 from django.db import models
-from units.models import Unit
 from users.models import User
+from units.models import Unit
+from sections.models import Section
 
 
 class Lesson(models.Model):
@@ -17,6 +18,8 @@ class Lesson(models.Model):
     audio = models.FileField(upload_to='lesson_audio', blank=True, null=True)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE, related_name='unitLessons', blank=True, null=True, max_length=250)
+    section = models.ForeignKey(
+        Section, on_delete=models.CASCADE, related_name='sectionLessons', blank=True, null=True, max_length=250)
 
     def __str__(self):
         return self.title
