@@ -1,6 +1,25 @@
 from django.contrib import admin
-from .models import Lesson, LessonQuestion, LessonQuestionChoice
+from .models import Lesson, LessonItem
+from quizzes.models import Quiz
 
-admin.site.register(Lesson)
-admin.site.register(LessonQuestion)
-admin.site.register(LessonQuestionChoice)
+
+class inlineLessonItem(admin.StackedInline):
+    model = LessonItem
+    extra = 0
+
+
+class inlineQuiz(admin.StackedInline):
+    model = Quiz
+    extra = 0
+
+
+class LessonAdmin(admin.ModelAdmin):
+    inlines = [inlineLessonItem, inlineQuiz]
+    list_display = [
+        'title',
+    ]
+    list_filter = ['unit']
+
+
+admin.site.register(Lesson, LessonAdmin)
+admin.site.register(LessonItem)

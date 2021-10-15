@@ -11,8 +11,8 @@ from rest_framework.status import (
 )
 
 
-from .models import Lesson, LessonQuestion, LessonCompleted
-from .serializers import LessonDetailSerializer, LessonQuestionSerializer, LessonCompletedSerializer
+from .models import Lesson, LessonCompleted
+from .serializers import LessonDetailSerializer, LessonCompletedSerializer
 
 
 class LessonListView(APIView):
@@ -29,13 +29,13 @@ class LessonDetailView(RetrieveAPIView):
     queryset = Lesson.objects.all()
 
 
-class LessonTestView(generics.ListAPIView):
-    permission_classes = (AllowAny, )
-    serializer_class = LessonQuestionSerializer
+# class LessonTestView(generics.ListAPIView):
+#     permission_classes = (AllowAny, )
+#     serializer_class = LessonQuestionSerializer
 
-    def get_queryset(self):
-        lesson_id = self.kwargs['pk']
-        return LessonQuestion.objects.filter(lesson=lesson_id)
+#     def get_queryset(self):
+#         lesson_id = self.kwargs['pk']
+#         return LessonQuestion.objects.filter(lesson=lesson_id)
 
 
 class LessonCompletedCreateView(CreateAPIView):

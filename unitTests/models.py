@@ -49,3 +49,13 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question
+
+
+# class PhotoQuiz(models.Model):
+#     title = models.CharField(max_length=250, blank=True, null=True)
+#     unit = models.ForeignKey(
+#         UnitTest, on_delete=models.CASCADE, related_name='questions', blank=True, null=True)
+#     order = models.SmallIntegerField()
+
+#     def __str__(self):
+#         return self.question

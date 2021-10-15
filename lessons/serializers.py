@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from .models import Lesson, LessonQuestion, LessonQuestionChoice, LessonCompleted
+from .models import Lesson, LessonItem, LessonCompleted
 from users.models import User
-# from films.serializers import FilmSerializer
-# from unitTests.serializers import UnitTestSerializer
+from .models import User
+from quizzes.serializers import QuizSerializer
 
 
 class StringSerializer(serializers.StringRelatedField):
@@ -11,16 +11,7 @@ class StringSerializer(serializers.StringRelatedField):
         return value
 
 
-class LessonQuestionSerializer(serializers.ModelSerializer):
-    choices = StringSerializer(many=True)
-
-    class Meta:
-        model = LessonQuestion
-        fields = '__all__'
-
-
 class LessonCompletedSerializer(serializers.ModelSerializer):
-    # student = StringSerializer(many=False)
 
     class Meta:
         model = LessonCompleted
@@ -41,9 +32,9 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
         return lesson_completed
 
 
-class PhotoAndAudioLessonSerializer(serializers.ModelSerializer):
+class LessonItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Lesson
+        model = LessonItem
         fields = ('__all__')
 
 
@@ -72,20 +63,26 @@ class LessonSerializer(serializers.ModelSerializer):
                 return True
         return False
 
-    def get_user(self, request):
-        re = request.data
-        print(re)
-        return
+    # def get_user(self, request):
+    #     re = request.data
+    #     print(re)
+    #     return
 
 
 class LessonDetailSerializer(serializers.ModelSerializer):
-    lessonQuestions = serializers.SerializerMethodField()
+    Lesson_items = serializers.SerializerMethodField()
+    quiz = serializers.SerializerMethodField()
 
     class Meta:
         model = Lesson
         fields = '__all__'
 
-    def get_lessonQuestions(self, obj):
-        lessons = LessonQuestionSerializer(
-            obj.lessonsQuestions.all(), many=True).data
-        return lessons
+    def get_Lesson_items(self, obj):
+        lessonItems = LessonItemSerializer(
+            obj.LessonItems.all(), many=True).data
+        return lessonItems
+
+    def get_quiz(self, obj):
+        lessonItems = QuizSerializer(
+            obj.lessonQuizzes.all(), many=True).data
+        return lessonItems

@@ -1,7 +1,57 @@
 from rest_framework import serializers
+from .models import Course, Section, Unit
+from lessons.serializers import LessonSerializer
+# from .serializers import UnitSerializer, UnitDetailSerializer, SectionSerializer
 
-from .models import Course
-from sections.serializers import SectionSerializer
+
+class StringSerializer(serializers.StringRelatedField):
+    def to_internal_value(self, value):
+        return value
+
+
+class UnitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Unit
+        fields = '__all__'
+
+
+class UnitDetailSerializer(serializers.ModelSerializer):
+    # lessons = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Unit
+        fields = '__all__'
+
+    # def get_lessons(self, obj):
+    #     request = self.context['request']
+    #     username = request.parser_context['kwargs']['username']
+    #     lessons = LessonSerializer(
+    #         obj.unitLessons.all(), many=True, context={'username': username}).data
+    #     return lessons
+
+
+class SectionSerializer(serializers.ModelSerializer):
+    # units = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Section
+        fields = '__all__'
+
+    # def get_units(self, obj):
+    #     units = UnitSerializer(obj.units.all(), many=True).data
+    #     return units
+
+
+class SectionDetailSerializer(serializers.ModelSerializer):
+    units = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Section
+        fields = '__all__'
+
+    def get_units(self, obj):
+        units = UnitSerializer(obj.Units.all(), many=True).data
+        return units
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -18,5 +68,26 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_sections(self, obj):
-        sections = SectionSerializer(obj.sections.all(), many=True).data
+        sections = SectionDetailSerializer(obj.Sections.all(), many=True).data
         return sections
+
+
+class UnitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Unit
+        fields = '__all__'
+
+
+class UnitDetailSerializer(serializers.ModelSerializer):
+    lessons = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Unit
+        fields = '__all__'
+
+    def get_lessons(self, obj):
+        request = self.context['request']
+        username = request.parser_context['kwargs']['username']
+        lessons = LessonSerializer(
+            obj.Lessons.all(), many=True, context={'username': username}).data
+        return lessons

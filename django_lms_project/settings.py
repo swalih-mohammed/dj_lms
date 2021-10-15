@@ -45,12 +45,12 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'courses',
-    'sections',
-    'units',
+    # 'sections',
+    # 'units',
     'lessons',
-    'films',
-    'unitTests',
-    'sectionTests',
+    'quizzes',
+    # 'unitTests',
+    # 'sectionTests',
     'users',
     'storages',
 
