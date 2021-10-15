@@ -45,9 +45,9 @@ class Question(models.Model):
     order = models.SmallIntegerField()
     question = models.CharField(max_length=250, blank=True, null=True)
     has_photo_choices = models.BooleanField(default=False)
-    photo_choices = models.ManyToManyField(PhotoChoices)
+    photo_choices = models.ManyToManyField(PhotoChoices, blank=True)
     has_text_choices = models.BooleanField(default=False)
-    text_choices = models.ManyToManyField(TextChoices)
+    text_choices = models.ManyToManyField(TextChoices, blank=True)
     has_video = models.BooleanField(default=False)
     video = models.FileField(
         upload_to='quiz_videos', blank=True, null=True)
