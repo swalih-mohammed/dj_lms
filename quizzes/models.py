@@ -5,6 +5,8 @@ from courses.models import Course, Section, Unit
 from lessons.models import Lesson
 # from sections.models import Section
 
+# chagne
+
 
 class Quiz(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
