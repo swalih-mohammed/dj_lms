@@ -54,13 +54,13 @@ class TokenSerializer(serializers.ModelSerializer):
         ).data
         is_student = serializer_data.get('is_student')
         is_teacher = serializer_data.get('is_teacher')
-        # username = serializer_data.get('username')
-        email = serializer_data.get('email')
+        username = serializer_data.get('username')
+        # email = serializer_data.get('email')
 
         return {
             'is_student': is_student,
             'is_teacher': is_teacher,
-            # 'username': username
-            'email': email
+            'username': username
+            # 'email': email
 
         }
