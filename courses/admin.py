@@ -22,7 +22,8 @@ class CourseAdmin(admin.ModelAdmin):
         'title',
 
     ]
-    list_filter = ['title']
+    list_filter = ['language',
+                   'is_for_nursery', 'is_active', 'is_active']
     search_fields = ['title']
 
 
@@ -36,6 +37,7 @@ class SectionAdmin(admin.ModelAdmin):
     list_display = [
         'title',
     ]
+    list_filter = ['course']
 
 
 class inlineLesson(admin.StackedInline):
@@ -48,6 +50,8 @@ class UnitAdmin(admin.ModelAdmin):
     list_display = [
         'title',
     ]
+
+    list_filter = ['section']
 
 
 admin.site.register(Language)
