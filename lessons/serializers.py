@@ -52,16 +52,19 @@ class LessonSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_lessonCompleted(self, obj):
-        username = self.context['username']
-        user = User.objects.get(username=username)
-        userId = user.id
+        try:
+            username = self.context['username']
+            user = User.objects.get(username=username)
+            userId = user.id
 
-        lessonCompleted = LessonCompletedSerializer(
-            obj.lessonCompleted.filter(student=userId), many=True).data
-        if lessonCompleted:
-            if len(lessonCompleted) > 0:
-                return True
-        return False
+            lessonCompleted = LessonCompletedSerializer(
+                obj.lessonCompleted.filter(student=userId), many=True).data
+            if lessonCompleted:
+                if len(lessonCompleted) > 0:
+                    return True
+                return False
+        except:
+            return False
 
     # def get_user(self, request):
     #     re = request.data
