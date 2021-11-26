@@ -33,6 +33,7 @@ class SectionListView(generics.ListAPIView):
 
 
 class SectionDetailView(RetrieveAPIView):
+    permission_classes = (AllowAny,)
     serializer_class = SectionDetailSerializer
     queryset = Section.objects.all()
 
