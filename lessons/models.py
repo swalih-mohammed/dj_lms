@@ -10,6 +10,8 @@ class Lesson(models.Model):
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     photo = models.ImageField(upload_to='lesson_photos', blank=True, null=True)
     has_quiz = models.BooleanField(default=False)
+    section = models.ForeignKey(
+        Section, related_name='Sections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
     unit = models.ForeignKey(Unit, related_name='Lessons',
                              on_delete=models.CASCADE,  blank=True, null=True, max_length=250)
 
