@@ -18,6 +18,13 @@ class Lesson(models.Model):
     def __str__(self):
         return self.title
 
+    def language(self):
+        try:
+            t = slef.section.course.language
+            return t
+        except:
+            return
+
 
 class LessonItem(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)

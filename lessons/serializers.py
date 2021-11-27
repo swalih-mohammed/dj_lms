@@ -40,6 +40,11 @@ class LessonItemSerializer(serializers.ModelSerializer):
 
 class LessonSerializer(serializers.ModelSerializer):
     lessonCompleted = serializers.SerializerMethodField()
+    language1 = serializers.CharField(
+        read_only=True, source="section.course.language.title")
+    language2 = serializers.CharField(
+        read_only=True, source="unit.section.course.language.title")
+
     # user = serializers.SerializerMethodField()
     # field3 = serializers.SerializerMethodField('get_filtered_data')
 

@@ -42,6 +42,10 @@ class Section(models.Model):
     def __str__(self):
         return self.title
 
+    def language(self):
+        t = self.course.title
+        return t
+
     class Meta:
         verbose_name_plural = 'sections'
 
@@ -55,6 +59,11 @@ class Unit(models.Model):
 
     def __str__(self):
         return self.title
+
+        # try:
+        #     return self.section
+        # except:
+        #     return "did not get"
 
     class Meta:
         verbose_name_plural = 'units'
