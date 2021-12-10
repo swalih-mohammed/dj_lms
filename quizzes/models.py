@@ -41,6 +41,13 @@ class PhotoChoices(models.Model):
         upload_to='quiz_photo_choices', blank=True, null=True)
 
 
+class QuestionType(models.Model):
+    title = models.CharField(max_length=250, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Question(models.Model):
     quiz = models.ForeignKey(
         Quiz, on_delete=models.CASCADE, related_name='questionQuizzes', blank=True, null=True, max_length=250)
@@ -61,6 +68,8 @@ class Question(models.Model):
     has_photo = models.BooleanField(default=False)
     photo = models.ImageField(
         upload_to='quiz_photos', blank=True, null=True)
+    questionType = models.ForeignKey(
+        QuestionType, on_delete=models.CASCADE, related_name='questions', blank=True, null=True, max_length=250)
 
     def __str__(self):
         return self.question

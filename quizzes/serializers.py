@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Quiz, Question, TextChoices, PhotoChoices
+from .models import Quiz, Question, TextChoices, PhotoChoices, QuestionType
 
 
 class StringSerializer(serializers.StringRelatedField):
@@ -19,9 +19,16 @@ class PhotoChoiceSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
 
+class QuestionTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionType
+        fields = ('__all__')
+
+
 class QuestionSerializer(serializers.ModelSerializer):
     text_choices = serializers.SerializerMethodField()
     photo_choices = serializers.SerializerMethodField()
+    questionType = serializers.CharField(source='questionType.title')
 
     class Meta:
         model = Question
