@@ -53,6 +53,7 @@ class Question(models.Model):
         Quiz, on_delete=models.CASCADE, related_name='questionQuizzes', blank=True, null=True, max_length=250)
     order = models.SmallIntegerField()
     question = models.CharField(max_length=250, blank=True, null=True)
+    answer = models.CharField(max_length=250, blank=True, null=True)
     has_photo_choices = models.BooleanField(default=False)
     photo_choices = models.ManyToManyField(PhotoChoices, blank=True)
     has_text_choices = models.BooleanField(default=False)
