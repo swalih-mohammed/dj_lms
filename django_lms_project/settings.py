@@ -12,10 +12,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-&q&&2wsah+6)hh=-)y@++%)=z&pu%gpt&ukou^2a76wpr9n-^1'
 SECRET_KEY = os.environ.get('SECRET_KEY')
-print(SECRET_KEY)
+# print(SECRET_KEY)
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
 DEBUG = str(os.environ.get('DEBUG')) == "1"
+
 
 ALLOWED_HOSTS = ['*']
 # if not DEBUG:
@@ -93,12 +94,24 @@ WSGI_APPLICATION = 'django_lms_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if not DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': os.environ.get('DB_ENGINE'),
+            'NAME': os.environ.get('DB_NAME'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'HOST': os.environ.get('DB_HOST'),
+
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
