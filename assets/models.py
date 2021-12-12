@@ -55,8 +55,8 @@ class Audio(models.Model):
             if "AudioStream" in response:
                 with closing(response["AudioStream"]) as streamingbody:
                     data = streamingbody.read()
-                    self.audio.save(str(self.title)+'.mp3',
-                                    ContentFile(data))
+                    # self.audio.save(str(self.title)+'.mp3',
+                    #                 ContentFile(data))
                     super(Audio, self).save(*args, **kwargs)
 
         # except:
