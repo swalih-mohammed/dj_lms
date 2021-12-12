@@ -42,7 +42,11 @@ class TextChoices(models.Model):
     is_correct_choice = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        if self.is_correct_choice:
+            correct = "Y_"
+        else:
+            correct = "N_"
+        return correct+self.title
 
 
 class PhotoChoices(models.Model):
@@ -52,7 +56,11 @@ class PhotoChoices(models.Model):
     is_correct_choice = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        if self.is_correct_choice:
+            correct = "Y_"
+        else:
+            correct = "N_"
+        return correct+self.title
 
 
 class AudioChoices(models.Model):
@@ -62,7 +70,11 @@ class AudioChoices(models.Model):
     is_correct_choice = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        if self.is_correct_choice:
+            correct = "Y_"
+        else:
+            correct = "N_"
+        return correct+self.title
 
 
 class QuestionType(models.Model):
