@@ -16,7 +16,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
 DEBUG = str(os.environ.get('DEBUG')) == "1"
-
+PRODUCTION = str(os.environ.get('PRODUCTION')) == "1"
 
 ALLOWED_HOSTS = ['*']
 # if not DEBUG:
@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'django_lms_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-if not DEBUG:
+if PRODUCTION:
     DATABASES = {
         'default': {
             'ENGINE': os.environ.get('DB_ENGINE'),
