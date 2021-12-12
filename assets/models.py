@@ -31,37 +31,37 @@ class Audio(models.Model):
         upload_to='Audios', blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        # try:
-        if self.is_polly and self.is_re_record:
-            # print("starting to polly")
-            self.is_re_record = False
-            aws_access_key_id = getattr(settings, "AWS_POLLY_ACCESS", None)
-            aws_secret_access_key = getattr(
-                settings, "AWS_POLLY_SECRET", None)
+        try:
+            if self.is_polly and self.is_re_record:
+                print("starting to polly")
+                self.is_re_record = False
+                aws_access_key_id = getattr(settings, "AWS_POLLY_ACCESS", None)
+                aws_secret_access_key = getattr(
+                    settings, "AWS_POLLY_SECRET", None)
 
-            voiceId = self.speaker.name
-            text = self.pollyText
+                voiceId = self.speaker.name
+                text = self.pollyText
 
-            polly_client = Session(
-                aws_access_key_id=aws_access_key_id,
-                aws_secret_access_key=aws_secret_access_key,
-                region_name='eu-west-2').client('polly')
+                polly_client = Session(
+                    aws_access_key_id=aws_access_key_id,
+                    aws_secret_access_key=aws_secret_access_key,
+                    region_name='eu-west-2').client('polly')
 
-            response = polly_client.synthesize_speech(
-                Text=text,
-                OutputFormat="mp3",
-                VoiceId=voiceId)
+                response = polly_client.synthesize_speech(
+                    Text=text,
+                    OutputFormat="mp3",
+                    VoiceId=voiceId)
 
-            if "AudioStream" in response:
-                with closing(response["AudioStream"]) as streamingbody:
-                    data = streamingbody.read()
-                    # self.audio.save(str(self.title)+'.mp3',
-                    #                 ContentFile(data))
-                    super(Audio, self).save(*args, **kwargs)
+                if "AudioStream" in response:
+                    with closing(response["AudioStream"]) as streamingbody:
+                        data = streamingbody.read()
+                        self.audio.save(str(self.title)+'.mp3',
+                                        ContentFile(data))
+                        super(Audio, self).save(*args, **kwargs)
 
-        # except:
-        #     print("Error in loading polly")
-        #     super(Audio, self).save(*args, **kwargs)
+        except:
+            print("Error in loading polly")
+            super(Audio, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
