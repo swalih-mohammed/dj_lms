@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     # 'sectionTests',
     'users',
     'storages',
+    'assets',
 
 ]
 
@@ -191,6 +192,8 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
 }
 
+AWS_POLLY_ACCESS = os.environ.get('ACCESS_KEY_ID')
+AWS_POLLY_SECRET = os.environ.get('POLLY_SECRET_ACCESS_KEY')
 
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE')

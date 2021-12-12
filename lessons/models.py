@@ -2,6 +2,7 @@
 from django.db import models
 from users.models import User
 from courses.models import Unit, Section
+from assets.models import Audio, Video, Photo
 
 
 class Lesson(models.Model):
@@ -9,11 +10,11 @@ class Lesson(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     photo = models.ImageField(upload_to='lesson_photos', blank=True, null=True)
-    has_quiz = models.BooleanField(default=False)
     section = models.ForeignKey(
         Section, related_name='Sections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
     unit = models.ForeignKey(Unit, related_name='Lessons',
                              on_delete=models.CASCADE,  blank=True, null=True, max_length=250)
+    has_quiz = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -26,29 +27,29 @@ class Lesson(models.Model):
             return
 
 
+LESSON_ITEM_TYPE_CHOICES = (
+    ("ONLY_VIDEO", "Only_Video"),
+    ("ONLY_PHOTO", "Only_Photo"),
+    ("PHOTO_AND_AUDIO", "Photo_And_Audio"),
+)
+
+
 class LessonItem(models.Model):
-    title = models.CharField(max_length=250, blank=True, null=True)
-    subtitle = models.CharField(max_length=250, blank=True, null=True)
-    has_video = models.BooleanField(default=False)
-    video = models.FileField(
-        upload_to='lesson_item_videos', blank=True, null=True)
-    has_audio = models.BooleanField(default=False)
-    audio = models.FileField(
-        upload_to='lesson_item_audios', blank=True, null=True)
-    has_text = models.BooleanField(default=False)
-    text = models.CharField(max_length=250, blank=True, null=True)
-    has_photo = models.BooleanField(default=False)
-    photo = models.ImageField(
-        upload_to='lesson_item_photos', blank=True, null=True)
+    order = models.SmallIntegerField(blank=True, null=True)
     lesson = models.ForeignKey(
         Lesson, related_name='LessonItems', on_delete=models.CASCADE, blank=True, null=True, max_length=250)
-
-    def __str__(self):
-        return self.title
-
-
-class LessonQuestionChoice(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
+    subtitle = models.CharField(max_length=250, blank=True, null=True)
+    content = models.TextField(max_length=250, blank=True, null=True)
+    type = models.CharField(
+        max_length=250, choices=LESSON_ITEM_TYPE_CHOICES, default="Photo_And_Audio")
+
+    photo = models.ForeignKey(
+        Photo, on_delete=models.DO_NOTHING,  blank=True, null=True)
+    audio = models.ForeignKey(
+        Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
+    video = models.ForeignKey(
+        Video, on_delete=models.DO_NOTHING,  blank=True, null=True)
 
     def __str__(self):
         return self.title

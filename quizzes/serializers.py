@@ -62,5 +62,5 @@ class QuizDetailSerializer(serializers.ModelSerializer):
 
     def get_questions(self, obj):
         qs = QuestionSerializer(
-            obj.questionQuizzes.all(), many=True).data
+            obj.quizzes.all(), many=True).data
         return qs
