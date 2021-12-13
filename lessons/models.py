@@ -54,6 +54,10 @@ class LessonItem(models.Model):
     def __str__(self):
         return self.title
 
+    def photo_url(self):
+        if self.photo:
+            return self.photo.url
+
 
 class LessonCompleted(models.Model):
     student = models.ForeignKey(

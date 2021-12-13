@@ -4,6 +4,8 @@ from courses.models import Course, Section, Unit
 # from units.models import Unit
 from lessons.models import Lesson
 from assets.models import Photo, Audio, Video
+# from nltk.tokenize import TreebankWordTokenizer
+
 # from sections.models import Section
 
 QUIZZ_TYPE_CHOICES = (
@@ -16,6 +18,14 @@ QUIZZ_TYPE_CHOICES = (
 QUESTION_TYPE_CHOICES = (
     ("CHOICE", "Choice"),
     ("DRAG", "DRAG"),
+)
+
+
+QUESTION_ASSET_TYPE_CHOICES = (
+    ("PHOTO", "Photo"),
+    ("TEXT", "Text"),
+    ("Audio", "Audio"),
+    ("Video", "Video"),
 )
 
 
@@ -80,10 +90,19 @@ class AudioChoices(models.Model):
 class QuestionType(models.Model):
     type = models.CharField(
         max_length=250, choices=QUESTION_TYPE_CHOICES, default="Choice")
+    assetType = models.CharField(
+        max_length=250, choices=QUESTION_ASSET_TYPE_CHOICES, default="Photo")
     title = models.CharField(max_length=250, blank=True, null=True)
+    has_audio = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        Type = self.type
+        Asset = self.assetType
+        if self.has_audio:
+            Audio = "HasAudio"
+        else:
+            Audio = "NoAudio"
+        return Type+"_"+Asset + "_"+Audio+"_"+self.title
 
 
 class Question(models.Model):

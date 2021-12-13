@@ -22,6 +22,7 @@ class PollySpeaker(models.Model):
 
 class Audio(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
+    # hasControls = models.BooleanField(default=False)
     is_polly = models.BooleanField(default=False)
     is_re_record = models.BooleanField(default=False)
     pollyText = models.TextField(max_length=250, blank=True, null=True)

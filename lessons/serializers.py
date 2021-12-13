@@ -4,6 +4,7 @@ from .models import Lesson, LessonItem, LessonCompleted
 from users.models import User
 from .models import User
 from quizzes.serializers import QuizSerializer
+from assets.serializers import PhotoSerializer, AudioSerializer
 
 
 class StringSerializer(serializers.StringRelatedField):
@@ -19,7 +20,6 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-        # print(data)
 
         lesson = Lesson.objects.get(id=data['lessonId'])
         student = User.objects.get(username=data['username'])
@@ -33,20 +33,16 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
 
 
 class LessonItemSerializer(serializers.ModelSerializer):
+    photo = PhotoSerializer(read_only=True)
+    audio = AudioSerializer(read_only=True)
+
     class Meta:
         model = LessonItem
-        fields = ('__all__')
+        fields = '__all__'
 
 
 class LessonSerializer(serializers.ModelSerializer):
     lessonCompleted = serializers.SerializerMethodField()
-
-    # user = serializers.SerializerMethodField()
-    # field3 = serializers.SerializerMethodField('get_filtered_data')
-
-    # def get_filtered_data(self, obj):
-    #     param_value = self.context['request'].QUERY_PARAMS.get(
-    #         'username', None)
 
     class Meta:
         model = Lesson
