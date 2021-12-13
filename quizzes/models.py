@@ -28,6 +28,35 @@ QUESTION_ASSET_TYPE_CHOICES = (
     ("Video", "Video"),
 )
 
+POS_CHOICES = (
+    ("NotPos", "NotPos"),
+    ("Noun", "Noun"),
+    ("Singular", "Singular"),
+    ("Place", "Place"),
+    ("ProperNoun", "ProperNoun"),
+    ("Plural", "Plural"),
+    ("Uncountable", "Uncountable"),
+    ("Possessive", "Possessive"),
+    ("Verb", "Verb"),
+    ("PresentTense", "PresentTense"),
+    ("Infinitive", "Infinitive"),
+    ("Gerund", "Gerund"),
+    ("PastTense", "PastTense"),
+    ("PerfectTense", "PerfectTense"),
+    ("FuturePerfect", "FuturePerfect"),
+    ("Participle", "Participle"),
+    ("PhrasalVerb", "PhrasalVerb"),
+    ("Adjective", "Adjective"),
+    ("Negative", "Negative"),
+    ("Superlative", "Superlative"),
+    ("Comparative", "Comparative"),
+    ("Adverb", "Adverb"),
+    ("Preposition", "Preposition"),
+    ("QuestionWord", "QuestionWord"),
+    ("Pronoun", "Pronoun"),
+
+)
+
 
 class Quiz(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
@@ -94,6 +123,8 @@ class QuestionType(models.Model):
         max_length=250, choices=QUESTION_ASSET_TYPE_CHOICES, default="Photo")
     title = models.CharField(max_length=250, blank=True, null=True)
     has_audio = models.BooleanField(default=False)
+    pos = models.CharField(
+        max_length=250, choices=POS_CHOICES, default="NotPos")
 
     def __str__(self):
         Type = self.type
