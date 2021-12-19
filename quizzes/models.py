@@ -17,7 +17,8 @@ QUIZZ_TYPE_CHOICES = (
 )
 QUESTION_TYPE_CHOICES = (
     ("CHOICE", "Choice"),
-    ("DRAG", "DRAG"),
+    ("DRAG", "Drag"),
+    ("MATCH", "Match"),
 )
 
 
