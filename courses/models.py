@@ -11,13 +11,34 @@ class Language(models.Model):
         verbose_name_plural = 'languages'
 
 
+CATEGORY_CHOICES = (
+    ("GNERAL_ENGLISH", "General_English"),
+    ("NURSARY", "Nursary"),
+    ("SCHOOL_ENGLISH_KERALA", "School_English_Kerala"),
+    ("GENERAL_ARABIC", "General_Arabic"),
+)
+
+LANGUAGE_CHOICES = (
+    ("ENGLISH", "English"),
+    ("ARABIC", "Arabic"),
+    ("MALAYALAM", "Malayalam"),
+    ("SPANISH", "Spanish"),
+    ("FRENCH", "French"),
+    ("GERMAN", "German"),
+)
+
+
 class Course(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     photo = models.ImageField(upload_to='course_photos', blank=True, null=True)
     description = models.CharField(max_length=250, blank=True, null=True)
-    language = models.ForeignKey(
-        Language,  blank=True, null=True, max_length=250, on_delete=models.CASCADE)
+    category = models.CharField(
+        max_length=250, choices=CATEGORY_CHOICES, default="General_English")
+    language = models.CharField(
+        max_length=250, choices=LANGUAGE_CHOICES, default="English")
+    # language = models.ForeignKey(
+    #     Language,  blank=True, null=True, max_length=250, on_delete=models.CASCADE)
     is_for_nursery = models.BooleanField(default=False)
     is_free = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
