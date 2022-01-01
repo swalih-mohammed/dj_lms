@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Language, Course,  Section, Unit
+from .models import Course,  Section, Unit
 from lessons.models import Lesson, LessonItem
 from quizzes.models import Quiz
 
@@ -23,7 +23,7 @@ class CourseAdmin(admin.ModelAdmin):
 
     ]
     list_filter = ['language',
-                   'is_for_nursery', 'is_active', 'is_active']
+                   'is_active', 'is_active']
     search_fields = ['title']
 
 
@@ -54,7 +54,6 @@ class UnitAdmin(admin.ModelAdmin):
     list_filter = ['section']
 
 
-admin.site.register(Language)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Section, SectionAdmin)
 admin.site.register(Unit, UnitAdmin)

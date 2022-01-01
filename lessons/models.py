@@ -19,12 +19,12 @@ class Lesson(models.Model):
     def __str__(self):
         return self.title
 
-    def language(self):
-        try:
-            t = slef.section.course.language
-            return t
-        except:
-            return
+    # def language(self):
+    #     try:
+    #         t = slef.section.course.language
+    #         return t
+    #     except:
+    #         return
 
 
 LESSON_ITEM_TYPE_CHOICES = (
