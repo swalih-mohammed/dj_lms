@@ -72,10 +72,6 @@ class LessonSerializer(serializers.ModelSerializer):
 class LessonDetailSerializer(serializers.ModelSerializer):
     Lesson_items = serializers.SerializerMethodField()
     quiz = serializers.SerializerMethodField()
-    language1 = serializers.CharField(
-        read_only=True, source="section.course.language.title")
-    language2 = serializers.CharField(
-        read_only=True, source="unit.section.course.language.title")
 
     class Meta:
         model = Lesson
