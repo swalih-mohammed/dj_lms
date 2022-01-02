@@ -1,6 +1,9 @@
 from django.contrib import admin
 from .models import Audio, Photo, Video, PollySpeaker
 
+# class AudioAdmin(admin.ModelAdmin):
+
+
 admin.site.register(Audio)
 admin.site.register(Photo)
 admin.site.register(Video)

@@ -67,6 +67,9 @@ class Audio(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['title']
+
 
 class Video(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
@@ -76,6 +79,9 @@ class Video(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['title']
+
 
 class Photo(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
@@ -84,3 +90,6 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['title']

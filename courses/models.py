@@ -49,6 +49,7 @@ class Course(models.Model):
 
     class Meta:
         verbose_name_plural = 'courses'
+        ordering = ['order']
 
 
 class Section(models.Model):
@@ -70,6 +71,7 @@ class Section(models.Model):
 
     class Meta:
         verbose_name_plural = 'sections'
+        ordering = ['order']
 
 
 class Unit(models.Model):
@@ -82,10 +84,6 @@ class Unit(models.Model):
     def __str__(self):
         return self.title
 
-        # try:
-        #     return self.section
-        # except:
-        #     return "did not get"
-
     class Meta:
         verbose_name_plural = 'units'
+        ordering = ['order']

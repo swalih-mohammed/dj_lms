@@ -4,6 +4,12 @@ from users.models import User
 from courses.models import Unit, Section
 from assets.models import Audio, Video, Photo
 
+LESSON_ITEM_TYPE_CHOICES = (
+    ("ONLY_VIDEO", "Only_Video"),
+    ("ONLY_PHOTO", "Only_Photo"),
+    ("PHOTO_AND_AUDIO", "Photo_And_Audio"),
+)
+
 
 class Lesson(models.Model):
     order = models.SmallIntegerField(blank=True, null=True)
@@ -19,19 +25,8 @@ class Lesson(models.Model):
     def __str__(self):
         return self.title
 
-    # def language(self):
-    #     try:
-    #         t = slef.section.course.language
-    #         return t
-    #     except:
-    #         return
-
-
-LESSON_ITEM_TYPE_CHOICES = (
-    ("ONLY_VIDEO", "Only_Video"),
-    ("ONLY_PHOTO", "Only_Photo"),
-    ("PHOTO_AND_AUDIO", "Photo_And_Audio"),
-)
+    class Meta:
+        ordering = ['order']
 
 
 class LessonItem(models.Model):
@@ -57,6 +52,9 @@ class LessonItem(models.Model):
     def photo_url(self):
         if self.photo:
             return self.photo.url
+
+    class Meta:
+        ordering = ['order']
 
 
 class LessonCompleted(models.Model):
