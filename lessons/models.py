@@ -37,7 +37,7 @@ class LessonItem(models.Model):
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     content = models.TextField(max_length=250, blank=True, null=True)
     type = models.CharField(
-        max_length=250, choices=LESSON_ITEM_TYPE_CHOICES, default="Photo_And_Audio")
+        max_length=250, choices=LESSON_ITEM_TYPE_CHOICES, default="PHOTO_AND_AUDIO")
 
     photo = models.ForeignKey(
         Photo, on_delete=models.DO_NOTHING,  blank=True, null=True)

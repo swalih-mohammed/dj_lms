@@ -12,19 +12,19 @@ class Language(models.Model):
 
 
 CATEGORY_CHOICES = (
-    ("GNERAL_ENGLISH", "General_English"),
-    ("NURSARY", "Nursary"),
-    ("SCHOOL_ENGLISH_KERALA", "School_English_Kerala"),
-    ("GENERAL_ARABIC", "General_Arabic"),
+    ("GENERAL_ENGLISH", "GENERAL_ENGLISH"),
+    ("NURSARY", "NURSARY"),
+    ("SCHOOL_ENGLISH_KERALA", "SCHOOL_ENGLISH_KERALA"),
+    ("GENERAL_ARABIC", "GENERAL_ARABIC"),
 )
 
 LANGUAGE_CHOICES = (
-    ("ENGLISH", "English"),
-    ("ARABIC", "Arabic"),
-    ("MALAYALAM", "Malayalam"),
-    ("SPANISH", "Spanish"),
-    ("FRENCH", "French"),
-    ("GERMAN", "German"),
+    ("ENGLISH", "ENGLISH"),
+    ("ARABIC", "ARABIC"),
+    ("MALAYALAM", "MALAYALAM"),
+    ("SPANISH", "SPANISH"),
+    ("FRENCH", "FRENCH"),
+    ("GERMAN", "GERMAN"),
 )
 
 
@@ -35,9 +35,9 @@ class Course(models.Model):
     photo = models.ImageField(upload_to='course_photos', blank=True, null=True)
     description = models.CharField(max_length=250, blank=True, null=True)
     category = models.CharField(
-        max_length=250, choices=CATEGORY_CHOICES, default="General_English")
+        max_length=250, choices=CATEGORY_CHOICES, default="GENERAL_ENGLISH")
     language = models.CharField(
-        max_length=250, choices=LANGUAGE_CHOICES, default="English")
+        max_length=250, choices=LANGUAGE_CHOICES, default="ENGLISH")
     # language = models.ForeignKey(
     #     Language,  blank=True, null=True, max_length=250, on_delete=models.CASCADE)
     # is_for_nursery = models.BooleanField(default=False)
