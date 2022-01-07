@@ -59,6 +59,8 @@ class Audio(models.Model):
                         self.audio.save(str(self.title)+'.mp3',
                                         ContentFile(data))
                         super(Audio, self).save(*args, **kwargs)
+            else:
+                super(Audio, self).save(*args, **kwargs)
 
         except:
             print("Error in loading polly")
