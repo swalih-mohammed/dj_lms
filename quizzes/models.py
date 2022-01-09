@@ -153,4 +153,7 @@ class Question(models.Model):
     text_choices = models.ManyToManyField(TextChoices, blank=True)
 
     def __str__(self):
-        return self.question
+        quiz = self.quiz.title
+        order = self.order
+        name = quiz + "_" + str(order)
+        return name
