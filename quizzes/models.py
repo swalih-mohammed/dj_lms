@@ -136,6 +136,9 @@ class QuestionType(models.Model):
             Audio = "NoAudio"
         return Type+"_"+Asset + "_"+Audio+"_"+self.title
 
+    class Meta:
+        ordering = ['type', 'assetType', 'has_audio', 'pos']
+
 
 class Question(models.Model):
     order = models.SmallIntegerField()
@@ -157,3 +160,6 @@ class Question(models.Model):
         order = self.order
         name = quiz + "_" + str(order)
         return name
+
+    class Meta:
+        ordering = ['order']
