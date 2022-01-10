@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Course, Section, Unit
 from lessons.serializers import LessonSerializer
+from quizzes.serializers import QuizSerializer
 # from .serializers import UnitSerializer, UnitDetailSerializer, SectionSerializer
 
 
@@ -72,9 +73,6 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         model = Course
         fields = '__all__'
 
-    # def get_sections(self, obj):
-    #     sections = SectionDetailSerializer(obj.Sections.all(), many=True).data
-    #     return sections
     def get_units(self, obj):
         units = UnitSerializer(obj.Units.all(), many=True).data
         return units
@@ -89,6 +87,7 @@ class UnitSerializer(serializers.ModelSerializer):
 
 class UnitDetailSerializer(serializers.ModelSerializer):
     lessons = serializers.SerializerMethodField()
+    quizzes = serializers.SerializerMethodField()
 
     class Meta:
         model = Unit
@@ -100,3 +99,7 @@ class UnitDetailSerializer(serializers.ModelSerializer):
         lessons = LessonSerializer(
             obj.Lessons.all(), many=True, context={'username': username}).data
         return lessons
+
+    def get_quizzes(self, obj):
+        quizzes = UnitSerializer(obj.QuizSerializer.all(), many=True).data
+        return quizzes

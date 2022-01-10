@@ -26,7 +26,7 @@ class Lesson(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['order']
+        ordering = ['unit', 'order']
 
 
 class LessonItem(models.Model):
