@@ -66,15 +66,18 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
-    sections = serializers.SerializerMethodField()
+    units = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
         fields = '__all__'
 
-    def get_sections(self, obj):
-        sections = SectionDetailSerializer(obj.Sections.all(), many=True).data
-        return sections
+    # def get_sections(self, obj):
+    #     sections = SectionDetailSerializer(obj.Sections.all(), many=True).data
+    #     return sections
+    def get_units(self, obj):
+        units = UnitSerializer(obj.Units.all(), many=True).data
+        return units
 
 
 class UnitSerializer(serializers.ModelSerializer):

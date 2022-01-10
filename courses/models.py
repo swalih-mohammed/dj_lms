@@ -79,9 +79,9 @@ class Unit(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     course = models.ForeignKey(
-        Course, related_name='Courses', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
+        Course, related_name='Units', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
     section = models.ForeignKey(
-        Section, related_name='Units', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
+        Section, related_name='UnitsSections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
 
     def __str__(self):
         title = self.title
