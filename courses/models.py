@@ -78,11 +78,17 @@ class Unit(models.Model):
     order = models.SmallIntegerField(blank=True, null=True)
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
+    course = models.ForeignKey(
+        Course, related_name='Courses', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
     section = models.ForeignKey(
         Section, related_name='Units', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.title
+        title = self.title
+        order = self.order
+        course = self.course.title
+        unit = course + "_Unit_" + str(order) + "_" + title
+        return unit
 
     class Meta:
         verbose_name_plural = 'units'
