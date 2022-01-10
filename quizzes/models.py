@@ -27,6 +27,7 @@ QUIZZ_CATEGORY_CHOICES = (
     ("WRITING", "WRITING"),
     ("READING", "READING"),
     ("GRAMMER", "GRAMMER"),
+    ("VOCABULARY", "VOCABULARY"),
     ("OTHER", "OTHER"),
 )
 

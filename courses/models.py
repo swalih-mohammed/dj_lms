@@ -94,4 +94,4 @@ class Unit(models.Model):
 
     class Meta:
         verbose_name_plural = 'units'
-        ordering = ['order']
+        ordering = ['course', 'order']
