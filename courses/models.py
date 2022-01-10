@@ -84,11 +84,11 @@ class Unit(models.Model):
         Section, related_name='Units', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
 
     def __str__(self):
-        title = self.title
-        order = self.order
-        course = self.course.title
-        unit = course + "_Unit_" + str(order) + "_" + title
-        return unit
+        # title = self.title
+        # order = self.order
+        # course = self.course.title
+        # unit = course + "_Unit_" + str(order) + "_" + title
+        return self.title
 
     class Meta:
         verbose_name_plural = 'units'
