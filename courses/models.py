@@ -88,7 +88,7 @@ class Unit(models.Model):
         order = self.order
         course = self.course.title
         unit = course + "_Unit_" + str(order)
-        return units
+        return unit
 
     class Meta:
         verbose_name_plural = 'units'
