@@ -87,7 +87,7 @@ class Unit(models.Model):
         title = self.title
         order = self.order
         course = self.course.title
-        unit = course + "_Unit_" + str(order) + "_" + title
+        unit = course + "_Unit_" + str(order)
         return unit
 
     class Meta:
