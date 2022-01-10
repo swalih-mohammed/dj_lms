@@ -101,5 +101,5 @@ class UnitDetailSerializer(serializers.ModelSerializer):
         return lessons
 
     def get_quizzes(self, obj):
-        quizzes = UnitSerializer(obj.QuizSerializer.all(), many=True).data
+        quizzes = QuizSerializer(obj.unitQuizzes.all(), many=True).data
         return quizzes
