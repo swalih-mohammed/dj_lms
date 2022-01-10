@@ -16,7 +16,7 @@ class inlineQuiz(admin.StackedInline):
 class LessonAdmin(admin.ModelAdmin):
     inlines = [inlineLessonItem, inlineQuiz]
     list_display = [
-        'title', 'unit',
+        'order', 'title', 'unit',
     ]
     list_filter = ['unit', ]
 
