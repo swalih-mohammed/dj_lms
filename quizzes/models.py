@@ -21,6 +21,14 @@ QUESTION_TYPE_CHOICES = (
     ("MATCH", "Match"),
 )
 
+QUIZZ_CATEGORY_CHOICES = (
+    ("LISTENING", "LISTENING"),
+    ("SPEAKING", "SPEAKING"),
+    ("WRITING", "WRITING"),
+    ("READING", "READING"),
+    ("GRAMMER", "GRAMMER"),
+    ("OTHER", "OTHER"),
+)
 
 QUESTION_ASSET_TYPE_CHOICES = (
     ("PHOTO", "Photo"),
@@ -62,14 +70,16 @@ POS_CHOICES = (
 class Quiz(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
+    category = models.CharField(
+        max_length=250, blank=True, null=True, choices=QUIZZ_CATEGORY_CHOICES, default="OTHER")
     type = models.CharField(
-        max_length=250, choices=QUIZZ_TYPE_CHOICES, default="Lesson_Based")
+        max_length=250, blank=True, null=True, choices=QUIZZ_TYPE_CHOICES, default="Lesson_Based")
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name='courseQuizzes', blank=True, null=True, max_length=250)
     section = models.ForeignKey(
-        Section, on_delete=models.CASCADE, related_name='unitQuizzes', blank=True, null=True, max_length=250)
+        Section, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     unit = models.ForeignKey(
-        Unit, on_delete=models.CASCADE, related_name='unitQuizzes', blank=True, null=True, max_length=250)
+        Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     lesson = models.ForeignKey(
         Lesson, on_delete=models.CASCADE, related_name='lessonQuizzes', blank=True, null=True, max_length=250)
 

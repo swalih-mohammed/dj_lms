@@ -11,8 +11,13 @@ class inlineSection(admin.StackedInline):
     extra = 0
 
 
+class inlineUnit(admin.StackedInline):
+    model = Unit
+    extra = 0
+
+
 class CourseAdmin(admin.ModelAdmin):
-    inlines = [inlineSection]
+    inlines = [inlineUnit]
     list_display = [
         'title',
         'language',
@@ -27,13 +32,7 @@ class CourseAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
-class inlineUnit(admin.StackedInline):
-    model = Unit
-    extra = 0
-
-
 class SectionAdmin(admin.ModelAdmin):
-    inlines = [inlineUnit]
     list_display = [
         'title',
     ]
@@ -55,6 +54,6 @@ class UnitAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Course, CourseAdmin)
-admin.site.register(Section, SectionAdmin)
+# admin.site.register(Section, SectionAdmin)
 admin.site.register(Unit, UnitAdmin)
 # admin.site.register(Lesson, LessonAdmin)
