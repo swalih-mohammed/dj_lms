@@ -48,10 +48,10 @@ class inlineLesson(admin.StackedInline):
 class UnitAdmin(admin.ModelAdmin):
     inlines = [inlineLesson]
     list_display = [
-        'title',
+        'title', 'course'
     ]
 
-    list_filter = ['section']
+    list_filter = ['course']
 
 
 admin.site.register(Course, CourseAdmin)
