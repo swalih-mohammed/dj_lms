@@ -10,11 +10,11 @@ class inlineQuestion(admin.StackedInline):
 class QuizAdmin(admin.ModelAdmin):
     inlines = [inlineQuestion]
     list_display = [
-        'title',
+        'title', 'lesson', 'unit', 'category'
 
 
     ]
-    list_filter = ['lesson']
+    list_filter = ['unit', 'lesson']
 
 
 admin.site.register(Quiz, QuizAdmin)
