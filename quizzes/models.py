@@ -19,6 +19,9 @@ QUESTION_TYPE_CHOICES = (
     ("CHOICE", "Choice"),
     ("DRAG", "Drag"),
     ("MATCH", "Match"),
+    ("FILL_IN_BLANK", "Fill_In_Blank"),
+    ("SPEAKING", "Speaking"),
+    ("WRITING", "Writing"),
 )
 
 QUIZZ_CATEGORY_CHOICES = (
@@ -26,7 +29,7 @@ QUIZZ_CATEGORY_CHOICES = (
     ("SPEAKING", "SPEAKING"),
     ("WRITING", "WRITING"),
     ("READING", "READING"),
-    ("GRAMMER", "GRAMMER"),
+    ("GRAMMAR", "GRAMMAR"),
     ("VOCABULARY", "VOCABULARY"),
     ("UNIT_TEST", "UNIT_TEST"),
     ("OTHER", "OTHER"),
