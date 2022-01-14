@@ -38,8 +38,9 @@ QUIZZ_CATEGORY_CHOICES = (
 QUESTION_ASSET_TYPE_CHOICES = (
     ("PHOTO", "Photo"),
     ("TEXT", "Text"),
-    ("Audio", "Audio"),
-    ("Video", "Video"),
+    ("AUDIO", "Audio"),
+    ("VIDEO", "Video"),
+    ("OTHER", "Other"),
 )
 
 POS_CHOICES = (
@@ -136,7 +137,7 @@ class QuestionType(models.Model):
     type = models.CharField(
         max_length=250, choices=QUESTION_TYPE_CHOICES, default="Choice")
     assetType = models.CharField(
-        max_length=250, choices=QUESTION_ASSET_TYPE_CHOICES, default="Photo")
+        max_length=250, choices=QUESTION_ASSET_TYPE_CHOICES, default="Other")
     title = models.CharField(max_length=250, blank=True, null=True)
     has_audio = models.BooleanField(default=False)
     pos = models.CharField(
@@ -166,6 +167,11 @@ class Question(models.Model):
     answer = models.CharField(max_length=250, blank=True, null=True)
     audio = models.ForeignKey(
         Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
+    option_1 = models.CharField(max_length=250, blank=True, null=True)
+    option_2 = models.CharField(max_length=250, blank=True, null=True)
+    option_3 = models.CharField(max_length=250, blank=True, null=True)
+    option_4 = models.CharField(max_length=250, blank=True, null=True)
+
     photo_choices = models.ManyToManyField(PhotoChoices, blank=True)
     audio_choices = models.ManyToManyField(AudioChoices, blank=True)
     text_choices = models.ManyToManyField(TextChoices, blank=True)
