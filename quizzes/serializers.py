@@ -33,6 +33,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     photo_choices = serializers.SerializerMethodField()
     questionType = QuestionTypeSerializer(read_only=True)
     audio = AudioSerializer(read_only=True)
+    photo_option_1 = PhotoSerializer(read_only=True)
 
     class Meta:
         model = Question
