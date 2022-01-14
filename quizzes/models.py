@@ -24,6 +24,13 @@ QUESTION_TYPE_CHOICES = (
     ("WRITING", "Writing"),
 )
 
+CORRECT_OPTION_CHOICES = (
+    ("OPTION_1", "1"),
+    ("OPTION_2", "2"),
+    ("OPTION_3", "3"),
+    ("OPTION_4", "4"),
+)
+
 QUIZZ_CATEGORY_CHOICES = (
     ("LISTENING", "LISTENING"),
     ("SPEAKING", "SPEAKING"),
@@ -167,11 +174,12 @@ class Question(models.Model):
     answer = models.CharField(max_length=250, blank=True, null=True)
     audio = models.ForeignKey(
         Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
-    option_1 = models.CharField(max_length=250, blank=True, null=True)
-    option_2 = models.CharField(max_length=250, blank=True, null=True)
-    option_3 = models.CharField(max_length=250, blank=True, null=True)
-    option_4 = models.CharField(max_length=250, blank=True, null=True)
-
+    correct_option = models.CharField(
+        max_length=250, choices=CORRECT_OPTION_CHOICES, blank=True, null=True)
+    text_option_1 = models.CharField(max_length=250, blank=True, null=True)
+    text_option_2 = models.CharField(max_length=250, blank=True, null=True)
+    text_option_3 = models.CharField(max_length=250, blank=True, null=True)
+    text_option_4 = models.CharField(max_length=250, blank=True, null=True)
     photo_choices = models.ManyToManyField(PhotoChoices, blank=True)
     audio_choices = models.ManyToManyField(AudioChoices, blank=True)
     text_choices = models.ManyToManyField(TextChoices, blank=True)
