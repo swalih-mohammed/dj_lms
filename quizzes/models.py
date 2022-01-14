@@ -25,10 +25,10 @@ QUESTION_TYPE_CHOICES = (
 )
 
 CORRECT_OPTION_CHOICES = (
-    ("OPTION_1", "1"),
-    ("OPTION_2", "2"),
-    ("OPTION_3", "3"),
-    ("OPTION_4", "4"),
+    ("1", "OPTION_1"),
+    ("2", "OPTION_2"),
+    ("3", "OPTION_3"),
+    ("4", "OPTION_4"),
 )
 
 QUIZZ_CATEGORY_CHOICES = (
