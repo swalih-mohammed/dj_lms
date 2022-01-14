@@ -176,10 +176,21 @@ class Question(models.Model):
         Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
     correct_option = models.CharField(
         max_length=250, choices=CORRECT_OPTION_CHOICES, blank=True, null=True)
+
     text_option_1 = models.CharField(max_length=250, blank=True, null=True)
     text_option_2 = models.CharField(max_length=250, blank=True, null=True)
     text_option_3 = models.CharField(max_length=250, blank=True, null=True)
     text_option_4 = models.CharField(max_length=250, blank=True, null=True)
+
+    photo_option_1 = models.ForeignKey(
+        Photo, related_name='photo_1', on_delete=models.DO_NOTHING,  blank=True, null=True)
+    photo_option_2 = models.ForeignKey(
+        Photo,  related_name='photo_2', on_delete=models.DO_NOTHING,  blank=True, null=True)
+    photo_option_3 = models.ForeignKey(
+        Photo,  related_name='photo_3', on_delete=models.DO_NOTHING,  blank=True, null=True)
+    photo_option_4 = models.ForeignKey(
+        Photo,  related_name='photo_4', on_delete=models.DO_NOTHING,  blank=True, null=True)
+
     photo_choices = models.ManyToManyField(PhotoChoices, blank=True)
     audio_choices = models.ManyToManyField(AudioChoices, blank=True)
     text_choices = models.ManyToManyField(TextChoices, blank=True)
