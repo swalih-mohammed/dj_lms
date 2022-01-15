@@ -42,6 +42,17 @@ QUIZZ_CATEGORY_CHOICES = (
     ("OTHER", "OTHER"),
 )
 
+
+QUESTION_CATEGORY_CHOICES = (
+    ("PHOTO_OPTIONS", "PHOTO_OPTIONS"),
+    ("TEXT_OPTIONS", "TEXT_OPTIONS"),
+    ("DRAG", "DRAG"),
+    ("SPEAK", "SPEAK"),
+    ("WRITE", "WRITE"),
+    ("MATCH", "MATCH"),
+    ("FILL_IN_BLANK", "FILL_IN_BLANK"),
+)
+
 QUESTION_ASSET_TYPE_CHOICES = (
     ("PHOTO", "Photo"),
     ("TEXT", "Text"),
@@ -169,6 +180,9 @@ class Question(models.Model):
         Quiz, on_delete=models.CASCADE, related_name='quizzes', blank=True, null=True, max_length=250)
     questionType = models.ForeignKey(
         QuestionType, on_delete=models.CASCADE, related_name='questions', blank=True, null=True, max_length=250)
+    category = models.CharField(
+        max_length=250, choices=QUESTION_CATEGORY_CHOICES, blank=True, null=True)
+
     title = models.CharField(max_length=250, blank=True, null=True)
     question = models.CharField(max_length=250, blank=True, null=True)
     answer = models.CharField(max_length=250, blank=True, null=True)
