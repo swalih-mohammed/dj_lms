@@ -92,6 +92,7 @@ POS_CHOICES = (
 
 
 class Quiz(models.Model):
+    order = models.SmallIntegerField(blank=True, null=True)
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     category = models.CharField(
