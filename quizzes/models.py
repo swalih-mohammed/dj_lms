@@ -112,6 +112,9 @@ class Quiz(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['order', 'unit', 'category', 'title']
+
 
 class TextChoices(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
