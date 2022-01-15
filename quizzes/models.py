@@ -96,12 +96,12 @@ class Quiz(models.Model):
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     category = models.CharField(
         max_length=250, blank=True, null=True, choices=QUIZZ_CATEGORY_CHOICES, default="OTHER")
-    type = models.CharField(
-        max_length=250, blank=True, null=True, choices=QUIZZ_TYPE_CHOICES, default="Lesson_Based")
+    # type = models.CharField(
+    #     max_length=250, blank=True, null=True, choices=QUIZZ_TYPE_CHOICES, default="Lesson_Based")
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name='courseQuizzes', blank=True, null=True, max_length=250)
-    section = models.ForeignKey(
-        Section, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
+    # section = models.ForeignKey(
+    #     Section, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     lesson = models.ForeignKey(
@@ -178,8 +178,8 @@ class Question(models.Model):
     order = models.SmallIntegerField()
     quiz = models.ForeignKey(
         Quiz, on_delete=models.CASCADE, related_name='quizzes', blank=True, null=True, max_length=250)
-    questionType = models.ForeignKey(
-        QuestionType, on_delete=models.CASCADE, related_name='questions', blank=True, null=True, max_length=250)
+    # questionType = models.ForeignKey(
+    #     QuestionType, on_delete=models.CASCADE, related_name='questions', blank=True, null=True, max_length=250)
     category = models.CharField(
         max_length=250, choices=QUESTION_CATEGORY_CHOICES, blank=True, null=True)
 

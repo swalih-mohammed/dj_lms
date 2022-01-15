@@ -18,7 +18,7 @@ class QuizAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Quiz, QuizAdmin)
-admin.site.register(TextChoices)
-admin.site.register(AudioChoices)
-admin.site.register(PhotoChoices)
-admin.site.register(QuestionType)
+# admin.site.register(TextChoices)
+# admin.site.register(AudioChoices)
+# admin.site.register(PhotoChoices)
+# admin.site.register(QuestionType)
