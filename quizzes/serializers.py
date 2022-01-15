@@ -29,9 +29,9 @@ class QuestionTypeSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    text_choices = serializers.SerializerMethodField()
-    photo_choices = serializers.SerializerMethodField()
-    questionType = QuestionTypeSerializer(read_only=True)
+    # text_choices = serializers.SerializerMethodField()
+    # photo_choices = serializers.SerializerMethodField()
+    # questionType = QuestionTypeSerializer(read_only=True)
     audio = AudioSerializer(read_only=True)
     photo_option_1 = PhotoSerializer(read_only=True)
     photo_option_2 = PhotoSerializer(read_only=True)
@@ -42,15 +42,15 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = ('__all__')
 
-    def get_text_choices(self, obj):
-        qs = TextChoiceSerializer(
-            obj.text_choices.all(), many=True).data
-        return qs
+    # def get_text_choices(self, obj):
+    #     qs = TextChoiceSerializer(
+    #         obj.text_choices.all(), many=True).data
+    #     return qs
 
-    def get_photo_choices(self, obj):
-        qs = PhotoChoiceSerializer(
-            obj.photo_choices.all(), many=True).data
-        return qs
+    # def get_photo_choices(self, obj):
+    #     qs = PhotoChoiceSerializer(
+    #         obj.photo_choices.all(), many=True).data
+    #     return qs
 
 
 class QuizSerializer(serializers.ModelSerializer):
