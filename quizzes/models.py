@@ -98,14 +98,15 @@ class Quiz(models.Model):
         max_length=250, blank=True, null=True, choices=QUIZZ_CATEGORY_CHOICES, default="OTHER")
     # type = models.CharField(
     #     max_length=250, blank=True, null=True, choices=QUIZZ_TYPE_CHOICES, default="Lesson_Based")
-    course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, related_name='courseQuizzes', blank=True, null=True, max_length=250)
+
     # section = models.ForeignKey(
     #     Section, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
-    unit = models.ForeignKey(
-        Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     lesson = models.ForeignKey(
         Lesson, on_delete=models.CASCADE, related_name='lessonQuizzes', blank=True, null=True, max_length=250)
+    unit = models.ForeignKey(
+        Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='courseQuizzes', blank=True, null=True, max_length=250)
 
     def __str__(self):
         return self.title
@@ -194,7 +195,7 @@ class Question(models.Model):
     text_option_1 = models.CharField(max_length=250, blank=True, null=True)
     text_option_2 = models.CharField(max_length=250, blank=True, null=True)
     text_option_3 = models.CharField(max_length=250, blank=True, null=True)
-    text_option_4 = models.CharField(max_length=250, blank=True, null=True)
+    # text_option_4 = models.CharField(max_length=250, blank=True, null=True)
 
     photo_option_1 = models.ForeignKey(
         Photo, related_name='photo_1', on_delete=models.DO_NOTHING,  blank=True, null=True)
