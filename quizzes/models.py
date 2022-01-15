@@ -205,9 +205,9 @@ class Question(models.Model):
     photo_option_4 = models.ForeignKey(
         Photo,  related_name='photo_4', on_delete=models.DO_NOTHING,  blank=True, null=True)
 
-    photo_choices = models.ManyToManyField(PhotoChoices, blank=True)
-    audio_choices = models.ManyToManyField(AudioChoices, blank=True)
-    text_choices = models.ManyToManyField(TextChoices, blank=True)
+    # photo_choices = models.ManyToManyField(PhotoChoices, blank=True)
+    # audio_choices = models.ManyToManyField(AudioChoices, blank=True)
+    # text_choices = models.ManyToManyField(TextChoices, blank=True)
 
     def __str__(self):
         quiz = self.quiz.title
