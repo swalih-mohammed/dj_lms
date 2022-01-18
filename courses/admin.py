@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course,  Section, Unit
+from .models import Course,  Section, Unit, UnitCompleted
 from lessons.models import Lesson, LessonItem
 from quizzes.models import Quiz
 
@@ -53,7 +53,15 @@ class UnitAdmin(admin.ModelAdmin):
     list_filter = ['course']
 
 
+class UnitCompletedAdmin(admin.ModelAdmin):
+    list_display = [
+        'unit', 'student', 'is_completed',
+    ]
+
+    list_filter = ['unit', 'student', 'is_completed']
+
+
 admin.site.register(Course, CourseAdmin)
-# admin.site.register(Section, SectionAdmin)
+admin.site.register(UnitCompleted, UnitCompletedAdmin)
 admin.site.register(Unit, UnitAdmin)
 # admin.site.register(Lesson, LessonAdmin)

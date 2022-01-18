@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 
 
 class Language(models.Model):
@@ -95,3 +96,18 @@ class Unit(models.Model):
     class Meta:
         verbose_name_plural = 'units'
         ordering = ['course', 'order']
+
+
+class UnitCompleted(models.Model):
+    student = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.CASCADE)
+    unit = models.ForeignKey(
+        Unit, related_name='unitCompleted', on_delete=models.SET_NULL, blank=True, null=True)
+    is_completed = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.student.username
+
+    class Meta:
+        verbose_name_plural = 'Completedunits'
+        ordering = ['student', 'unit']
