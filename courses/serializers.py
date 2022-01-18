@@ -94,6 +94,8 @@ class UnitSerializer(serializers.ModelSerializer):
         completed_lessons = LessonCompleted.objects.filter(
             student=user.id, is_completed=True, lesson__unit=obj.id).distinct()
         print("completed lessons:", len(completed_lessons))
+        if len(completed_lessons) == 0 or len(lessons_in_unit) == 0:
+            return 0
         progress = len(completed_lessons)/len(lessons_in_unit)
         return progress
         # lessons = LessonCompletedSerializer(
