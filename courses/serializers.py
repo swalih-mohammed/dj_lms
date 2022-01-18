@@ -105,7 +105,7 @@ class UnitSerializer(serializers.ModelSerializer):
                 print("same")
                 return 0
             else:
-                print("not same")
+                print("not same", total_completed_items, total_items)
                 progress = total_completed_items/total_items
                 if progress > 1:
                     print("progress more than one")
