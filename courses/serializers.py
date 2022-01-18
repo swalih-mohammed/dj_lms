@@ -90,12 +90,12 @@ class UnitSerializer(serializers.ModelSerializer):
             user = User.objects.get(username=username)
             print(obj.title)
             lessons = Lesson.objects.filter(unit=obj.id)
-            completed_lessons = LessonCompleted.objects.filter(
-                student=user.id, is_completed=True)
+            completed_lessons = LessonCompleted.objects.filter(unit=obj.id,
+                                                               student=user.id, is_completed=True)
 
             quizzes = Quiz.objects.filter(unit=obj.id)
-            completed_quizzes = QuizCompleted.objects.filter(
-                student=user.id, is_completed=True)
+            completed_quizzes = QuizCompleted.objects.filter(unit=obj.id,
+                                                             student=user.id, is_completed=True)
 
             total_items = len(lessons) + len(quizzes)
             total_completed_items = len(
