@@ -97,7 +97,7 @@ class UnitSerializer(serializers.ModelSerializer):
             total_items = len(lessons) + len(quizzes)
             total_completed_items = len(
                 completed_lessons) + len(completed_quizzes)
-            return int(total_completed_items/total_items * 100)
+            return int(total_completed_items/total_items)
         except:
             return 0
 
