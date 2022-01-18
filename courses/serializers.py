@@ -85,35 +85,47 @@ class UnitSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_progress(self, obj):
-        try:
-            username = self.context['username']
-            user = User.objects.get(username=username)
-            print(obj.title)
-            lessons = Lesson.objects.filter(unit=obj.id)
-            completed_lessons = LessonCompleted.objects.filter(unit=obj.id,
-                                                               student=user.id, is_completed=True)
+        # try:
+        username = self.context['username']
+        user = User.objects.get(username=username)
+        print(obj.title)
+        lessons_in_unit = obj.Lessons.all()
+        print("lessons in unit:", len(lessons_in_unit))
+        completed_lessons = LessonCompleted.objects.filter(
+            student=user.id, is_completed=True, lesson__unit=obj.id).distinct()
+        print("completed lessons:", len(completed_lessons))
+        progress = len(completed_lessons)/len(lessons_in_unit)
+        return progress
+        # lessons = LessonCompletedSerializer(
+        #     obj.Lessons.filter(student=user.id, is_completed=True), many=True).data
 
-            quizzes = Quiz.objects.filter(unit=obj.id)
-            completed_quizzes = QuizCompleted.objects.filter(unit=obj.id,
-                                                             student=user.id, is_completed=True)
+        # print(obj.title)
+        # print(len(lessons))
+        # lessons = Lesson.objects.filter(unit=obj.id)
+        #     completed_lessons = LessonCompleted.objects.filter(unit=obj.id,
+        #                                                        student=user.id, is_completed=True)
 
-            total_items = len(lessons) + len(quizzes)
-            total_completed_items = len(
-                completed_lessons) + len(completed_quizzes)
+        # #     quizzes = Quiz.objects.filter(unit=obj.id)
+        # #     completed_quizzes = QuizCompleted.objects.filter(unit=obj.id,
+        # #                                                      student=user.id, is_completed=True)
 
-            if(total_items == total_completed_items):
-                print("same")
-                return 0
-            else:
-                print("not same", total_completed_items, total_items)
-                progress = total_completed_items/total_items
-                if progress > 1:
-                    print("progress more than one")
-                    return 0
-                return progress
-        except:
-            print("error")
-            return 0
+        # #     total_items = len(lessons) + len(quizzes)
+        # #     total_completed_items = len(
+        # #         completed_lessons) + len(completed_quizzes)
+
+        # #     if(total_items == total_completed_items):
+        # #         print("same")
+        # #         return 0
+        # #     else:
+        # #         print("not same", total_completed_items, total_items)
+        # #         progress = total_completed_items/total_items
+        # #         if progress > 1:
+        # #             print("progress more than one")
+        # #             return 0
+        # #         return progress
+        # except:
+        #     print("error")
+        #     return 0
 
 
 class UnitDetailSerializer(serializers.ModelSerializer):

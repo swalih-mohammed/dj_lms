@@ -23,7 +23,8 @@ class Lesson(models.Model):
     has_quiz = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title
+        unit = self.unit.title
+        return self.title + "_" + unit
 
     class Meta:
         ordering = ['unit', 'order']
