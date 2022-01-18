@@ -90,13 +90,24 @@ class UnitSerializer(serializers.ModelSerializer):
         user = User.objects.get(username=username)
         print(obj.title)
         lessons_in_unit = obj.Lessons.all()
-        print("lessons in unit:", len(lessons_in_unit))
+        # print("lessons in unit:", len(lessons_in_unit))
         completed_lessons = LessonCompleted.objects.filter(
             student=user.id, is_completed=True, lesson__unit=obj.id).distinct()
-        print("completed lessons:", len(completed_lessons))
-        if len(completed_lessons) == 0 or len(lessons_in_unit) == 0:
+        # print("completed lessons:", len(completed_lessons))
+
+        # finding quiz
+        quizzes_in_unit = obj.unitQuizzes.all()
+        # print("quizz in unit:", len(quizzes_in_unit))
+        completed_quizzes = QuizCompleted.objects.filter(
+            student=user.id, is_completed=True, quiz__unit=obj.id).distinct()
+        # print("completed quizz:", len(completed_quizzes))
+        #  calculating total items
+        total_itmes = len(lessons_in_unit)+len(quizzes_in_unit)
+        total_completed_items = len(completed_lessons)+len(completed_quizzes)
+
+        if total_itmes == 0 or total_completed_items == 0:
             return 0
-        progress = len(completed_lessons)/len(lessons_in_unit)
+        progress = total_completed_items/total_itmes
         return progress
         # lessons = LessonCompletedSerializer(
         #     obj.Lessons.filter(student=user.id, is_completed=True), many=True).data
