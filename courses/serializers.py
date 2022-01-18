@@ -88,7 +88,7 @@ class UnitSerializer(serializers.ModelSerializer):
         try:
             username = self.context['username']
             user = User.objects.get(username=username)
-
+            print(obj.title)
             lessons = Lesson.objects.filter(unit=obj.id)
             completed_lessons = LessonCompleted.objects.filter(
                 student=user.id, is_completed=True)
@@ -102,15 +102,17 @@ class UnitSerializer(serializers.ModelSerializer):
                 completed_lessons) + len(completed_quizzes)
 
             if(total_items == total_completed_items):
-                # print("same")
+                print("same")
                 return 0
             else:
-                # print("not same")
+                print("not same")
                 progress = total_completed_items/total_items
                 if progress > 1:
+                    print("progress more than one")
                     return 0
                 return progress
         except:
+            print("error")
             return 0
 
 

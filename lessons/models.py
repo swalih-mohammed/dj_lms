@@ -62,7 +62,7 @@ class LessonCompleted(models.Model):
         User, blank=True, null=True, on_delete=models.CASCADE)
     lesson = models.ForeignKey(
         Lesson, related_name='lessonCompleted', on_delete=models.SET_NULL, blank=True, null=True)
-    is_completed = models.BooleanField(default=False)
+    is_completed = models.BooleanField(default=True)
 
     def __str__(self):
         return self.student.username
