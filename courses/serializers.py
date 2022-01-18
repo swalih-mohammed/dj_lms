@@ -106,7 +106,10 @@ class UnitSerializer(serializers.ModelSerializer):
                 return 0
             else:
                 # print("not same")
-                return total_completed_items/total_items
+                progress = total_completed_items/total_items
+                if progress > 1:
+                    return 0
+                return progress
         except:
             return 0
 
