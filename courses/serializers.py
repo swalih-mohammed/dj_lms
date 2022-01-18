@@ -1,7 +1,12 @@
 from rest_framework import serializers
 from .models import Course, Section, Unit
-from lessons.serializers import LessonSerializer
-from quizzes.serializers import QuizSerializer
+from lessons.models import Lesson, LessonCompleted
+from quizzes.models import Quiz, QuizCompleted
+from users.models import User
+
+
+from lessons.serializers import LessonSerializer, LessonCompletedSerializer
+from quizzes.serializers import QuizSerializer, QuizCompletedSerializer
 # from .serializers import UnitSerializer, UnitDetailSerializer, SectionSerializer
 
 
@@ -17,30 +22,17 @@ class UnitSerializer(serializers.ModelSerializer):
 
 
 class UnitDetailSerializer(serializers.ModelSerializer):
-    # lessons = serializers.SerializerMethodField()
 
     class Meta:
         model = Unit
         fields = '__all__'
 
-    # def get_lessons(self, obj):
-    #     request = self.context['request']
-    #     username = request.parser_context['kwargs']['username']
-    #     lessons = LessonSerializer(
-    #         obj.unitLessons.all(), many=True, context={'username': username}).data
-    #     return lessons
-
 
 class SectionSerializer(serializers.ModelSerializer):
-    # units = serializers.SerializerMethodField()
 
     class Meta:
         model = Section
         fields = '__all__'
-
-    # def get_units(self, obj):
-    #     units = UnitSerializer(obj.units.all(), many=True).data
-    #     return units
 
 
 class SectionDetailSerializer(serializers.ModelSerializer):
@@ -73,16 +65,41 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         model = Course
         fields = '__all__'
 
+    # def get_units(self, obj):
+    #     units = UnitSerializer(obj.Units.all(), many=True).data
+    #     return units
+
     def get_units(self, obj):
-        units = UnitSerializer(obj.Units.all(), many=True).data
+        request = self.context['request']
+        username = request.parser_context['kwargs']['username']
+        units = UnitSerializer(
+            obj.Units.all(), many=True, context={'username': username}).data
         return units
 
 
 class UnitSerializer(serializers.ModelSerializer):
+    progress = serializers.SerializerMethodField()
 
     class Meta:
         model = Unit
         fields = '__all__'
+
+    def get_progress(self, obj):
+        try:
+            lessons = Lesson.objects.filter(unit=obj.id)
+            quizzes = Quiz.objects.filter(unit=obj.id)
+            username = self.context['username']
+            user = User.objects.get(username=username)
+            completed_lessons = LessonCompleted.objects.filter(
+                student=user.id, is_completed=True)
+            completed_quizzes = QuizCompleted.objects.filter(
+                student=user.id, is_completed=True)
+            total_items = len(lessons) + len(quizzes)
+            total_completed_items = len(
+                completed_lessons) + len(completed_quizzes)
+            return int(total_completed_items/total_items * 100)
+        except:
+            return 0
 
 
 class UnitDetailSerializer(serializers.ModelSerializer):
@@ -101,5 +118,8 @@ class UnitDetailSerializer(serializers.ModelSerializer):
         return lessons
 
     def get_quizzes(self, obj):
-        quizzes = QuizSerializer(obj.unitQuizzes.all(), many=True).data
+        request = self.context['request']
+        username = request.parser_context['kwargs']['username']
+        quizzes = QuizSerializer(obj.unitQuizzes.all(), many=True, context={
+                                 'username': username}).data
         return quizzes

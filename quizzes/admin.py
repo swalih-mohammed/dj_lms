@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Quiz, QuestionType, Question, TextChoices, PhotoChoices, AudioChoices
+from .models import Quiz, QuestionType, Question, TextChoices, PhotoChoices, AudioChoices, QuizCompleted
 
 
 class inlineQuestion(admin.StackedInline):
@@ -17,8 +17,16 @@ class QuizAdmin(admin.ModelAdmin):
     list_filter = ['unit', 'lesson']
 
 
+class QuizCompletedAdmin(admin.ModelAdmin):
+    list_display = [
+        'student', 'quiz', 'is_completed'
+
+    ]
+    list_filter = ['student', 'quiz', 'is_completed']
+
+
 admin.site.register(Quiz, QuizAdmin)
-# admin.site.register(TextChoices)
+admin.site.register(QuizCompleted, QuizCompletedAdmin)
 # admin.site.register(AudioChoices)
 # admin.site.register(PhotoChoices)
 # admin.site.register(QuestionType)

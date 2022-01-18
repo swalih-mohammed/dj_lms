@@ -19,9 +19,6 @@ class LessonListView(APIView):
     permission_classes = (AllowAny, )
     serializer_class = LessonDetailSerializer
 
-    # def get(self, request, *args, **kwargs):
-    #     print(equest)
-
 
 class LessonDetailView(RetrieveAPIView):
     permission_classes = (AllowAny,)
@@ -29,22 +26,11 @@ class LessonDetailView(RetrieveAPIView):
     queryset = Lesson.objects.all()
 
 
-# class LessonTestView(generics.ListAPIView):
-#     permission_classes = (AllowAny, )
-#     serializer_class = LessonQuestionSerializer
-
-#     def get_queryset(self):
-#         lesson_id = self.kwargs['pk']
-#         return LessonQuestion.objects.filter(lesson=lesson_id)
-
-
 class LessonCompletedCreateView(CreateAPIView):
     serializer_class = LessonCompletedSerializer
     queryset = LessonCompleted.objects.all()
 
     def post(self, request):
-        # print(request.data)
-
         serializer = LessonCompletedSerializer(data=request.data)
         serializer.is_valid()
         lessonCompleted = serializer.create(request)

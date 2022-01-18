@@ -47,7 +47,7 @@ class inlineLesson(admin.StackedInline):
 class UnitAdmin(admin.ModelAdmin):
     inlines = [inlineLesson]
     list_display = [
-        'order', 'title', 'course'
+        'id', 'order', 'title', 'course'
     ]
 
     list_filter = ['course']

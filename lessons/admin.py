@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lesson, LessonItem
+from .models import Lesson, LessonItem, LessonCompleted
 from quizzes.models import Quiz
 
 
@@ -21,5 +21,13 @@ class LessonAdmin(admin.ModelAdmin):
     list_filter = ['unit', ]
 
 
+class LessonCompletedAdmin(admin.ModelAdmin):
+    list_display = [
+        'lesson',  'student', 'is_completed'
+    ]
+    list_filter = ['lesson', 'student']
+
+
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(LessonItem)
+admin.site.register(LessonCompleted, LessonCompletedAdmin)

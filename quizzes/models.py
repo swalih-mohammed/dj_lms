@@ -1,5 +1,5 @@
 from django.db import models
-
+from users.models import User
 from courses.models import Course, Section, Unit
 # from units.models import Unit
 from lessons.models import Lesson
@@ -199,7 +199,6 @@ class Question(models.Model):
     text_option_1 = models.CharField(max_length=250, blank=True, null=True)
     text_option_2 = models.CharField(max_length=250, blank=True, null=True)
     text_option_3 = models.CharField(max_length=250, blank=True, null=True)
-    # text_option_4 = models.CharField(max_length=250, blank=True, null=True)
 
     photo_option_1 = models.ForeignKey(
         Photo, related_name='photo_1', on_delete=models.DO_NOTHING,  blank=True, null=True)
@@ -210,10 +209,6 @@ class Question(models.Model):
     photo_option_4 = models.ForeignKey(
         Photo,  related_name='photo_4', on_delete=models.DO_NOTHING,  blank=True, null=True)
 
-    # photo_choices = models.ManyToManyField(PhotoChoices, blank=True)
-    # audio_choices = models.ManyToManyField(AudioChoices, blank=True)
-    # text_choices = models.ManyToManyField(TextChoices, blank=True)
-
     def __str__(self):
         quiz = self.quiz.title
         order = self.order
@@ -222,3 +217,14 @@ class Question(models.Model):
 
     class Meta:
         ordering = ['order']
+
+
+class QuizCompleted(models.Model):
+    student = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(
+        Quiz, related_name='QuizCompleted', on_delete=models.SET_NULL, blank=True, null=True)
+    is_completed = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.student.username
