@@ -86,18 +86,27 @@ class UnitSerializer(serializers.ModelSerializer):
 
     def get_progress(self, obj):
         try:
-            lessons = Lesson.objects.filter(unit=obj.id)
-            quizzes = Quiz.objects.filter(unit=obj.id)
             username = self.context['username']
             user = User.objects.get(username=username)
+
+            lessons = Lesson.objects.filter(unit=obj.id)
             completed_lessons = LessonCompleted.objects.filter(
                 student=user.id, is_completed=True)
+
+            quizzes = Quiz.objects.filter(unit=obj.id)
             completed_quizzes = QuizCompleted.objects.filter(
                 student=user.id, is_completed=True)
+
             total_items = len(lessons) + len(quizzes)
             total_completed_items = len(
                 completed_lessons) + len(completed_quizzes)
-            return int(total_completed_items/total_items)
+
+            if(total_items == total_completed_items):
+                # print("same")
+                return 0
+            else:
+                # print("not same")
+                return total_completed_items/total_items
         except:
             return 0
 
