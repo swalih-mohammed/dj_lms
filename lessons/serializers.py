@@ -40,7 +40,7 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
 
         total_items = len(lessons_in_unit) + len(quizzes_in_unit) + 1
         total_completed_items = len(completed_lessons) + len(completed_quizzes)
-        if total_items == total_completed_items or total_completed_items > total_items:
+        if total_items == total_completed_items:
             print("all completed from lesson complete create")
             unitCompleted = UnitCompleted.objects.create(
                 student=student,
