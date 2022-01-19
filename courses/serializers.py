@@ -79,15 +79,9 @@ class CourseDetailSerializer(serializers.ModelSerializer):
             request = self.context['request']
             username = request.parser_context['kwargs']['username']
             user = User.objects.get(username=username)
-            print(obj.title)
-
-            # units_in_course = obj.Units.all()
+            # print(obj.title)
             completed_units = UnitCompleted.objects.filter(
                 student=user.id, is_completed=True, unit__course=obj.id).distinct()
-            # if len(completed_units) == 0 or len(units_in_course) == 0:
-            #     return 0
-            # print("total units", len(completed_units))
-            # completed = completed_units
             return len(completed_units)
 
         except:

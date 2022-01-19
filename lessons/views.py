@@ -27,6 +27,7 @@ class LessonDetailView(RetrieveAPIView):
 
 
 class LessonCompletedCreateView(CreateAPIView):
+    permission_classes = (AllowAny,)
     serializer_class = LessonCompletedSerializer
     queryset = LessonCompleted.objects.all()
 
@@ -34,6 +35,7 @@ class LessonCompletedCreateView(CreateAPIView):
         serializer = LessonCompletedSerializer(data=request.data)
         serializer.is_valid()
         lessonCompleted = serializer.create(request)
+        print(request.data)
         if lessonCompleted:
             return Response(status=HTTP_201_CREATED)
         return Response(status=HTTP_400_BAD_REQUEST)

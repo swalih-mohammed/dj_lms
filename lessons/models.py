@@ -1,7 +1,9 @@
 
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from users.models import User
-from courses.models import Unit, Section
+from courses.models import Unit, Section, UnitCompleted
 from assets.models import Audio, Video, Photo
 
 LESSON_ITEM_TYPE_CHOICES = (
@@ -67,3 +69,18 @@ class LessonCompleted(models.Model):
 
     def __str__(self):
         return self.student.username
+
+    # def update_unit_complete(self):
+    #     print("updating unit")
+    #     UnitCompleted, _ = UnitCompleted.objects.update_or_create(
+    #         unit=1,
+    #     )
+
+    # def save(self, *args, **kwargs):
+    #     self.update_unit_complete()
+    #     return super().save(*args, **kwargs)
+
+# @receiver(post_save, sender=LessonCompleted)
+# def update_unit(sender, instance, **kwargs):
+#     instance.product.stock -= instance.amount
+#     instance.product.save()

@@ -6,6 +6,11 @@ from rest_framework.generics import RetrieveAPIView, CreateAPIView
 from .models import Quiz, QuizCompleted
 from .serializers import QuizDetailSerializer, QuizCompletedSerializer
 
+from rest_framework.response import Response
+from rest_framework.status import (
+    HTTP_201_CREATED,
+    HTTP_400_BAD_REQUEST
+)
 # Create your views here.
 
 
@@ -16,6 +21,7 @@ class QizDetailView(RetrieveAPIView):
 
 
 class QuizCompletedCreateView(CreateAPIView):
+    permission_classes = (AllowAny,)
     serializer_class = QuizCompletedSerializer
     queryset = QuizCompleted.objects.all()
 

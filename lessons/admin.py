@@ -28,6 +28,13 @@ class LessonCompletedAdmin(admin.ModelAdmin):
     list_filter = ['lesson', 'student']
 
 
+class UnitCompletedAdmin(admin.ModelAdmin):
+    list_display = [
+        'unit',  'student', 'is_completed'
+    ]
+    list_filter = ['unit', 'student']
+
+
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(LessonItem)
 admin.site.register(LessonCompleted, LessonCompletedAdmin)

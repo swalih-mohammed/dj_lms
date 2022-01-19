@@ -2,6 +2,9 @@ from rest_framework import serializers
 from .models import Quiz, QuizCompleted, Question, TextChoices, PhotoChoices, QuestionType
 from assets.serializers import PhotoSerializer, AudioSerializer
 from users.models import User
+from courses.models import Unit, UnitCompleted
+from quizzes.models import Quiz, QuizCompleted
+from lessons.models import Lesson, LessonCompleted
 
 
 class StringSerializer(serializers.StringRelatedField):
@@ -50,15 +53,46 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
     def create(self, request):
         data = request.data
 
-        quiz = Quiz.objects.get(id=data['quizId'])
-        student = User.objects.get(username=data['username'])
+        # quiz = Quiz.objects.get(id=data['quizId'])
+        # student = User.objects.get(username=data['username'])
 
-        quiz_completed = QuizCompleted()
-        quiz_completed.quiz = lesson
-        quiz_completed.student = student
-        quiz_completed.is_completed = True
-        quiz_completed.save()
-        return quiz_completed
+        quiz = Quiz.objects.get(id=1)
+        unit = Unit.objects.get(pk=quiz.unit.id)
+        student = User.objects.get(username='sibiyan')
+
+        unitCompleted_qs = UnitCompleted.objects.filter(
+            student=student, is_completed=True, unit=unit)
+        if not len(unitCompleted_qs) > 0:
+            lessons_in_unit = Lesson.objects.filter(unit=unit)
+            completed_lessons = LessonCompleted.objects.filter(
+                student=student, is_completed=True, lesson__unit=unit)
+
+            quizzes_in_unit = Quiz.objects.filter(unit=unit)
+            completed_quizzes = QuizCompleted.objects.filter(
+                student=student, is_completed=True, quiz__unit=unit).distinct()
+
+            total_items = len(lessons_in_unit) + len(quizzes_in_unit) + 1
+            total_completed_items = len(
+                completed_lessons) + len(completed_quizzes)
+            if total_items == total_completed_items or total_completed_items > total_items:
+                print("all completed from quiz complete create")
+                unitCompleted = UnitCompleted.objects.create(
+                    student=student,
+                    unit=unit,
+                    is_completed=True
+                )
+                unitCompleted.save()
+        quizCompleted_qs = QuizCompleted.objects.filter(
+            student=student, is_completed=True, quiz=quiz)
+        if not len(quizCompleted_qs) > 0:
+            quiz_completed = QuizCompleted()
+            quiz_completed.quiz = quiz
+            quiz_completed.student = student
+            quiz_completed.is_completed = True
+            quiz_completed.save()
+            return quiz_completed
+        return
+        print("quiz already completed")
 
 
 class QuizSerializer(serializers.ModelSerializer):
