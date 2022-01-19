@@ -53,12 +53,13 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
     def create(self, request):
         data = request.data
 
-        # quiz = Quiz.objects.get(id=data['quizId'])
-        # student = User.objects.get(username=data['username'])
+        quiz = Quiz.objects.get(id=data['quizId'])
+        student = User.objects.get(username=data['username'])
 
-        quiz = Quiz.objects.get(id=1)
+        # quiz = Quiz.objects.get(id=1)
+        # student = User.objects.get(username='sibiyan')
+
         unit = Unit.objects.get(pk=quiz.unit.id)
-        student = User.objects.get(username='sibiyan')
 
         unitCompleted_qs = UnitCompleted.objects.filter(
             student=student, is_completed=True, unit=unit)
