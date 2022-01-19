@@ -76,10 +76,10 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
             completed_quizzes = QuizCompleted.objects.filter(
                 student=student, is_completed=True, quiz__unit=unit).distinct()
 
-            total_items = len(lessons_in_unit) + len(quizzes_in_unit) + 1
+            total_items = len(lessons_in_unit) + len(quizzes_in_unit)
             total_completed_items = len(
-                completed_lessons) + len(completed_quizzes)
-            if total_items == total_completed_items or total_completed_items > total_items:
+                completed_lessons) + len(completed_quizzes) + 1
+            if total_completed_items >= total_items:
                 print("all completed from quiz complete create")
                 unitCompleted = UnitCompleted.objects.create(
                     student=student,
