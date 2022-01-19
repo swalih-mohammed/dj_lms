@@ -38,13 +38,14 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
         completed_quizzes = QuizCompleted.objects.filter(
             student=student, is_completed=True, quiz__unit=lesson.unit).distinct()
 
-        total_items = len(lessons_in_unit) + len(quizzes_in_unit) + 1
-        total_completed_items = len(completed_lessons) + len(completed_quizzes)
-        print(unit.title)
-        print('total items', total_items)
-        print('total completed items', total_completed_items)
+        total_items = len(lessons_in_unit) + len(quizzes_in_unit)
+        total_completed_items = len(
+            completed_lessons) + len(completed_quizzes) + 1
+        # print(unit.title)
+        # print('total items', total_items)
+        # print('total completed items', total_completed_items)
 
-        if total_items == total_completed_items:
+        if total_completed_items >= total_items:
             print("all completed from lesson complete create")
             unitCompleted = UnitCompleted.objects.create(
                 student=student,
