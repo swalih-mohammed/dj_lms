@@ -18,7 +18,9 @@ class LessonAdmin(admin.ModelAdmin):
     list_display = [
         'order', 'title', 'unit',
     ]
+    list_display_links = ['title', 'unit']
     list_filter = ['unit', ]
+    list_editable = ['order', ]
 
 
 class LessonCompletedAdmin(admin.ModelAdmin):
