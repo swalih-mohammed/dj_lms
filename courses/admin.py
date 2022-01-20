@@ -47,8 +47,10 @@ class inlineLesson(admin.StackedInline):
 class UnitAdmin(admin.ModelAdmin):
     inlines = [inlineLesson]
     list_display = [
-        'id', 'order', 'title', 'course'
+        'order', 'id',  'title', 'course'
     ]
+    list_display_links = ['id',  'title', 'course']
+    list_editable = ['order', ]
 
     list_filter = ['course']
 
@@ -57,6 +59,7 @@ class UnitCompletedAdmin(admin.ModelAdmin):
     list_display = [
         'unit', 'student', 'is_completed',
     ]
+    list_display_links = ['unit', 'student', ]
 
     list_filter = ['unit', 'student', 'is_completed']
 

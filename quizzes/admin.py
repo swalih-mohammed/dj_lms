@@ -10,11 +10,11 @@ class inlineQuestion(admin.StackedInline):
 class QuizAdmin(admin.ModelAdmin):
     inlines = [inlineQuestion]
     list_display = [
-        'title', 'lesson', 'unit', 'category'
-
-
+        'order', 'title', 'unit',  'lesson', 'category'
     ]
-    list_filter = ['unit', 'lesson']
+    list_display_links = ['title', 'lesson', 'unit', 'category']
+    list_filter = ['unit', 'lesson', 'course']
+    list_editable = ['order', ]
 
 
 class QuizCompletedAdmin(admin.ModelAdmin):
@@ -25,8 +25,17 @@ class QuizCompletedAdmin(admin.ModelAdmin):
     list_filter = ['student', 'quiz', 'is_completed']
 
 
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = [
+        'order', 'question', 'category'
+    ]
+    list_display_links = ['question', ]
+    list_filter = ['quiz', 'category']
+    list_editable = ['order', ]
+
+
 admin.site.register(Quiz, QuizAdmin)
 admin.site.register(QuizCompleted, QuizCompletedAdmin)
-# admin.site.register(AudioChoices)
+admin.site.register(Question, QuestionAdmin)
 # admin.site.register(PhotoChoices)
 # admin.site.register(QuestionType)
