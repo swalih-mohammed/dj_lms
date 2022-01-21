@@ -66,12 +66,12 @@ class EnrolledCourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def create(self, request):
-        # data = request.data
-        # print(data)
-        # course = Course.objects.get(id=data['pk'])
-        # student = User.objects.get(username=data['username'])
-        course = Course.objects.get(id=1)
-        student = User.objects.get(username='sibiyan')
+        data = request.data
+        print(data)
+        course = Course.objects.get(id=data['courseId'])
+        student = User.objects.get(username=data['username'])
+        # course = Course.objects.get(id=1)
+        # student = User.objects.get(username='sibiyan')
 
         courseEnrolled_qs = EnrolledCourse.objects.filter(
             student=student, is_enrolled=True, course=course)
