@@ -60,6 +60,8 @@ class CourseSerializer(serializers.ModelSerializer):
 
 class EnrolledCourseSerializer(serializers.ModelSerializer):
     course = CourseSerializer(read_only=True)
+    completed_units = serializers.SerializerMethodField()
+    total_units = serializers.SerializerMethodField()
 
     class Meta:
         model = EnrolledCourse
@@ -67,7 +69,6 @@ class EnrolledCourseSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-        print(data)
         course = Course.objects.get(id=data['courseId'])
         student = User.objects.get(username=data['username'])
         # course = Course.objects.get(id=1)
@@ -83,6 +84,20 @@ class EnrolledCourseSerializer(serializers.ModelSerializer):
             courseEnrolled.save()
             return courseEnrolled
         return
+
+    def get_completed_units(self, obj):
+        request = self.context['request']
+        username = request.parser_context['kwargs']['username']
+        student = User.objects.get(username=username)
+
+        completed_units = UnitCompleted.objects.filter(
+            student=student, is_completed=True, unit__course=obj.course.id).distinct()
+        return len(completed_units)
+
+    def get_total_units(self, obj):
+        units = Unit.objects.filter(
+            course=obj.course.id)
+        return len(units)
 
 
 class CourseDetailSerializer(serializers.ModelSerializer):
