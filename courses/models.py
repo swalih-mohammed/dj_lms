@@ -39,9 +39,6 @@ class Course(models.Model):
         max_length=250, choices=CATEGORY_CHOICES, default="GENERAL_ENGLISH")
     language = models.CharField(
         max_length=250, choices=LANGUAGE_CHOICES, default="ENGLISH")
-    # language = models.ForeignKey(
-    #     Language,  blank=True, null=True, max_length=250, on_delete=models.CASCADE)
-    # is_for_nursery = models.BooleanField(default=False)
     is_free = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
 
@@ -51,6 +48,21 @@ class Course(models.Model):
     class Meta:
         verbose_name_plural = 'courses'
         ordering = ['order']
+
+
+class EnrolledCourse(models.Model):
+    student = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.CASCADE)
+    course = models.ForeignKey(
+        Course, related_name='enrolledCourses', on_delete=models.SET_NULL, blank=True, null=True)
+    is_enrolled = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.student.username
+
+    class Meta:
+        verbose_name_plural = 'Enrollled Courses'
+        ordering = ['student', 'course']
 
 
 class Section(models.Model):

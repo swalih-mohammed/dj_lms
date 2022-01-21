@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Course, Section, Unit, UnitCompleted
+from .models import Course, EnrolledCourse, Section, Unit, UnitCompleted
 from lessons.models import Lesson, LessonCompleted
 from quizzes.models import Quiz, QuizCompleted
 from users.models import User
@@ -58,10 +58,38 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class EnrolledCourseSerializer(serializers.ModelSerializer):
+    course = CourseSerializer(read_only=True)
+
+    class Meta:
+        model = EnrolledCourse
+        fields = '__all__'
+
+    def create(self, request):
+        # data = request.data
+        # print(data)
+        # course = Course.objects.get(id=data['pk'])
+        # student = User.objects.get(username=data['username'])
+        course = Course.objects.get(id=1)
+        student = User.objects.get(username='sibiyan')
+
+        courseEnrolled_qs = EnrolledCourse.objects.filter(
+            student=student, is_enrolled=True, course=course)
+        if not len(courseEnrolled_qs) > 0:
+            courseEnrolled = EnrolledCourse()
+            courseEnrolled.course = course
+            courseEnrolled.student = student
+            courseEnrolled.is_enrolled = True
+            courseEnrolled.save()
+            return courseEnrolled
+        return
+
+
 class CourseDetailSerializer(serializers.ModelSerializer):
     units = serializers.SerializerMethodField()
     total_units = serializers.SerializerMethodField()
     completed_units = serializers.SerializerMethodField()
+    is_enrolled = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
@@ -79,11 +107,9 @@ class CourseDetailSerializer(serializers.ModelSerializer):
             request = self.context['request']
             username = request.parser_context['kwargs']['username']
             user = User.objects.get(username=username)
-            # print(obj.title)
             completed_units = UnitCompleted.objects.filter(
                 student=user.id, is_completed=True, unit__course=obj.id).distinct()
             return len(completed_units)
-
         except:
             print("error in finding progress")
             return 0
@@ -91,6 +117,17 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     def get_total_units(self, obj):
         units_in_course = obj.Units.all()
         return len(units_in_course)
+
+    def get_is_enrolled(self, obj):
+        request = self.context['request']
+        username = request.parser_context['kwargs']['username']
+        user = User.objects.get(username=username)
+        enrolledCourse_qs = EnrolledCourse.objects.filter(
+            student=user, is_enrolled=True, course=obj.id).distinct()
+        if len(enrolledCourse_qs) > 0:
+            return True
+        else:
+            return False
 
 
 class UnitSerializer(serializers.ModelSerializer):
