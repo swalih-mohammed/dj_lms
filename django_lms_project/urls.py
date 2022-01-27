@@ -12,9 +12,6 @@ urlpatterns = [
     path('courses/', include('courses.urls')),
     path('lessons/', include('lessons.urls')),
     path('quizzes/', include('quizzes.urls')),
-    # path('units/', include('units.urls')),
-    # path('lessons/', include('lessons.urls')),
-    # path('unitTests/', include('unitTests.urls')),
-    # path('unitFilms/', include('films.urls')),
+    path('conversations/', include('conversations.urls')),
 
 ]

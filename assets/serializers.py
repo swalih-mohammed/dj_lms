@@ -10,7 +10,9 @@ class PhotoSerializer(serializers.ModelSerializer):
 
 
 class AudioSerializer(serializers.ModelSerializer):
+    speaker = serializers.StringRelatedField()
 
     class Meta:
         model = Audio
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ['audio', 'speaker']

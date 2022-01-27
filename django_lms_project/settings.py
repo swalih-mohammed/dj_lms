@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 
     'courses',
     # 'sections',
-    # 'units',
+    'conversations',
     'lessons',
     'quizzes',
     # 'unitTests',
