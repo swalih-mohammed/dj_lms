@@ -7,7 +7,7 @@ from users.models import User
 
 from lessons.serializers import LessonSerializer, LessonCompletedSerializer
 from quizzes.serializers import QuizSerializer, QuizCompletedSerializer
-# from .serializers import UnitSerializer, UnitDetailSerializer, SectionSerializer
+from conversations.serializers import ConversationSerializer
 
 
 class StringSerializer(serializers.StringRelatedField):
@@ -21,11 +21,11 @@ class UnitSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UnitDetailSerializer(serializers.ModelSerializer):
+# class UnitDetailSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = Unit
-        fields = '__all__'
+#     class Meta:
+#         model = Unit
+#         fields = '__all__'
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -181,6 +181,7 @@ class UnitSerializer(serializers.ModelSerializer):
 class UnitDetailSerializer(serializers.ModelSerializer):
     lessons = serializers.SerializerMethodField()
     quizzes = serializers.SerializerMethodField()
+    conversations = serializers.SerializerMethodField()
 
     class Meta:
         model = Unit
@@ -199,3 +200,10 @@ class UnitDetailSerializer(serializers.ModelSerializer):
         quizzes = QuizSerializer(obj.unitQuizzes.all(), many=True, context={
             'username': username}).data
         return quizzes
+
+    def get_conversations(self, obj):
+        request = self.context['request']
+        username = request.parser_context['kwargs']['username']
+        conversations = ConversationSerializer(obj.conversations.all(), many=True, context={
+            'username': username}).data
+        return conversations
