@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-
+    'dbbackup',  # django-dbbackup
     'corsheaders',
     'django.contrib.sites',
     'allauth',
@@ -48,13 +48,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 
     'courses',
-    # 'sections',
-    # 'conversations',
     'lessons',
     'quizzes',
-    # 'unitTests',
-    # 'sectionTests',
     'users',
+    'conversations',
     'storages',
     'assets',
 
@@ -95,6 +92,7 @@ WSGI_APPLICATION = 'django_lms_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
 
 if PRODUCTION:
     DATABASES = {
@@ -192,6 +190,15 @@ REST_AUTH_SERIALIZERS = {
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'users.serializers.CustomRegisterSerializer',
 }
+
+DBBACKUP_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DBBACKUP_STORAGE_OPTIONS = {
+    'access_key': os.environ.get('AWS_S3_ACCESS_KEY_ID'),
+    'secret_key': os.environ.get('AWS_S3_SECRET_ACCESS_KEY'),
+    'bucket_name': os.environ.get('AWS_STORAGE_BUCKET_NAME'),
+    'default_acl': None
+}
+
 
 AWS_POLLY_ACCESS = os.environ.get('ACCESS_KEY_ID')
 AWS_POLLY_SECRET = os.environ.get('POLLY_SECRET_ACCESS_KEY')
