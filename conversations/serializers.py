@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Conversation, ConversationCompleted
+from .models import Conversation
 from assets.serializers import AudioSerializer
 from users.models import User
 from courses.models import Unit, UnitCompleted
@@ -12,11 +12,11 @@ class StringSerializer(serializers.StringRelatedField):
         return value
 
 
-class ConversationCompletedSerializer(serializers.ModelSerializer):
+# class ConversationCompletedSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = ConversationCompleted
-        fields = ('__all__')
+#     class Meta:
+#         model = ConversationCompleted
+#         fields = ('__all__')
 
     # def create(self, request):
     #     data = request.data

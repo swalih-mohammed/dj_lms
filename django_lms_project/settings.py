@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'dbbackup',  # django-dbbackup
+    'storages',
     'corsheaders',
     'django.contrib.sites',
     'allauth',
@@ -46,15 +47,12 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'rest_framework',
     'rest_framework.authtoken',
-
+    'users',
     'courses',
     'lessons',
     'quizzes',
-    'users',
-    'conversations',
-    'storages',
     'assets',
-
+    'conversations',
 ]
 
 MIDDLEWARE = [
