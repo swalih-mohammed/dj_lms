@@ -10,6 +10,8 @@ class Conversation(models.Model):
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE,  related_name='conversations', blank=True, null=True, max_length=250)
+    audio_0 = models.ForeignKey(
+        Audio, on_delete=models.DO_NOTHING, related_name='audio_0', blank=True, null=True)
     audio_1 = models.ForeignKey(
         Audio, on_delete=models.DO_NOTHING, related_name='audio_1', blank=True, null=True)
     audio_2 = models.ForeignKey(
@@ -28,8 +30,8 @@ class Conversation(models.Model):
         Audio, on_delete=models.DO_NOTHING, related_name='audio_8',  blank=True, null=True)
     audio_9 = models.ForeignKey(
         Audio, on_delete=models.DO_NOTHING, related_name='audio_9', blank=True, null=True)
-    audio_10 = models.ForeignKey(
-        Audio, on_delete=models.DO_NOTHING, related_name='audio_10', blank=True, null=True)
+    # audio_10 = models.ForeignKey(
+    #     Audio, on_delete=models.DO_NOTHING, related_name='audio_10', blank=True, null=True)
 
     def __str__(self):
         return self.title

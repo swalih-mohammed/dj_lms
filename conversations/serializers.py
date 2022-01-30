@@ -92,6 +92,7 @@ class ConversationSerializer(serializers.ModelSerializer):
 
 
 class ConversationDetailSerializer(serializers.ModelSerializer):
+    audio_0 = AudioSerializer(read_only=True)
     audio_1 = AudioSerializer(read_only=True)
     audio_2 = AudioSerializer(read_only=True)
     audio_3 = AudioSerializer(read_only=True)
@@ -101,7 +102,6 @@ class ConversationDetailSerializer(serializers.ModelSerializer):
     audio_7 = AudioSerializer(read_only=True)
     audio_8 = AudioSerializer(read_only=True)
     audio_9 = AudioSerializer(read_only=True)
-    audio_10 = AudioSerializer(read_only=True)
 
     class Meta:
         model = Conversation
