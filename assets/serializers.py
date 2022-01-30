@@ -15,4 +15,4 @@ class AudioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Audio
         # fields = '__all__'
-        fields = ['audio', 'speaker']
+        fields = ['audio', 'speaker', 'pollyText']
