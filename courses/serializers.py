@@ -1,8 +1,9 @@
 from rest_framework import serializers
+from users.models import User
 from .models import Course, EnrolledCourse, Section, Unit, UnitCompleted
 from lessons.models import Lesson, LessonCompleted
 from quizzes.models import Quiz, QuizCompleted
-from users.models import User
+from conversations.models import Conversation, ConversationCompleted
 
 
 from lessons.serializers import LessonSerializer, LessonCompletedSerializer
@@ -19,13 +20,6 @@ class UnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Unit
         fields = '__all__'
-
-
-# class UnitDetailSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = Unit
-#         fields = '__all__'
 
 
 class SectionSerializer(serializers.ModelSerializer):
@@ -156,17 +150,28 @@ class UnitSerializer(serializers.ModelSerializer):
         try:
             username = self.context['username']
             user = User.objects.get(username=username)
-            # print(obj.title)
+
+            # lessons in unit
             lessons_in_unit = obj.Lessons.all()
             completed_lessons = LessonCompleted.objects.filter(
                 student=user.id, is_completed=True, lesson__unit=obj.id).distinct()
+
+            # quizzes in unit
             quizzes_in_unit = obj.unitQuizzes.all()
             completed_quizzes = QuizCompleted.objects.filter(
                 student=user.id, is_completed=True, quiz__unit=obj.id).distinct()
 
-            total_itmes = len(lessons_in_unit)+len(quizzes_in_unit)
+            # conversations in unit
+            conversation_in_unit = obj.conversations.all()
+            completed_conversations = ConversationCompleted.objects.filter(
+                student=user.id, is_completed=True, conversation__unit=obj.id)
+
+            print("total", conversation_in_unit)
+            # calcualte total progress of unit
+            total_itmes = len(lessons_in_unit) + \
+                len(quizzes_in_unit)+len(conversation_in_unit)
             total_completed_items = len(
-                completed_lessons)+len(completed_quizzes)
+                completed_lessons)+len(completed_quizzes)+len(completed_conversations)
 
             if total_itmes == 0 or total_completed_items == 0:
                 return 0

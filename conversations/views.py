@@ -3,8 +3,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import RetrieveAPIView, CreateAPIView
 
 
-from .models import Conversation
-from .serializers import ConversationDetailSerializer
+from .models import Conversation, ConversationCompleted
+from .serializers import ConversationDetailSerializer, ConversationCompletedSerializer
 
 from rest_framework.response import Response
 from rest_framework.status import (
@@ -20,15 +20,15 @@ class ConversationDetailView(RetrieveAPIView):
     queryset = Conversation.objects.all()
 
 
-# class ConversationCompletedCreateView(CreateAPIView):
-#     permission_classes = (AllowAny,)
-#     serializer_class = ConversationCompletedSerializer
-#     queryset = ConversationCompleted.objects.all()
+class ConversationCompletedCreateView(CreateAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = ConversationCompletedSerializer
+    queryset = ConversationCompleted.objects.all()
 
-    # def post(self, request):
-    #     serializer = ConversationCompletedSerializer(data=request.data)
-    #     serializer.is_valid()
-    #     ConversationCompleted = serializer.create(request)
-    #     if ConversationCompleted:
-    #         return Response(status=HTTP_201_CREATED)
-    #     return Response(status=HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        serializer = ConversationCompletedSerializer(data=request.data)
+        serializer.is_valid()
+        ConversationCompleted = serializer.create(request)
+        if ConversationCompleted:
+            return Response(status=HTTP_201_CREATED)
+        return Response(status=HTTP_400_BAD_REQUEST)

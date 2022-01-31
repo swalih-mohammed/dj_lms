@@ -40,13 +40,13 @@ class Conversation(models.Model):
         ordering = ['order', 'unit', 'title']
 
 
-# class ConversationCompleted(models.Model):
-#     pass
-#     student = models.ForeignKey(
-#         User, blank=True, null=True, on_delete=models.CASCADE)
-#     conversation = models.ForeignKey(
-#         Conversation, related_name='ConversationCompleted', on_delete=models.SET_NULL, blank=True, null=True)
-#     is_completed = models.BooleanField(default=True)
+class ConversationCompleted(models.Model):
 
-#     def __str__(self):
-#         return self.student.username
+    student = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(
+        Conversation, related_name='ConversationCompleted', on_delete=models.SET_NULL, blank=True, null=True)
+    is_completed = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.student.username
