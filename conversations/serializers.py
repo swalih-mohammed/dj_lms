@@ -20,7 +20,7 @@ class ConversationCompletedSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-
+        print("data in conv create", data)
         conversation = Conversation.objects.get(id=data['conversationId'])
         student = User.objects.get(username=data['username'])
         # conversation = Conversation.objects.get(id=1)
