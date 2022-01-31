@@ -101,6 +101,7 @@ class ConversationSerializer(serializers.ModelSerializer):
 
 
 class ConversationDetailSerializer(serializers.ModelSerializer):
+    is_completed = serializers.SerializerMethodField()
     audio_0 = AudioSerializer(read_only=True)
     audio_1 = AudioSerializer(read_only=True)
     audio_2 = AudioSerializer(read_only=True)
@@ -115,3 +116,22 @@ class ConversationDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Conversation
         fields = ('__all__')
+
+    def get_is_completed(self, obj):
+        try:
+            request = self.context['request']
+            username = request.parser_context['kwargs']['name']
+            user = User.objects.get(username=username)
+
+            pk = request.parser_context['kwargs']['pk']
+            conversation = Conversation.objects.get(id=pk)
+
+            conv_completed_qs = ConversationCompleted.objects.filter(
+                student=user.id, is_completed=True, conversation=conversation)
+            if conv_completed_qs:
+                if len(conv_completed_qs) > 0:
+                    return True
+            return False
+        except:
+            print("erron in catch is complete conversation detail serlzr")
+            return False
