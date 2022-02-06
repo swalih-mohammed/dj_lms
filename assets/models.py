@@ -125,7 +125,7 @@ class Audio(models.Model):
 
             else:
                 print("else, self recorded")
-                # super(Audio, self).save(*args, **kwargs)
+                super(Audio, self).save(*args, **kwargs)
 
         except:
             print("Error in loading polly")
