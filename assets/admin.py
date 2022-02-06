@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Audio, Photo, Video, PollySpeaker
+from .models import Audio, Photo, Video, Voice
 
 # class AudioAdmin(admin.ModelAdmin):
 
@@ -7,4 +7,4 @@ from .models import Audio, Photo, Video, PollySpeaker
 admin.site.register(Audio)
 admin.site.register(Photo)
 admin.site.register(Video)
-admin.site.register(PollySpeaker)
+admin.site.register(Voice)

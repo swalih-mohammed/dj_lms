@@ -1,6 +1,9 @@
 
+from dotenv import load_dotenv
 import os
 from pathlib import Path
+import json
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -209,3 +212,51 @@ AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_S3_FILE_OVERWRITE = True
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = False
+
+# print(AWS_STORAGE_BUCKET_NAME)
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/path/to/file.json"
+
+
+# GOOGLE_APPLICATION_CREDENTIALS = os.environ.get(
+#     'GOOGLE_APPLICATION_CREDENTIALS')
+
+# env_path = os.path.join(BASE_DIR, '.env')
+# load_dotenv(dotenv_path=env_path)
+
+
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'/filename.json'
+
+
+# This could be any path that the application has read/write permission to
+
+GCS_CREDENTIALS_FILE_PATH = os.path.join(
+    BASE_DIR, 'gcs_credentials_file.json')
+
+# test = r'/filename.json
+
+# with open(GCS_CREDENTIALS_FILE_PATH, 'r') as source:
+#     # info = json.load(source)
+#     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json.load(source)
+
+
+# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = info
+
+
+print(GCS_CREDENTIALS_FILE_PATH)
+# f.write(os.getenv('GCS_CREDENTIALS'))
+
+# print("path", GCS_CREDENTIALS_FILE_PATH)
+# print(os.environ.get('GCS_CREDENTIALS'))
+# {
+#     "type":  os.environ.get('type'),
+#     "project_id": os.environ.get('project_id'),
+#     "private_key_id": os.environ.get('private_key_id'),
+#     "private_key": os.environ.get('private_key'),
+#     "client_email": os.environ.get('client_email'),
+#     "client_id": os.environ.get('client_id'),
+#     "auth_uri": os.environ.get('auth_uri'),
+#     "token_uri": os.environ.get('token_uri'),
+#     "auth_provider_x509_cert_url": os.environ.get('auth_provider_x509_cert_url'),
+#     "client_x509_cert_url": os.environ.get('client_x509_cert_url')
+# }
