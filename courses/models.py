@@ -43,6 +43,7 @@ class Course(models.Model):
         max_length=250, choices=LANGUAGE_CHOICES, default="ENGLISH")
     is_free = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+# testing
 
     def __str__(self):
         return self.title
