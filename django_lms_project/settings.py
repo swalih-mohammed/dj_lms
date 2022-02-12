@@ -243,7 +243,7 @@ GCS_CREDENTIALS_FILE_PATH = os.path.join(
 # os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = info
 
 
-print(GCS_CREDENTIALS_FILE_PATH)
+# print(GCS_CREDENTIALS_FILE_PATH)
 # f.write(os.getenv('GCS_CREDENTIALS'))
 
 # print("path", GCS_CREDENTIALS_FILE_PATH)

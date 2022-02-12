@@ -34,6 +34,8 @@ class Course(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     photo = models.ImageField(upload_to='course_photos', blank=True, null=True)
+    certificate = models.ImageField(
+        upload_to='course_certificats', blank=True, null=True)
     description = models.CharField(max_length=250, blank=True, null=True)
     category = models.CharField(
         max_length=250, choices=CATEGORY_CHOICES, default="GENERAL_ENGLISH")
