@@ -1,4 +1,4 @@
-from assets.serializers import PhotoSerializer, AudioSerializer
+from assets.serializers import PhotoSerializer, AudioSerializer, VideoSerializer
 from quizzes.serializers import QuizSerializer
 from rest_framework import serializers
 
@@ -68,6 +68,7 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
 class LessonItemSerializer(serializers.ModelSerializer):
     photo = PhotoSerializer(read_only=True)
     audio = AudioSerializer(read_only=True)
+    video = VideoSerializer(read_only=True)
 
     class Meta:
         model = LessonItem

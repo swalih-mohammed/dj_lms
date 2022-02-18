@@ -232,7 +232,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/path/to/file.json"
 
 GCS_CREDENTIALS_FILE_PATH = os.path.join(
     BASE_DIR, 'gcs_credentials_file.json')
-print("test")
+# print("test")
 
 # test = r'/filename.json
 
