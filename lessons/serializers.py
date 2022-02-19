@@ -105,6 +105,7 @@ class LessonSerializer(serializers.ModelSerializer):
 class LessonDetailSerializer(serializers.ModelSerializer):
     Lesson_items = serializers.SerializerMethodField()
     quiz = serializers.SerializerMethodField()
+    is_completed = serializers.SerializerMethodField()
 
     class Meta:
         model = Lesson
@@ -119,3 +120,23 @@ class LessonDetailSerializer(serializers.ModelSerializer):
         lessonItems = QuizSerializer(
             obj.lessonQuizzes.all(), many=True).data
         return lessonItems
+
+    def get_is_completed(self, obj):
+        try:
+            request = self.context['request']
+            username = request.parser_context['kwargs']['username']
+            user = User.objects.get(username=username)
+            userId = user.id
+
+            lessonCompleted = LessonCompletedSerializer(
+                obj.lessonCompleted.filter(student=userId), many=True).data
+            if lessonCompleted:
+                # print("lesson completed")
+                if len(lessonCompleted) > 0:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        except:
+            return False

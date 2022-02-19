@@ -115,7 +115,7 @@ class QuizSerializer(serializers.ModelSerializer):
             userId = user.id
             quizCompleted = QuizCompletedSerializer(
                 obj.QuizCompleted.filter(student=userId), many=True).data
-            print(len(quizCompleted))
+            # print(len(quizCompleted))
             if quizCompleted:
                 if len(quizCompleted) > 0:
                     return True
@@ -129,6 +129,7 @@ class QuizSerializer(serializers.ModelSerializer):
 
 class QuizDetailSerializer(serializers.ModelSerializer):
     questions = serializers.SerializerMethodField()
+    is_completed = serializers.SerializerMethodField()
 
     class Meta:
         model = Quiz
@@ -138,3 +139,23 @@ class QuizDetailSerializer(serializers.ModelSerializer):
         qs = QuestionSerializer(
             obj.quizzes.all(), many=True).data
         return qs
+
+    def get_is_completed(self, obj):
+        try:
+            request = self.context['request']
+            username = request.parser_context['kwargs']['username']
+            # username = self.context['username']
+            user = User.objects.get(username=username)
+            userId = user.id
+            quizCompleted = QuizCompletedSerializer(
+                obj.QuizCompleted.filter(student=userId), many=True).data
+            # print("user from quiz completed", user)
+            if quizCompleted:
+                if len(quizCompleted) > 0:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        except:
+            return False
