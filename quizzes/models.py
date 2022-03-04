@@ -187,7 +187,8 @@ class Question(models.Model):
     #     QuestionType, on_delete=models.CASCADE, related_name='questions', blank=True, null=True, max_length=250)
     category = models.CharField(
         max_length=250, choices=QUESTION_CATEGORY_CHOICES, blank=True, null=True)
-
+    posType = models.CharField(
+        max_length=250, choices=POS_CHOICES, blank=True, null=True, default="NotPos")
     title = models.CharField(max_length=250, blank=True, null=True)
     question = models.CharField(max_length=250, blank=True, null=True)
     answer = models.CharField(max_length=250, blank=True, null=True)
