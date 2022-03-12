@@ -18,8 +18,11 @@ class Lesson(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     photo = models.ImageField(upload_to='lesson_photos', blank=True, null=True)
-    section = models.ForeignKey(
-        Section, related_name='Sections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
+    video = models.ForeignKey(
+        Video, on_delete=models.DO_NOTHING,  blank=True, null=True)
+
+    # section = models.ForeignKey(
+    #     Section, related_name='Sections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
     unit = models.ForeignKey(Unit, related_name='Lessons',
                              on_delete=models.CASCADE,  blank=True, null=True, max_length=250)
     has_quiz = models.BooleanField(default=False)

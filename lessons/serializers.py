@@ -76,6 +76,7 @@ class LessonItemSerializer(serializers.ModelSerializer):
 
 
 class LessonSerializer(serializers.ModelSerializer):
+    video = VideoSerializer(read_only=True)
     lessonCompleted = serializers.SerializerMethodField()
 
     class Meta:
