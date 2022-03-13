@@ -1,20 +1,20 @@
 
 import os
 from django.db import models
-from django.db.models.signals import post_save, pre_save
-from django.dispatch import receiver
+# from django.db.models.signals import post_save, pre_save
+# from django.dispatch import receiver
 from boto3 import Session
 from django.core.files.base import ContentFile
 from contextlib import closing
 from django.conf import settings
-from google.cloud import texttospeech
+# from google.cloud import texttospeech
 from google.cloud import texttospeech_v1
 # import json
-import base64
+# import base64
 
-import tempfile
-from django.core.files import File
-from io import BytesIO
+# import tempfile
+# from django.core.files import File
+# from io import BytesIO
 
 
 SERVICE_CHOICES = (

@@ -70,15 +70,24 @@ class EnrolledCourseSerializer(serializers.ModelSerializer):
         # student = User.objects.get(username='sibiyan')
 
         courseEnrolled_qs = EnrolledCourse.objects.filter(
-            student=student, is_enrolled=True, course=course)
+            student=student, course=course)
+
         if not len(courseEnrolled_qs) > 0:
             courseEnrolled = EnrolledCourse()
             courseEnrolled.course = course
             courseEnrolled.student = student
             courseEnrolled.is_enrolled = True
             courseEnrolled.save()
+            print("creating new enrolled course")
             return courseEnrolled
-        return
+        if courseEnrolled_qs.is_enrolled == False:
+            print("enolled but unenrolled")
+            courseEnrolled_qs.is_enrolled = True
+            courseEnrolled_qs.save()
+            return
+        else:
+            print("else in enrollling to course")
+            return
 
     def get_completed_units(self, obj):
         request = self.context['request']

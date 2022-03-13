@@ -34,7 +34,7 @@ class EnrolledCourseListView(generics.ListAPIView):
 
 
 class CourseEnrollView(CreateAPIView):
-    print("course enrolll view")
+    # print("course enrolll view")
     permission_classes = (AllowAny,)
     serializer_class = EnrolledCourseSerializer
     queryset = EnrolledCourse.objects.all()
