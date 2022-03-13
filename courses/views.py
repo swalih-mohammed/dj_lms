@@ -42,10 +42,12 @@ class CourseEnrollView(CreateAPIView):
     def post(self, request):
         serializer = EnrolledCourseSerializer(data=request.data)
         serializer.is_valid()
-        courseEnrolled = serializer.create(request)
-        if courseEnrolled:
-            return Response(status=HTTP_201_CREATED)
-        return Response(status=HTTP_400_BAD_REQUEST)
+        serializer.create(request)
+        return Response(status=HTTP_201_CREATED)
+        # courseEnrolled = serializer.create(request)
+        # if courseEnrolled:
+        #     return Response(status=HTTP_201_CREATED)
+        # return Response(status=HTTP_400_BAD_REQUEST)
 
 
 class CourseDetailView(RetrieveAPIView):
