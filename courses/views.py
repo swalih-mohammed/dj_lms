@@ -30,7 +30,7 @@ class EnrolledCourseListView(generics.ListAPIView):
     def get_queryset(self):
         username = self.kwargs['username']
         user = User.objects.get(username=username)
-        return EnrolledCourse.objects.filter(student=user)
+        return EnrolledCourse.objects.filter(student=user, is_enrolled=True)
 
 
 class CourseEnrollView(CreateAPIView):

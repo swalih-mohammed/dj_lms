@@ -5,7 +5,6 @@ from lessons.models import Lesson, LessonCompleted
 from quizzes.models import Quiz, QuizCompleted
 from conversations.models import Conversation, ConversationCompleted
 
-
 from lessons.serializers import LessonSerializer, LessonCompletedSerializer
 from quizzes.serializers import QuizSerializer, QuizCompletedSerializer
 from conversations.serializers import ConversationSerializer
