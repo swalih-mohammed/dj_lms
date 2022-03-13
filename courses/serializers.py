@@ -80,13 +80,15 @@ class EnrolledCourseSerializer(serializers.ModelSerializer):
             courseEnrolled.save()
             print("creating new enrolled course")
             return courseEnrolled
-        if courseEnrolled_qs.is_enrolled == False:
+        if courseEnrolled_qs[0].is_enrolled == False:
             print("enolled but unenrolled")
-            courseEnrolled_qs.is_enrolled = True
-            courseEnrolled_qs.save()
+            courseEnrolled_qs[0].is_enrolled = True
+            courseEnrolled_qs[0].save()
             return
         else:
             print("else in enrollling to course")
+            courseEnrolled_qs[0].is_enrolled = False
+            courseEnrolled_qs[0].save()
             return
 
     def get_completed_units(self, obj):
