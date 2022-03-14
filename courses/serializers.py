@@ -48,8 +48,8 @@ class SectionDetailSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        # fields = '__all__'
-        fields = ['id', 'title', 'photo', 'language']
+        fields = '__all__'
+        # fields = ['id', 'title', 'subtitle', 'photo', 'language']
 
 
 class EnrolledCourseSerializer(serializers.ModelSerializer):
