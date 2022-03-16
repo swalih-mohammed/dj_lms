@@ -26,8 +26,9 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
         lesson = Lesson.objects.get(id=data['lessonId'])
         student = User.objects.get(username=data['username'])
 
-        # lesson = Lesson.objects.get(id=2)
+        # lesson = Lesson.objects.get(id=1)
         # student = User.objects.get(username='sibiyan')
+
         unit = Unit.objects.get(pk=lesson.unit.id)
 
         lessons_in_unit = Lesson.objects.filter(unit=lesson.unit)
@@ -46,7 +47,7 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
         # print('total completed items', total_completed_items)
 
         if total_completed_items >= total_items:
-            print("all completed from lesson complete create")
+            # print("all completed from lesson complete create")
             unitCompleted = UnitCompleted.objects.create(
                 student=student,
                 unit=unit,
@@ -54,14 +55,18 @@ class LessonCompletedSerializer(serializers.ModelSerializer):
             )
             unitCompleted.save()
         lesson_completed_qs = LessonCompleted.objects.filter(
-            student=student, is_completed=True, lesson=lesson)
+            student=student, lesson=lesson)
         if not len(lesson_completed_qs) > 0:
             lesson_completed = LessonCompleted()
             lesson_completed.lesson = lesson
             lesson_completed.student = student
             lesson_completed.is_completed = True
             lesson_completed.save()
-            return lesson_completed
+            return
+        if lesson_completed_qs[0].is_completed == False:
+            lesson_completed_qs[0].is_completed = True
+            lesson_completed_qs[0].save()
+            return
         return
 
 

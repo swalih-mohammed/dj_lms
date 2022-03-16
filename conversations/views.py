@@ -28,7 +28,7 @@ class ConversationCompletedCreateView(CreateAPIView):
     def post(self, request):
         serializer = ConversationCompletedSerializer(data=request.data)
         serializer.is_valid()
-        ConversationCompleted = serializer.create(request)
-        if ConversationCompleted:
-            return Response(status=HTTP_201_CREATED)
-        return Response(status=HTTP_400_BAD_REQUEST)
+        serializer.create(request)
+        # if ConversationCompleted:
+        return Response(status=HTTP_201_CREATED)
+        # return Response(status=HTTP_400_BAD_REQUEST)

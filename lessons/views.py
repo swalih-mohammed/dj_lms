@@ -34,8 +34,8 @@ class LessonCompletedCreateView(CreateAPIView):
     def post(self, request):
         serializer = LessonCompletedSerializer(data=request.data)
         serializer.is_valid()
-        lessonCompleted = serializer.create(request)
-        print(request.data)
-        if lessonCompleted:
-            return Response(status=HTTP_201_CREATED)
-        return Response(status=HTTP_400_BAD_REQUEST)
+        serializer.create(request)
+        # print(request.data)
+        # if lessonCompleted:
+        return Response(status=HTTP_201_CREATED)
+        # return Response(status=HTTP_400_BAD_REQUEST)

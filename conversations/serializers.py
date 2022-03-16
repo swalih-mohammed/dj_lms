@@ -20,11 +20,12 @@ class ConversationCompletedSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-        print("data in conv create", data)
+        # print("data in conv create", data)
         conversation = Conversation.objects.get(id=data['conversationId'])
         student = User.objects.get(username=data['username'])
         # conversation = Conversation.objects.get(id=1)
         # student = User.objects.get(username='sibiyan')
+
         unit = Unit.objects.get(pk=conversation.unit.id)
 
         unitCompleted_qs = UnitCompleted.objects.filter(
@@ -60,16 +61,20 @@ class ConversationCompletedSerializer(serializers.ModelSerializer):
                 )
                 unitCompleted.save()
         conversationCompleted_qs = ConversationCompleted.objects.filter(
-            student=student, is_completed=True, conversation=conversation)
+            student=student, conversation=conversation)
         if not len(conversationCompleted_qs) > 0:
             conversationCompleted = ConversationCompleted()
             conversationCompleted.conversation = conversation
             conversationCompleted.student = student
             conversationCompleted.is_completed = True
             conversationCompleted.save()
-            return conversationCompleted
+            return
+        if conversationCompleted_qs[0].is_completed == False:
+            conversationCompleted_qs[0].is_completed = True
+            conversationCompleted_qs[0].save()
+            print("conversation already exists, upding as true")
+            return
         return
-        print("conversation already completed")
 
 
 class ConversationSerializer(serializers.ModelSerializer):

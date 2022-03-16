@@ -48,8 +48,9 @@ class SectionDetailSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = '__all__'
-        # fields = ['id', 'title', 'subtitle', 'photo', 'language']
+        # fields = '__all__'
+        fields = ['id', 'title', 'subtitle',
+                  'photo', 'description']
 
 
 class EnrolledCourseSerializer(serializers.ModelSerializer):
@@ -177,7 +178,7 @@ class UnitSerializer(serializers.ModelSerializer):
             completed_conversations = ConversationCompleted.objects.filter(
                 student=user.id, is_completed=True, conversation__unit=obj.id)
 
-            print("total", conversation_in_unit)
+            # print("total", conversation_in_unit)
             # calcualte total progress of unit
             total_itmes = len(lessons_in_unit) + \
                 len(quizzes_in_unit)+len(conversation_in_unit)

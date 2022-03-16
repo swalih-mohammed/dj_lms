@@ -60,10 +60,10 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
         # quiz = Quiz.objects.get(id=1)
         # student = User.objects.get(username='sibiyan')
         unit = Unit.objects.get(pk=quiz.unit.id)
-        print(data)
-        print(student.username)
-        print(quiz.title)
-        print(unit.title)
+        # print(data)
+        # print(student.username)
+        # print(quiz.title)
+        # print(unit.title)
 
         unitCompleted_qs = UnitCompleted.objects.filter(
             student=student, is_completed=True, unit=unit)
@@ -89,16 +89,20 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
                 )
                 unitCompleted.save()
         quizCompleted_qs = QuizCompleted.objects.filter(
-            student=student, is_completed=True, quiz=quiz)
+            student=student, quiz=quiz)
         if not len(quizCompleted_qs) > 0:
-            QuizCompleted = QuizCompleted()
-            QuizCompleted.quiz = quiz
-            QuizCompleted.student = student
-            QuizCompleted.is_completed = True
-            QuizCompleted.save()
-            return QuizCompleted
-        return
+            quizCompleted = QuizCompleted()
+            quizCompleted.quiz = quiz
+            quizCompleted.student = student
+            quizCompleted.is_completed = True
+            quizCompleted.save()
+            return
+        if quizCompleted_qs[0].is_completed == False:  # quiz exist but not completed
+            quizCompleted_qs[0].is_completed == True
+            quizCompleted_qs[0].save()
+            return
         print("quiz already completed")
+        return
 
 
 class QuizSerializer(serializers.ModelSerializer):
