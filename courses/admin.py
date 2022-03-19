@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Course, EnrolledCourse,  Section, Unit, UnitCompleted
 from lessons.models import Lesson, LessonItem
 from quizzes.models import Quiz
+from conversations.models import Conversation
 
 admin.site.site_header = 'Lakaters - Administration'
 
@@ -44,8 +45,18 @@ class inlineLesson(admin.StackedInline):
     extra = 0
 
 
+class inlineQuiz(admin.StackedInline):
+    model = Quiz
+    extra = 0
+
+
+class inlineConversation(admin.StackedInline):
+    model = Conversation
+    extra = 0
+
+
 class UnitAdmin(admin.ModelAdmin):
-    inlines = [inlineLesson]
+    inlines = [inlineLesson, inlineQuiz, inlineConversation]
     list_display = [
         'order', 'id',  'title', 'course'
     ]
