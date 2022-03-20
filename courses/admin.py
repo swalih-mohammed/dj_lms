@@ -82,6 +82,7 @@ class EnrolledCourseAdmin(admin.ModelAdmin):
     list_display_links = ['course', 'student', ]
 
     list_filter = ['course', 'student', 'is_enrolled']
+    search_fields = ['name']
 
 
 admin.site.register(Course, CourseAdmin)
