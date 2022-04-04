@@ -8,8 +8,7 @@ class Conversation(models.Model):
     order = models.SmallIntegerField(blank=True, null=True)
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
-    photo = models.ForeignKey(
-        Photo, on_delete=models.DO_NOTHING,  blank=True, null=True)
+    photo = models.ImageField(upload_to='photos', blank=True, null=True)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE,  related_name='conversations', blank=True, null=True, max_length=250)
     audio_0 = models.ForeignKey(
