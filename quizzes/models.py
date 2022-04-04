@@ -28,6 +28,7 @@ CORRECT_OPTION_CHOICES = (
     ("1", "OPTION_1"),
     ("2", "OPTION_2"),
     ("3", "OPTION_3"),
+    ("4", "OPTION_4"),
 
 )
 
@@ -97,11 +98,6 @@ class Quiz(models.Model):
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     category = models.CharField(
         max_length=250, blank=True, null=True, choices=QUIZZ_CATEGORY_CHOICES, default="OTHER")
-    # type = models.CharField(
-    #     max_length=250, blank=True, null=True, choices=QUIZZ_TYPE_CHOICES, default="Lesson_Based")
-
-    # section = models.ForeignKey(
-    #     Section, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     lesson = models.ForeignKey(
         Lesson, on_delete=models.CASCADE, related_name='lessonQuizzes', blank=True, null=True, max_length=250)
     unit = models.ForeignKey(
@@ -190,8 +186,9 @@ class Question(models.Model):
     posType = models.CharField(
         max_length=250, choices=POS_CHOICES, blank=True, null=True, default="NotPos")
     title = models.CharField(max_length=250, blank=True, null=True)
-    question = models.CharField(max_length=250, blank=True, null=True)
-    answer = models.CharField(max_length=250, blank=True, null=True)
+    question = models.TextField(max_length=250, blank=True, null=True)
+    answer = models.TextField(max_length=250, blank=True, null=True)
+    photo = models.ImageField(upload_to='photos', blank=True, null=True)
     audio = models.ForeignKey(
         Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
     correct_option = models.CharField(
