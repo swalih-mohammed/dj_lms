@@ -29,6 +29,7 @@ CORRECT_OPTION_CHOICES = (
     ("2", "OPTION_2"),
     ("3", "OPTION_3"),
     ("4", "OPTION_4"),
+    ("ANY", "ANY"),
 
 )
 
