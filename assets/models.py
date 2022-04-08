@@ -54,7 +54,7 @@ class Audio(models.Model):
             nickName = self.voice.nickName
             name = self.voice.name
             title = self.title
-            if nickName != "":
+            if nickName != ".":
                 objName = nickName + ": " + title
             else:
                 objName = name + ": " + title
