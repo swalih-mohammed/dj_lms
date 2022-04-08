@@ -33,8 +33,8 @@ class Voice(models.Model):
     nickName = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
-        displyName = str(self.service + "__" + self.language + "__" + self.name +
-                         "__" + self.gender + "__" + self.nickName)
+        displyName = str(self.nickName + "__" + self.service + "__" + self.language + "__" + self.name +
+                         "__" + self.gender)
         return displyName
 
 
@@ -54,10 +54,11 @@ class Audio(models.Model):
             nickName = self.voice.nickName
             name = self.voice.name
             title = self.title
+            title = title[0:50]
             if nickName != ".":
-                objName = nickName + ": " + title
+                objName = title + ": " + nickName
             else:
-                objName = name + ": " + title
+                objName = title + ": " + name
             return objName
         except:
             return self.title
