@@ -50,10 +50,13 @@ class Audio(models.Model):
         upload_to='Audios', blank=True, null=True)
 
     def __str__(self):
-        nickName = self.voice.nickName
-        title = self.title
-        objName = nickName + ": " + title
-        return objName
+        try:
+            nickName = self.voice.nickName
+            title = self.title
+            objName = nickName + ": " + title
+            return objName
+        except:
+            return self.title
 
     class Meta:
         ordering = ['title']
