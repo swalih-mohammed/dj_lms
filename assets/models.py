@@ -49,6 +49,15 @@ class Audio(models.Model):
     audio = models.FileField(
         upload_to='Audios', blank=True, null=True)
 
+    def __str__(self):
+        nickName = self.voice.nickName
+        title = self.title
+        objName = nickName + ": " + title
+        return objName
+
+    class Meta:
+        ordering = ['title']
+
     def save(self, *args, **kwargs):
         try:
             if self.type == "AWS" and self.is_re_record:
@@ -130,12 +139,6 @@ class Audio(models.Model):
         except:
             print("Error in loading polly")
             super(Audio, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        ordering = ['title']
 
 
 class Video(models.Model):
