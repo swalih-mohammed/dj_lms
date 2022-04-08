@@ -52,8 +52,12 @@ class Audio(models.Model):
     def __str__(self):
         try:
             nickName = self.voice.nickName
+            name = self.voice.name
             title = self.title
-            objName = nickName + ": " + title
+            if nickName != "":
+                objName = nickName + ": " + title
+            else:
+                objName = name + ": " + title
             return objName
         except:
             return self.title
