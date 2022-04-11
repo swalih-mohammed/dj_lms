@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 from contextlib import closing
 from django.conf import settings
 # from google.cloud import texttospeech
-# from google.cloud import texttospeech_v1
+from google.cloud import texttospeech_v1
 # import json
 # import base64
 
