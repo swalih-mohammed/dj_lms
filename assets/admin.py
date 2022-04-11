@@ -6,11 +6,11 @@ from .models import Audio, Photo, Video, Voice
 
 class AudioAdmin(admin.ModelAdmin):
     list_display = [
-        'title', 'voice',
+        'text',
     ]
-    list_display_links = ['title',  'voice']
-    list_filter = ['title', 'voice']
-    search_fields = ['title']
+    list_display_links = ['text']
+    list_filter = ['voice__service']
+    search_fields = ['text']
 
 
 admin.site.register(Audio, AudioAdmin)

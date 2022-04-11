@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 from contextlib import closing
 from django.conf import settings
 # from google.cloud import texttospeech
-from google.cloud import texttospeech_v1
+# from google.cloud import texttospeech_v1
 # import json
 # import base64
 
@@ -20,7 +20,11 @@ from google.cloud import texttospeech_v1
 SERVICE_CHOICES = (
     ("AWS", "AWS"),
     ("GCS", "GCS"),
-    ("SELF_RECORDED", "SELF_RECORDED"),
+)
+
+TYPE_CHOICES = (
+    ("CLOUD", "CLOUD"),
+    ("SELF_RECORD", "SELF_RECORD"),
 )
 
 
@@ -29,23 +33,26 @@ class Voice(models.Model):
     gender = models.CharField(max_length=250, blank=True, null=True)
     language = models.CharField(max_length=250, blank=True, null=True)
     service = models.CharField(
-        max_length=250, choices=SERVICE_CHOICES, default="SELF_RECORDED", blank=True, null=True)
+        max_length=250, choices=SERVICE_CHOICES, blank=True, null=True)
     nickName = models.CharField(max_length=250, blank=True, null=True)
+    photo = models.FileField(
+        upload_to='Photos', blank=True, null=True)
 
     def __str__(self):
-        displyName = str(self.nickName + "__" + self.service + "__" + self.language + "__" + self.name +
-                         "__" + self.gender)
+        # displyName = str(self.nickName + "__" + self.service + "__" + self.language + "__" + self.name +
+        #                  "__" + self.gender)
+        displyName = str(self.nickName + "__" + self.service)
         return displyName
 
 
 class Audio(models.Model):
-    title = models.CharField(max_length=250, blank=True, null=True)
-    type = models.CharField(
-        max_length=250, choices=SERVICE_CHOICES, default="SELF_RECORDED", blank=True, null=True)
-    is_re_record = models.BooleanField(default=False)
-    text = models.TextField(max_length=250, blank=True, null=True)
     voice = models.ForeignKey(
         Voice, on_delete=models.CASCADE,  blank=True, null=True)
+    text = models.TextField(max_length=250, blank=True, null=True)
+    title = models.CharField(max_length=250, blank=True, null=True)
+    type = models.CharField(
+        max_length=250, choices=TYPE_CHOICES, default="CLOUD", blank=True, null=True)
+    is_re_record = models.BooleanField(default=True)
     audio = models.FileField(
         upload_to='Audios', blank=True, null=True)
 
@@ -53,24 +60,27 @@ class Audio(models.Model):
         try:
             nickName = self.voice.nickName
             name = self.voice.name
-            title = self.title
-            title = title[0:50]
+            text = self.text
+            text = text[0:50]
             if nickName != ".":
-                objName = title + ": " + nickName
+                objName = text + ": " + nickName
             else:
-                objName = title + ": " + name
+                objName = text + ": " + name
             return objName
         except:
-            return self.title
+            return self.text
 
     class Meta:
-        ordering = ['title']
+        ordering = ['text']
 
     def save(self, *args, **kwargs):
+        # print(self.voice.service)
         try:
-            if self.type == "AWS" and self.is_re_record:
+            audio_Name = self.text[0:30]
+            if self.voice.service == "AWS" and self.is_re_record:
                 print("AWS")
                 self.is_re_record = False
+                # self.type = "AWS"
                 aws_access_key_id = getattr(settings, "AWS_POLLY_ACCESS", None)
                 aws_secret_access_key = getattr(
                     settings, "AWS_POLLY_SECRET", None)
@@ -91,11 +101,11 @@ class Audio(models.Model):
                 if "AudioStream" in response:
                     with closing(response["AudioStream"]) as streamingbody:
                         data = streamingbody.read()
-                        self.audio.save(str(self.title)+'.mp3',
+                        self.audio.save(str(audio_Name)+'.mp3',
                                         ContentFile(data))
                         super(Audio, self).save(*args, **kwargs)
 
-            if self.type == "GCS" and self.is_re_record:
+            if self.voice.service == "GCS" and self.is_re_record:
                 print("GCS")
                 GCS_CREDENTIALS_FILE_PATH = getattr(
                     settings, "GCS_CREDENTIALS_FILE_PATH", None)
@@ -134,7 +144,7 @@ class Audio(models.Model):
                     input=text_input, voice=voice_params, audio_config=audio_config)
                 # print(type(response.audio_content))
                 audio = response.audio_content
-                file_name = '{}.wav'.format(self.title)
+                file_name = '{}.wav'.format(audio_Name)
                 test = ContentFile(audio)
                 # print(test)
                 self.audio.save(file_name, test, save=False)
