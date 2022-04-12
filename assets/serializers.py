@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import Photo, Audio, Video
+from .models import Photo, Voice, Audio, Video
+# from assets.serializers import VoiceSerializer
 
 
 class PhotoSerializer(serializers.ModelSerializer):
@@ -9,13 +10,21 @@ class PhotoSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class VoiceSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Voice
+        # fields = '__all__'
+        fields = ['nickName', 'photo', ]
+
+
 class AudioSerializer(serializers.ModelSerializer):
-    voice = serializers.StringRelatedField()
+    voice = VoiceSerializer(read_only=True)
 
     class Meta:
         model = Audio
         # fields = '__all__'
-        fields = ['audio', 'voice', 'text']
+        fields = ['audio',  'text', 'voice']
 
 
 class VideoSerializer(serializers.ModelSerializer):
