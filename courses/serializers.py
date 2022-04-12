@@ -50,7 +50,7 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         # fields = '__all__'
         fields = ['id', 'title', 'subtitle',
-                  'photo', 'description']
+                  'photo', 'description', 'category']
 
 
 class EnrolledCourseSerializer(serializers.ModelSerializer):

@@ -19,7 +19,8 @@ class CourseListView(generics.ListAPIView):
     serializer_class = CourseSerializer
 
     def get_queryset(self):
-        qs = Course.objects.all()
+        category = self.kwargs['category']
+        qs = Course.objects.filter(is_active=True, category=category)
         return qs
 
 
@@ -29,8 +30,10 @@ class EnrolledCourseListView(generics.ListAPIView):
 
     def get_queryset(self):
         username = self.kwargs['username']
+        category = self.kwargs['category']
         user = User.objects.get(username=username)
-        courses = EnrolledCourse.objects.filter(student=user, is_enrolled=True)
+        courses = EnrolledCourse.objects.filter(
+            student=user, is_enrolled=True, course__category=category)
         return courses
 
 
