@@ -4,7 +4,7 @@ from .views import CourseListView, CourseEnrollView, CourseDetailView, SectionLi
 
 urlpatterns = [
     path('<category>', CourseListView.as_view(), name='Course-list'),
-    path('<username>/<category>', EnrolledCourseListView.as_view(),
+    path('<username>/category/<category>', EnrolledCourseListView.as_view(),
          name='CourseEnrolled-list'),
     path('enroll/', CourseEnrollView.as_view(), name='Course-enroll'),
     path('<pk>/<username>', CourseDetailView.as_view(), name='Course-detail'),

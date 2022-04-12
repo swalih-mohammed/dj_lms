@@ -29,6 +29,7 @@ class EnrolledCourseListView(generics.ListAPIView):
     serializer_class = EnrolledCourseSerializer
 
     def get_queryset(self):
+        print("course enrolled list")
         username = self.kwargs['username']
         category = self.kwargs['category']
         user = User.objects.get(username=username)
