@@ -13,7 +13,7 @@ class QuizAdmin(admin.ModelAdmin):
         'order', 'title', 'unit',  'lesson', 'category'
     ]
     list_display_links = ['title', 'lesson', 'unit', 'category']
-    list_filter = ['unit', 'lesson', 'course']
+    list_filter = ['course', 'unit', 'lesson', ]
     list_editable = ['order', ]
 
 

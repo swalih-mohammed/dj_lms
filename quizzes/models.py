@@ -108,6 +108,8 @@ class Quiz(models.Model):
         Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name='courseQuizzes', blank=True, null=True, max_length=250)
+    photo = models.FileField(
+        upload_to='Photos', blank=True, null=True)
 
     def __str__(self):
         return self.title
