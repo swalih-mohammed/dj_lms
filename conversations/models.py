@@ -2,6 +2,9 @@ from django.db import models
 from users.models import User
 from courses.models import Unit
 from assets.models import Photo, Audio, Video
+from PIL import Image
+from io import BytesIO
+from django.core.files.storage import default_storage as storage
 
 
 class Conversation(models.Model):
@@ -39,6 +42,18 @@ class Conversation(models.Model):
 
     class Meta:
         ordering = ['order', 'unit', 'title']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.photo)
+        memfile = BytesIO()
+        if img.height > 650 or img.width > 650:
+            output_size = (650, 650)
+            img.thumbnail(output_size, Image.ANTIALIAS)
+            img.save(memfile, 'PNG', quality=95)
+            storage.save(self.photo.name, memfile)
+            memfile.close()
+            img.close()
 
 
 class ConversationCompleted(models.Model):
