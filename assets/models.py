@@ -7,6 +7,9 @@ from boto3 import Session
 from django.core.files.base import ContentFile
 from contextlib import closing
 from django.conf import settings
+from PIL import Image
+from io import BytesIO
+from django.core.files.storage import default_storage as storage
 # from google.cloud import texttospeech
 from google.cloud import texttospeech_v1
 # import json

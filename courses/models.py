@@ -1,6 +1,10 @@
 from django.db import models
 from users.models import User
 
+from PIL import Image
+from io import BytesIO
+from django.core.files.storage import default_storage as storage
+
 
 class Language(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
@@ -51,6 +55,18 @@ class Course(models.Model):
     class Meta:
         verbose_name_plural = 'courses'
         ordering = ['order']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.photo)
+        memfile = BytesIO()
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size, Image.ANTIALIAS)
+            img.save(memfile, 'PNG', quality=95)
+            storage.save(self.photo.name, memfile)
+            memfile.close()
+            img.close()
 
 
 class EnrolledCourse(models.Model):
@@ -113,6 +129,18 @@ class Unit(models.Model):
     class Meta:
         verbose_name_plural = 'units'
         ordering = ['course', 'order']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.photo)
+        memfile = BytesIO()
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size, Image.ANTIALIAS)
+            img.save(memfile, 'PNG', quality=95)
+            storage.save(self.photo.name, memfile)
+            memfile.close()
+            img.close()
 
 
 class UnitCompleted(models.Model):

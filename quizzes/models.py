@@ -4,6 +4,10 @@ from courses.models import Course, Section, Unit
 # from units.models import Unit
 from lessons.models import Lesson
 from assets.models import Photo, Audio, Video
+from PIL import Image
+from io import BytesIO
+from django.core.files.storage import default_storage as storage
+
 # from nltk.tokenize import TreebankWordTokenizer
 
 # from sections.models import Section
@@ -117,6 +121,18 @@ class Quiz(models.Model):
     class Meta:
         ordering = ['order', 'unit', 'category', 'title']
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.photo)
+        memfile = BytesIO()
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size, Image.ANTIALIAS)
+            img.save(memfile, 'PNG', quality=95)
+            storage.save(self.photo.name, memfile)
+            memfile.close()
+            img.close()
+
 
 class TextChoices(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
@@ -221,6 +237,18 @@ class Question(models.Model):
 
     class Meta:
         ordering = ['order']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.photo)
+        memfile = BytesIO()
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size, Image.ANTIALIAS)
+            img.save(memfile, 'PNG', quality=95)
+            storage.save(self.photo.name, memfile)
+            memfile.close()
+            img.close()
 
 
 class QuizCompleted(models.Model):

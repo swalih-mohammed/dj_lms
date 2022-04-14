@@ -34,7 +34,7 @@ class EnrolledCourseListView(generics.ListAPIView):
         category = self.kwargs['category']
         user = User.objects.get(username=username)
         courses = EnrolledCourse.objects.filter(
-            student=user, is_enrolled=True, course__category=category)
+            student=user, is_enrolled=True, course__category=category, course__is_active=True)
         return courses
 
 
