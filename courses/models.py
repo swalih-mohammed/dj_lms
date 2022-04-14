@@ -58,15 +58,16 @@ class Course(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        img = Image.open(self.photo)
-        memfile = BytesIO()
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size, Image.ANTIALIAS)
-            img.save(memfile, 'PNG', quality=95)
-            storage.save(self.photo.name, memfile)
-            memfile.close()
-            img.close()
+        if self.photo:
+            img = Image.open(self.photo)
+            memfile = BytesIO()
+            if img.height > 300 or img.width > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size, Image.ANTIALIAS)
+                img.save(memfile, 'PNG', quality=95)
+                storage.save(self.photo.name, memfile)
+                memfile.close()
+                img.close()
 
 
 class EnrolledCourse(models.Model):
@@ -120,7 +121,6 @@ class Unit(models.Model):
         Section, related_name='UnitsSections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
 
     def __str__(self):
-        title = self.title
         order = self.order
         course = self.course.title
         unit = course + "_Unit_" + str(order)
@@ -132,15 +132,16 @@ class Unit(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        img = Image.open(self.photo)
-        memfile = BytesIO()
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size, Image.ANTIALIAS)
-            img.save(memfile, 'PNG', quality=95)
-            storage.save(self.photo.name, memfile)
-            memfile.close()
-            img.close()
+        if self.photo:
+            img = Image.open(self.photo)
+            memfile = BytesIO()
+            if img.height > 300 or img.width > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size, Image.ANTIALIAS)
+                img.save(memfile, 'PNG', quality=95)
+                storage.save(self.photo.name, memfile)
+                memfile.close()
+                img.close()
 
 
 class UnitCompleted(models.Model):

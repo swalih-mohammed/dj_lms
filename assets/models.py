@@ -11,7 +11,7 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.storage import default_storage as storage
 # from google.cloud import texttospeech
-from google.cloud import texttospeech_v1
+# from google.cloud import texttospeech_v1
 # import json
 # import base64
 
@@ -42,10 +42,21 @@ class Voice(models.Model):
         upload_to='Photos', blank=True, null=True)
 
     def __str__(self):
-        # displyName = str(self.nickName + "__" + self.service + "__" + self.language + "__" + self.name +
-        #                  "__" + self.gender)
         displyName = str(self.nickName + "__" + self.service)
         return displyName
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.photo:
+            img = Image.open(self.photo)
+            memfile = BytesIO()
+            if img.height > 300 or img.width > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size, Image.ANTIALIAS)
+                img.save(memfile, 'PNG', quality=95)
+                storage.save(self.photo.name, memfile)
+                memfile.close()
+                img.close()
 
 
 class Audio(models.Model):
