@@ -26,8 +26,8 @@ QUESTION_TYPE_CHOICES = (
     ("FILL_IN_BLANK", "Fill_In_Blank"),
     ("SPEAKING", "Speaking"),
     ("WRITING", "Writing"),
-    ("READING", "READING"),
-
+    ("READING_COMPREHENSION", "READING_COMPREHENSION"),
+    ("LISTENING_COMPREHENSION", "LISTENING_COMPREHENSION"),
 )
 
 CORRECT_OPTION_CHOICES = (
@@ -114,10 +114,10 @@ class Quiz(models.Model):
     category = models.CharField(
         max_length=250, blank=True, null=True, choices=QUIZZ_CATEGORY_CHOICES, default="OTHER")
     text = models.TextField(blank=True, null=True)
-    lesson = models.ForeignKey(
-        Lesson, on_delete=models.CASCADE, related_name='lessonQuizzes', blank=True, null=True, max_length=250)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
+    lesson = models.ForeignKey(
+        Lesson, on_delete=models.CASCADE, related_name='lessonQuizzes', blank=True, null=True, max_length=250)
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name='courseQuizzes', blank=True, null=True, max_length=250)
 
@@ -126,6 +126,19 @@ class Quiz(models.Model):
 
     class Meta:
         ordering = ['order', 'unit', 'category', 'title']
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.photo:
+            img = Image.open(self.photo)
+            memfile = BytesIO()
+            if img.height > 300 or img.width > 300:
+                output_size = (300, 300)
+                img.thumbnail(output_size, Image.ANTIALIAS)
+                img.save(memfile, 'PNG', quality=95)
+                storage.save(self.photo.name, memfile)
+                memfile.close()
+                img.close()
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
