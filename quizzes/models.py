@@ -26,6 +26,8 @@ QUESTION_TYPE_CHOICES = (
     ("FILL_IN_BLANK", "Fill_In_Blank"),
     ("SPEAKING", "Speaking"),
     ("WRITING", "Writing"),
+    ("READING", "READING"),
+
 )
 
 CORRECT_OPTION_CHOICES = (
@@ -59,6 +61,7 @@ QUESTION_CATEGORY_CHOICES = (
     ("FILL_IN_BLANK", "FILL_IN_BLANK"),
     ("FILL_IN_BLANK_WITH_PHOTO", "FILL_IN_BLANK_WITH_PHOTO"),
     ("FILL_IN_BLANK_WITH_PHOTO_CON", "FILL_IN_BLANK_WITH_PHOTO_CON"),
+    ("READING", "READING"),
 
 )
 
@@ -104,16 +107,19 @@ class Quiz(models.Model):
     order = models.SmallIntegerField(blank=True, null=True)
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
+    photo = models.FileField(
+        upload_to='Photos', blank=True, null=True)
+    audio = models.ForeignKey(
+        Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
     category = models.CharField(
         max_length=250, blank=True, null=True, choices=QUIZZ_CATEGORY_CHOICES, default="OTHER")
+    text = models.TextField(blank=True, null=True)
     lesson = models.ForeignKey(
         Lesson, on_delete=models.CASCADE, related_name='lessonQuizzes', blank=True, null=True, max_length=250)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name='courseQuizzes', blank=True, null=True, max_length=250)
-    photo = models.FileField(
-        upload_to='Photos', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -203,7 +209,7 @@ class Question(models.Model):
     quiz = models.ForeignKey(
         Quiz, on_delete=models.CASCADE, related_name='quizzes', blank=True, null=True, max_length=250)
     category = models.CharField(
-        max_length=250, choices=QUESTION_CATEGORY_CHOICES, blank=True, null=True)
+        max_length=250, choices=QUESTION_CATEGORY_CHOICES, default="FILL_IN_BLANK_WITH_PHOTO", blank=True, null=True)
     posType = models.CharField(
         max_length=250, choices=POS_CHOICES, blank=True, null=True, default="NotPos")
     title = models.CharField(max_length=250, blank=True, null=True)
@@ -213,7 +219,7 @@ class Question(models.Model):
     audio = models.ForeignKey(
         Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
     correct_option = models.CharField(
-        max_length=250, choices=CORRECT_OPTION_CHOICES, blank=True, null=True)
+        max_length=250, choices=CORRECT_OPTION_CHOICES, default="ANY", blank=True, null=True)
 
     text_option_1 = models.CharField(max_length=250, blank=True, null=True)
     text_option_2 = models.CharField(max_length=250, blank=True, null=True)
