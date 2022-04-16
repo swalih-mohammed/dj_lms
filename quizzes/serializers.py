@@ -52,19 +52,9 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-
         quiz = Quiz.objects.get(id=data['quizId'])
         student = User.objects.get(username=data['username'])
-        # print(quiz.title)
-        # print(student.username)
-        # quiz = Quiz.objects.get(id=1)
-        # student = User.objects.get(username='sibiyan')
         unit = Unit.objects.get(pk=quiz.unit.id)
-        # print(data)
-        # print(student.username)
-        # print(quiz.title)
-        # print(unit.title)
-
         unitCompleted_qs = UnitCompleted.objects.filter(
             student=student, is_completed=True, unit=unit)
         if not len(unitCompleted_qs) > 0:
@@ -132,6 +122,7 @@ class QuizSerializer(serializers.ModelSerializer):
 
 
 class QuizDetailSerializer(serializers.ModelSerializer):
+    audio = AudioSerializer(read_only=True)
     questions = serializers.SerializerMethodField()
     is_completed = serializers.SerializerMethodField()
 
