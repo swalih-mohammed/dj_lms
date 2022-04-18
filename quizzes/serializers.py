@@ -55,10 +55,12 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
         quiz = Quiz.objects.get(id=data['quizId'])
         student = User.objects.get(username=data['username'])
         score = User.objects.get(username=data['score'])
-        print("score", score)
+        # quiz = Quiz.objects.get(id=3)
+        # student = User.objects.get(username="sibiyan")
+        # score = 3
+        # print("score", score)
 
-        # updaet quis of unit based
-        try:
+        if quiz.unit:
             unit = Unit.objects.get(pk=quiz.unit.id)
             unitCompleted_qs = UnitCompleted.objects.filter(
                 student=student, is_completed=True, unit=unit)
@@ -83,9 +85,7 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
                         is_completed=True
                     )
                     unitCompleted.save()
-        except:
-            print("not unit based quiz")
-            return
+
         quizCompleted_qs = QuizCompleted.objects.filter(
             student=student, quiz=quiz)
         if not len(quizCompleted_qs) > 0:
