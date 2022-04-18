@@ -120,7 +120,14 @@ class Quiz(models.Model):
         Course, on_delete=models.CASCADE, related_name='courseQuizzes', blank=True, null=True, max_length=250)
 
     def __str__(self):
-        return self.title
+        try:
+            category = self.category
+            unit = self.unit.title
+            title = self.title
+            name = category + "_" + unit + "_" + title
+            return name
+        except:
+            return self.title 
 
     class Meta:
         ordering = ['order', 'unit', 'category', 'title']

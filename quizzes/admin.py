@@ -20,10 +20,11 @@ class QuizAdmin(admin.ModelAdmin):
 
 class QuizCompletedAdmin(admin.ModelAdmin):
     list_display = [
-        'student', 'quiz', 'is_completed'
+        'student', 'quiz', 'is_completed', 'score'
 
     ]
     list_filter = ['student', 'quiz', 'is_completed']
+    search_fields = ['quiz__category, quiz__title']
 
 
 class QuestionAdmin(admin.ModelAdmin):
