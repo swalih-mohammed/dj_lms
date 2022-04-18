@@ -54,6 +54,7 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
         data = request.data
         quiz = Quiz.objects.get(id=data['quizId'])
         student = User.objects.get(username=data['username'])
+        score = User.objects.get(username=data['score'])
         unit = Unit.objects.get(pk=quiz.unit.id)
         unitCompleted_qs = UnitCompleted.objects.filter(
             student=student, is_completed=True, unit=unit)
@@ -84,6 +85,7 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
             quizCompleted = QuizCompleted()
             quizCompleted.quiz = quiz
             quizCompleted.student = student
+            quizCompleted.is_completed = score
             quizCompleted.is_completed = True
             quizCompleted.save()
             return
@@ -119,6 +121,27 @@ class QuizSerializer(serializers.ModelSerializer):
                 return False
         except:
             return False
+
+
+class GeneralQuizListSerializer(serializers.ModelSerializer):
+    score = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Quiz
+        fields = ('__all__')
+
+    def get_score(self, obj):
+        try:
+            request = self.context['request']
+            username = request.parser_context['kwargs']['username']
+            user = User.objects.get(username=username)
+            category = request.parser_context['kwargs']['category']
+            qs = obj.QuizCompleted.filter(
+                student=user, quiz__category=category)
+            score = qs[0].score
+            return score
+        except:
+            return 0
 
 
 class QuizDetailSerializer(serializers.ModelSerializer):

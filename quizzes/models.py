@@ -12,13 +12,7 @@ from django.core.files.storage import default_storage as storage
 
 # from sections.models import Section
 
-QUIZZ_TYPE_CHOICES = (
-    ("LESSONBASED", "Lesson_Based"),
-    ("UNITBASED", "Unit_Based"),
-    ("SECTIONBASED", "Section_Based"),
-    ("COURSEBASED", "Course_Based"),
-    ("INDIPENDENT", "Independent"),
-)
+
 QUESTION_TYPE_CHOICES = (
     ("CHOICE", "Choice"),
     ("DRAG", "Drag"),
@@ -48,6 +42,8 @@ QUIZZ_CATEGORY_CHOICES = (
     ("VOCABULARY", "VOCABULARY"),
     ("DIALOGUE", "DIALOGUE"),
     ("UNIT_TEST", "UNIT_TEST"),
+    ("GENERAL_ENGLISH", "GENERAL_ENGLISH"),
+    ("GENERAL_ARABIC", "GENERAL_ARABIC"),
     ("OTHER", "OTHER"),
 )
 
@@ -277,6 +273,7 @@ class QuizCompleted(models.Model):
         User, blank=True, null=True, on_delete=models.CASCADE)
     quiz = models.ForeignKey(
         Quiz, related_name='QuizCompleted', on_delete=models.SET_NULL, blank=True, null=True)
+    score = models.IntegerField(blank=True, null=True, default=0)
     is_completed = models.BooleanField(default=True)
 
     def __str__(self):

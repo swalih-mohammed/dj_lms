@@ -15,6 +15,7 @@ class QuizAdmin(admin.ModelAdmin):
     list_display_links = ['title', 'lesson', 'unit', 'category']
     list_filter = ['course', 'unit', 'lesson', ]
     list_editable = ['order', ]
+    search_fields = ['title']
 
 
 class QuizCompletedAdmin(admin.ModelAdmin):
