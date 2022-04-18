@@ -55,37 +55,37 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
         data = request.data
         quiz = Quiz.objects.get(id=data['quizId'])
         student = User.objects.get(username=data['username'])
-        score = User.objects.get(username=data['score'])
+        score = data['score']
         # quiz = Quiz.objects.get(id=3)
         # student = User.objects.get(username="sibiyan")
-        # score = 4
+
         # print("score", score)
         # print("unit", quiz.unit)
-        # if quiz.unit != None:
-        #     unit = Unit.objects.get(pk=quiz.unit.id)
-        #     unitCompleted_qs = UnitCompleted.objects.filter(
-        #         student=student, is_completed=True, unit=unit)
-        #     if not len(unitCompleted_qs) > 0:
-        #         lessons_in_unit = Lesson.objects.filter(unit=unit)
-        #         completed_lessons = LessonCompleted.objects.filter(
-        #             student=student, is_completed=True, lesson__unit=unit)
+        if quiz.unit != None:
+            unit = Unit.objects.get(pk=quiz.unit.id)
+            unitCompleted_qs = UnitCompleted.objects.filter(
+                student=student, is_completed=True, unit=unit)
+            if not len(unitCompleted_qs) > 0:
+                lessons_in_unit = Lesson.objects.filter(unit=unit)
+                completed_lessons = LessonCompleted.objects.filter(
+                    student=student, is_completed=True, lesson__unit=unit)
 
-        #         quizzes_in_unit = Quiz.objects.filter(unit=unit)
-        #         completed_quizzes = QuizCompleted.objects.filter(
-        #             student=student, is_completed=True, quiz__unit=unit).distinct()
+                quizzes_in_unit = Quiz.objects.filter(unit=unit)
+                completed_quizzes = QuizCompleted.objects.filter(
+                    student=student, is_completed=True, quiz__unit=unit).distinct()
 
-        #         total_items = len(lessons_in_unit) + len(quizzes_in_unit)
-        #         total_completed_items = len(
-        #             completed_lessons) + len(completed_quizzes) + 1
+                total_items = len(lessons_in_unit) + len(quizzes_in_unit)
+                total_completed_items = len(
+                    completed_lessons) + len(completed_quizzes) + 1
 
-        #         if total_completed_items >= total_items:
-        #             print("all completed from quiz complete create")
-        #             unitCompleted = UnitCompleted.objects.create(
-        #                 student=student,
-        #                 unit=unit,
-        #                 is_completed=True
-        #             )
-        #             unitCompleted.save()
+                if total_completed_items >= total_items:
+                    print("all completed from quiz complete create")
+                    unitCompleted = UnitCompleted.objects.create(
+                        student=student,
+                        unit=unit,
+                        is_completed=True
+                    )
+                    unitCompleted.save()
         print("proceeding to create new entry")
         quizCompleted_qs = QuizCompleted.objects.filter(
             student=student, quiz=quiz)
