@@ -1,3 +1,4 @@
+from unicodedata import category
 from rest_framework import serializers
 from .models import Quiz, QuizCompleted, Question, TextChoices, PhotoChoices, QuestionType
 from assets.serializers import PhotoSerializer, AudioSerializer
@@ -57,10 +58,10 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
         score = User.objects.get(username=data['score'])
         # quiz = Quiz.objects.get(id=3)
         # student = User.objects.get(username="sibiyan")
-        # score = 3
+        # score = 4
         # print("score", score)
-
-        if quiz.unit:
+        # print("unit", quiz.unit)
+        if quiz.unit != None:
             unit = Unit.objects.get(pk=quiz.unit.id)
             unitCompleted_qs = UnitCompleted.objects.filter(
                 student=student, is_completed=True, unit=unit)
@@ -85,10 +86,11 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
                         is_completed=True
                     )
                     unitCompleted.save()
-
+        print("proceeding to create new entry")
         quizCompleted_qs = QuizCompleted.objects.filter(
             student=student, quiz=quiz)
         if not len(quizCompleted_qs) > 0:
+            print("creating new completed entry")
             quizCompleted = QuizCompleted()
             quizCompleted.quiz = quiz
             quizCompleted.student = student
@@ -99,8 +101,8 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
         if quizCompleted_qs[0].is_completed == False:  # quiz exist but not completed
             quizCompleted_qs[0].is_completed == True
             quizCompleted_qs[0].save()
+            print("quiz is complete updated")
             return
-        print("quiz already completed")
         return
 
 
