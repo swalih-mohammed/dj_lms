@@ -100,6 +100,7 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
             return
         if quizCompleted_qs[0].is_completed == False:  # quiz exist but not completed
             quizCompleted_qs[0].is_completed == True
+            quizCompleted_qs[0].score == score
             quizCompleted_qs[0].save()
             print("quiz is complete updated")
             return
