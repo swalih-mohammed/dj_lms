@@ -127,7 +127,7 @@ class Quiz(models.Model):
             name = category + "_" + unit + "_" + title
             return name
         except:
-            return self.title 
+            return self.title
 
     class Meta:
         ordering = ['order', 'unit', 'category', 'title']
@@ -284,4 +284,4 @@ class QuizCompleted(models.Model):
     is_completed = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.student.username
+        return self.quiz.title + "_" + self.student.username

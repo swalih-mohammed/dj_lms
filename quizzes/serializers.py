@@ -53,14 +53,15 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
+        # print(data)
         quiz = Quiz.objects.get(id=data['quizId'])
         student = User.objects.get(username=data['username'])
         score = data['score']
+        # print("score", score)
         # quiz = Quiz.objects.get(id=3)
         # student = User.objects.get(username="sibiyan")
+        # score = 3
 
-        # print("score", score)
-        # print("unit", quiz.unit)
         if quiz.unit != None:
             unit = Unit.objects.get(pk=quiz.unit.id)
             unitCompleted_qs = UnitCompleted.objects.filter(
@@ -94,13 +95,13 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
             quizCompleted = QuizCompleted()
             quizCompleted.quiz = quiz
             quizCompleted.student = student
-            quizCompleted.is_completed = score
+            quizCompleted.score = score
             quizCompleted.is_completed = True
             quizCompleted.save()
             return
         if quizCompleted_qs[0].is_completed == False:  # quiz exist but not completed
-            quizCompleted_qs[0].is_completed == True
-            quizCompleted_qs[0].score == score
+            quizCompleted_qs[0].is_completed = True
+            quizCompleted_qs[0].score = score
             quizCompleted_qs[0].save()
             print("quiz is complete updated")
             return
