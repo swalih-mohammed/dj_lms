@@ -282,6 +282,9 @@ class QuizCompleted(models.Model):
         Quiz, related_name='QuizCompleted', on_delete=models.SET_NULL, blank=True, null=True)
     score = models.IntegerField(blank=True, null=True, default=0)
     is_completed = models.BooleanField(default=True)
+    created_at = models.DateTimeField(
+        blank=True, null=True, auto_now_add=True)
+    updated_at = models.DateTimeField(blank=True, null=True, auto_now=True)
 
     def __str__(self):
         return self.quiz.title + "_" + self.student.username
