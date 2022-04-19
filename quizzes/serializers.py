@@ -53,7 +53,7 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-        # print(data)
+        print(data)
         quiz = Quiz.objects.get(id=data['quizId'])
         student = User.objects.get(username=data['username'])
         score = data['score']
