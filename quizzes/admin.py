@@ -24,7 +24,7 @@ class QuizCompletedAdmin(admin.ModelAdmin):
 
     ]
     list_filter = ['student', 'quiz', 'is_completed']
-    search_fields = ['quiz__category, quiz__title']
+    search_fields = ['quiz__title', 'quiz__category']
 
 
 class QuestionAdmin(admin.ModelAdmin):
