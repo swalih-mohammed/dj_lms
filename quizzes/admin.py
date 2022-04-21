@@ -1,4 +1,6 @@
+from django.db import models
 from django.contrib import admin
+from django.forms import TextInput, Textarea
 from .models import Quiz, QuestionType, Question, TextChoices, PhotoChoices, AudioChoices, QuizCompleted
 
 
@@ -34,6 +36,10 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display_links = ['question', ]
     list_filter = ['quiz', 'category']
     list_editable = ['order', ]
+    # formfield_overrides = {
+    #     models.CharField: {'widget': TextInput(attrs={'cols': 40, 'rows': 2, 'size': '100'})},
+    #     models.TextField: {'widget': Textarea(attrs={'rows': 2, 'cols': 40})},
+    # }
 
 
 admin.site.register(Quiz, QuizAdmin)
