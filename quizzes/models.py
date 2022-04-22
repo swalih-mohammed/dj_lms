@@ -175,10 +175,13 @@ class Question(models.Model):
         Photo,  related_name='photo_4', on_delete=models.DO_NOTHING,  blank=True, null=True)
 
     def __str__(self):
-        quiz = self.quiz.category
-        order = self.order
-        name = quiz + "_" + str(order)
-        return name
+        try:
+            quiz = self.quiz.category
+            order = self.order
+            name = quiz + "_" + str(order)
+            return name
+        except:
+            return
 
     class Meta:
         ordering = ['order']
