@@ -1,6 +1,6 @@
 from unicodedata import category
 from rest_framework import serializers
-from .models import Quiz, QuizCompleted, Question, TextChoices, PhotoChoices, QuestionType
+from .models import Quiz, QuizCompleted, Question
 from assets.serializers import PhotoSerializer, AudioSerializer
 from users.models import User
 from courses.models import Unit, UnitCompleted
@@ -8,29 +8,23 @@ from quizzes.models import Quiz, QuizCompleted
 from lessons.models import Lesson, LessonCompleted
 
 
-class StringSerializer(serializers.StringRelatedField):
-    def to_internal_value(self, value):
-        return value
+# class StringSerializer(serializers.StringRelatedField):
+#     def to_internal_value(self, value):
+#         return value
 
 
-class TextChoiceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = TextChoices
-        fields = ('__all__')
+# class TextChoiceSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = TextChoices
+#         fields = ('__all__')
 
 
-class PhotoChoiceSerializer(serializers.ModelSerializer):
-    photo = PhotoSerializer(read_only=True)
+# class PhotoChoiceSerializer(serializers.ModelSerializer):
+#     photo = PhotoSerializer(read_only=True)
 
-    class Meta:
-        model = PhotoChoices
-        fields = ('__all__')
-
-
-class QuestionTypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = QuestionType
-        fields = ('__all__')
+#     class Meta:
+#         model = PhotoChoices
+#         fields = ('__all__')
 
 
 class QuestionSerializer(serializers.ModelSerializer):

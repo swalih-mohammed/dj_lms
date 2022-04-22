@@ -1,37 +1,12 @@
 from django.db import models
 from users.models import User
-from courses.models import Course, Section, Unit
-# from units.models import Unit
+from courses.models import Course, Unit
 from lessons.models import Lesson
-from assets.models import Photo, Audio, Video
+from assets.models import Photo, Audio
 from PIL import Image
 from io import BytesIO
 from django.core.files.storage import default_storage as storage
 
-# from nltk.tokenize import TreebankWordTokenizer
-
-# from sections.models import Section
-
-
-QUESTION_TYPE_CHOICES = (
-    ("CHOICE", "Choice"),
-    ("DRAG", "Drag"),
-    ("MATCH", "Match"),
-    ("FILL_IN_BLANK", "Fill_In_Blank"),
-    ("SPEAKING", "Speaking"),
-    ("WRITING", "Writing"),
-    ("READING_COMPREHENSION", "READING_COMPREHENSION"),
-    ("LISTENING_COMPREHENSION", "LISTENING_COMPREHENSION"),
-)
-
-CORRECT_OPTION_CHOICES = (
-    ("1", "OPTION_1"),
-    ("2", "OPTION_2"),
-    ("3", "OPTION_3"),
-    ("4", "OPTION_4"),
-    ("ANY", "ANY"),
-
-)
 
 QUIZZ_CATEGORY_CHOICES = (
     ("LISTENING", "LISTENING"),
@@ -42,7 +17,7 @@ QUIZZ_CATEGORY_CHOICES = (
     ("VOCABULARY", "VOCABULARY"),
     ("DIALOGUE", "DIALOGUE"),
     ("TRANSLATE", "TRANSLATE"),
-    ("EMAIL_WRITING", "EMAIL_WRITING"),
+    ("DRAFT EMAIL", "DRAFT EMAIL"),
     ("UNIT_TEST", "UNIT_TEST"),
     ("GENERAL_ENGLISH", "GENERAL_ENGLISH"),
     ("GENERAL_ARABIC", "GENERAL_ARABIC"),
@@ -63,16 +38,22 @@ QUESTION_CATEGORY_CHOICES = (
     ("FILL_IN_BLANK_WITH_PHOTO_CON", "FILL_IN_BLANK_WITH_PHOTO_CON"),
     ("READING_COMPREHENSION", "READING_COMPREHENSION"),
     ("LISTENING_COMPREHENSION", "LISTENING_COMPREHENSION"),
-    ("EMAIL_WRITING", "EMAIL_WRITING"),
+    ("EMAIL_FIll_IN_BLANK", "EMAIL_FIll_IN_BLANK"),
+    ("EMAIL_TRANSLATE_WORD", "EMAIL_TRANSLATE_WORD"),
+    ("EMAIL_TRANSLATE_SENT", "EMAIL_TRANSLATE_SENT"),
+    ("PASSAGE_FILL_IN_BLANK", "PASSAGE_FILL_IN_BLANK"),
+    ("PASSAGE_TRANSLATE_WORD", "PASSAGE_TRANSLATE_WORD"),
+    ("PASSAGE_TRANSLATE_SENT", "PASSAGE_TRANSLATE_SENT"),
 
 )
 
-QUESTION_ASSET_TYPE_CHOICES = (
-    ("PHOTO", "Photo"),
-    ("TEXT", "Text"),
-    ("AUDIO", "Audio"),
-    ("VIDEO", "Video"),
-    ("OTHER", "Other"),
+CORRECT_OPTION_CHOICES = (
+    ("1", "OPTION_1"),
+    ("2", "OPTION_2"),
+    ("3", "OPTION_3"),
+    ("4", "OPTION_4"),
+    ("ANY", "ANY"),
+
 )
 
 POS_CHOICES = (
@@ -163,69 +144,6 @@ class Quiz(models.Model):
                 img.close()
 
 
-class TextChoices(models.Model):
-    title = models.CharField(max_length=250, blank=True, null=True)
-    is_correct_choice = models.BooleanField(default=False)
-
-    def __str__(self):
-        if self.is_correct_choice:
-            correct = "Y_"
-        else:
-            correct = "N_"
-        return correct+self.title
-
-
-class PhotoChoices(models.Model):
-    title = models.CharField(max_length=250, blank=True, null=True)
-    photo = models.ForeignKey(
-        Photo, on_delete=models.DO_NOTHING,  blank=True, null=True)
-    is_correct_choice = models.BooleanField(default=False)
-
-    def __str__(self):
-        if self.is_correct_choice:
-            correct = "Y_"
-        else:
-            correct = "N_"
-        return correct+self.title
-
-
-class AudioChoices(models.Model):
-    title = models.CharField(max_length=250, blank=True, null=True)
-    audio = models.ForeignKey(
-        Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
-    is_correct_choice = models.BooleanField(default=False)
-
-    def __str__(self):
-        if self.is_correct_choice:
-            correct = "Y_"
-        else:
-            correct = "N_"
-        return correct+self.title
-
-
-class QuestionType(models.Model):
-    type = models.CharField(
-        max_length=250, choices=QUESTION_TYPE_CHOICES, default="Choice")
-    assetType = models.CharField(
-        max_length=250, choices=QUESTION_ASSET_TYPE_CHOICES, default="Other")
-    title = models.CharField(max_length=250, blank=True, null=True)
-    has_audio = models.BooleanField(default=False)
-    pos = models.CharField(
-        max_length=250, choices=POS_CHOICES, default="NotPos")
-
-    def __str__(self):
-        Type = self.type
-        Asset = self.assetType
-        if self.has_audio:
-            Audio = "HasAudio"
-        else:
-            Audio = "NoAudio"
-        return Type+"_"+Asset + "_"+Audio+"_"+self.title
-
-    class Meta:
-        ordering = ['type', 'assetType', 'has_audio', 'pos']
-
-
 class Question(models.Model):
     order = models.SmallIntegerField()
     quiz = models.ForeignKey(
@@ -257,7 +175,7 @@ class Question(models.Model):
         Photo,  related_name='photo_4', on_delete=models.DO_NOTHING,  blank=True, null=True)
 
     def __str__(self):
-        quiz = self.quiz.title
+        quiz = self.quiz.category
         order = self.order
         name = quiz + "_" + str(order)
         return name

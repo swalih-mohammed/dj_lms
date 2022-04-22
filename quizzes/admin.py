@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib import admin
-from django.forms import TextInput, Textarea
-from .models import Quiz, QuestionType, Question, TextChoices, PhotoChoices, AudioChoices, QuizCompleted
+# from django.forms import TextInput, Textarea
+from .models import Quiz, Question, QuizCompleted
 
 
 class inlineQuestion(admin.StackedInline):
