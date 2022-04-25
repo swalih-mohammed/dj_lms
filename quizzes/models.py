@@ -155,6 +155,7 @@ class Question(models.Model):
     title = models.CharField(max_length=250, blank=True, null=True)
     question = models.TextField(max_length=250, blank=True, null=True)
     answer = models.TextField(max_length=250, blank=True, null=True)
+    text = models.TextField(blank=True, null=True)
     photo = models.ImageField(upload_to='photos', blank=True, null=True)
     audio = models.ForeignKey(
         Audio, on_delete=models.DO_NOTHING,  blank=True, null=True)
