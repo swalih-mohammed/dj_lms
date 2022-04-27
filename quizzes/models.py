@@ -98,6 +98,7 @@ class Quiz(models.Model):
     category = models.CharField(
         max_length=250, blank=True, null=True, choices=QUIZZ_CATEGORY_CHOICES, default="OTHER")
     text = models.TextField(blank=True, null=True)
+    is_practice = models.BooleanField(default=False, blank=True, null=True)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     lesson = models.ForeignKey(
