@@ -98,7 +98,7 @@ class Quiz(models.Model):
     category = models.CharField(
         max_length=250, blank=True, null=True, choices=QUIZZ_CATEGORY_CHOICES, default="OTHER")
     text = models.TextField(blank=True, null=True)
-    is_practice = models.BooleanField(default=False, blank=True, null=True)
+    is_practice = models.BooleanField(default=True, blank=True, null=True)
     unit = models.ForeignKey(
         Unit, on_delete=models.CASCADE,  related_name='unitQuizzes', blank=True, null=True, max_length=250)
     lesson = models.ForeignKey(
@@ -108,13 +108,11 @@ class Quiz(models.Model):
 
     def __str__(self):
         try:
-            category = self.category
             unit = self.unit.title
-            title = self.title
-            name = category + "_" + unit + "_" + title
+            name = unit + "_" + self.category + "_" + str(self.order)
             return name
         except:
-            return self.title
+            return
 
     class Meta:
         ordering = ['order', 'unit', 'category', 'title']
