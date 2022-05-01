@@ -20,6 +20,7 @@ QUIZZ_CATEGORY_CHOICES = (
     ("DRAFT EMAIL", "DRAFT EMAIL"),
     ("UNIT_TEST", "UNIT_TEST"),
     ("REVISION", "REVISION"),
+    ("CONVERSATION", "CONVERSATION"),
     ("GENERAL_ENGLISH", "GENERAL_ENGLISH"),
     ("GENERAL_ARABIC", "GENERAL_ARABIC"),
     ("OTHER", "OTHER"),
@@ -108,9 +109,14 @@ class Quiz(models.Model):
 
     def __str__(self):
         try:
-            unit = self.unit.title
-            name = unit + "_" + self.category + "_" + str(self.order)
-            return name
+            if self.unit:
+                unit = self.unit.title
+                name = unit + "_" + self.category + "_" + str(self.order)
+                return name
+            else:
+                unit = "No Unit"
+                name = unit + "_" + self.category + "_" + str(self.order)
+                return name
         except:
             return
 
@@ -145,7 +151,7 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
-    order = models.SmallIntegerField()
+    order = models.SmallIntegerField(default=0, blank=True, null=True)
     quiz = models.ForeignKey(
         Quiz, on_delete=models.CASCADE, related_name='quizzes', blank=True, null=True, max_length=250)
     category = models.CharField(

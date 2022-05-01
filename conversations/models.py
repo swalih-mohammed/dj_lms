@@ -8,7 +8,7 @@ from django.core.files.storage import default_storage as storage
 
 
 class Conversation(models.Model):
-    order = models.SmallIntegerField(blank=True, null=True)
+    order = models.SmallIntegerField(blank=True, null=True, default=0)
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     photo = models.ImageField(upload_to='photos', blank=True, null=True)
@@ -45,15 +45,16 @@ class Conversation(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        img = Image.open(self.photo)
-        memfile = BytesIO()
-        if img.height > 650 or img.width > 650:
-            output_size = (650, 650)
-            img.thumbnail(output_size, Image.ANTIALIAS)
-            img.save(memfile, 'PNG', quality=95)
-            storage.save(self.photo.name, memfile)
-            memfile.close()
-            img.close()
+        if self.photo:
+            img = Image.open(self.photo)
+            memfile = BytesIO()
+            if img.height > 650 or img.width > 650:
+                output_size = (650, 650)
+                img.thumbnail(output_size, Image.ANTIALIAS)
+                img.save(memfile, 'PNG', quality=95)
+                storage.save(self.photo.name, memfile)
+                memfile.close()
+                img.close()
 
 
 class ConversationCompleted(models.Model):
