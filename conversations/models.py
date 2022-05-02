@@ -38,7 +38,8 @@ class Conversation(models.Model):
     #     Audio, on_delete=models.DO_NOTHING, related_name='audio_10', blank=True, null=True)
 
     def __str__(self):
-        return self.title
+        if self.title:
+            return self.title
 
     class Meta:
         ordering = ['order', 'unit', 'title']
