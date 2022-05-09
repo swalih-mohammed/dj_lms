@@ -62,7 +62,7 @@ class Voice(models.Model):
 class Audio(models.Model):
     voice = models.ForeignKey(
         Voice, on_delete=models.CASCADE,  blank=True, null=True)
-    text = models.TextField(max_length=250, blank=True, null=True)
+    text = models.TextField(max_length=1000, blank=True, null=True)
     # title = models.CharField(max_length=250, blank=True, null=True)
     type = models.CharField(
         max_length=250, choices=TYPE_CHOICES, default="CLOUD", blank=True, null=True)
