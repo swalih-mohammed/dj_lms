@@ -108,7 +108,7 @@ class Section(models.Model):
 
 
 class Unit(models.Model):
-    order = models.SmallIntegerField(blank=True, null=True)
+    order = models.FloatField(default=0, blank=True, null=True)
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     vocab_count = models.IntegerField(blank=True, null=True)

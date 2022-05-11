@@ -93,7 +93,7 @@ POS_CHOICES = (
 
 
 class Quiz(models.Model):
-    order = models.SmallIntegerField(blank=True, null=True)
+    order = models.SmallIntegerField(default=0, blank=True, null=True)
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     photo = models.FileField(
@@ -155,7 +155,7 @@ class Quiz(models.Model):
 
 
 class Question(models.Model):
-    order = models.SmallIntegerField(default=0, blank=True, null=True)
+    order = models.SmallIntegerField(default=1, blank=True, null=True)
     quiz = models.ForeignKey(
         Quiz, on_delete=models.CASCADE, related_name='quizzes', blank=True, null=True, max_length=250)
     category = models.CharField(
