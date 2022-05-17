@@ -1,8 +1,10 @@
 from django.db import models
 from users.models import User
-
+from django.utils import timezone
 from PIL import Image
 from io import BytesIO
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.core.files.storage import default_storage as storage
 
 
@@ -75,14 +77,27 @@ class EnrolledCourse(models.Model):
         User, blank=True, null=True, on_delete=models.CASCADE)
     course = models.ForeignKey(
         Course, related_name='enrolledCourses', on_delete=models.SET_NULL, blank=True, null=True)
+    current_unit = models.IntegerField(default=1, blank=True, null=True)
     is_enrolled = models.BooleanField(default=True)
+    is_premium = models.BooleanField(default=False)
+    created = models.DateTimeField(editable=False, null=True, blank=True)
+    updated = models.DateTimeField(null=True, blank=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.student.username
+        return self.student.username + "_" + self.course.title
 
     class Meta:
         verbose_name_plural = 'Enrollled Courses'
         ordering = ['student', 'course']
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.created = timezone.now()
+        self.updated = timezone.now()
+        return super(EnrolledCourse, self).save(*args, **kwargs)
 
 
 class Section(models.Model):
@@ -108,7 +123,8 @@ class Section(models.Model):
 
 
 class Unit(models.Model):
-    order = models.FloatField(default=0, blank=True, null=True)
+    number = models.IntegerField(default=1, blank=True, null=True)
+    order = models.FloatField(default=1, blank=True, null=True)
     title = models.CharField(max_length=250, blank=True, null=True)
     subtitle = models.CharField(max_length=250, blank=True, null=True)
     vocab_count = models.IntegerField(blank=True, null=True)
@@ -144,6 +160,25 @@ class Unit(models.Model):
                 img.close()
 
 
+class LiveClass(models.Model):
+    title = models.CharField(max_length=250, blank=True, null=True)
+    subtitle = models.CharField(max_length=250, blank=True, null=True)
+    photo = models.ImageField(
+        upload_to='photos', blank=True, null=True)
+    unit = models.ForeignKey(
+        Unit, related_name="units", blank=True, null=True, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.CASCADE)
+    class_date = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.unit) + self.title
+
+    class Meta:
+        verbose_name_plural = 'LiveClasses'
+        ordering = ['class_date']
+
+
 class UnitCompleted(models.Model):
     student = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.CASCADE)
@@ -157,3 +192,26 @@ class UnitCompleted(models.Model):
     class Meta:
         verbose_name_plural = 'Completedunits'
         ordering = ['student', 'unit']
+
+    # def save(self, *args, **kwargs):
+    #     if self.is_completed:
+    #         ErnolledCourse = EnrolledCourse.objects.filter(
+    #             student=self.student, course=self.unit.course)
+    #         ErnolledCourse[0].current_unit = 2
+    #         ErnolledCourse[0].save()
+    #         print("saved", ErnolledCourse[0])
+    #     return super(UnitCompleted, self).save(*args, **kwargs)
+
+
+# @receiver(post_save, sender=UnitCompleted)
+# def update_current_unit(sender, instance, **kwargs):
+#     ErnolledCourse = EnrolledCourse.objects.filter(
+#         student=instance.student, course=instance.unit.course)
+    # print("post save")
+    # if instance.is_completed:
+    #     ErnolledCourse = EnrolledCourse.objects.filter(
+    #         student=instance.student, course=instance.unit.course)
+    #     ErnolledCourse[0].is_premium = True
+    #     print(ErnolledCourse[0].current_unit)
+    #     ErnolledCourse[0].save()
+    #     print("saved", ErnolledCourse[0])

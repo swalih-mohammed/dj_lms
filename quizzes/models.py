@@ -159,7 +159,7 @@ class Question(models.Model):
     quiz = models.ForeignKey(
         Quiz, on_delete=models.CASCADE, related_name='quizzes', blank=True, null=True, max_length=250)
     category = models.CharField(
-        max_length=250, choices=QUESTION_CATEGORY_CHOICES, default="FILL_IN_BLANK_WITH_PHOTO", blank=True, null=True)
+        max_length=250, choices=QUESTION_CATEGORY_CHOICES, default="FILL_IN_BLANK_WITH_PHOTO_CON", blank=True, null=True)
     posType = models.CharField(
         max_length=250, choices=POS_CHOICES, blank=True, null=True, default="NotPos")
     title = models.CharField(max_length=250, blank=True, null=True)

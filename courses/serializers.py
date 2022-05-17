@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.models import User
-from .models import Course, EnrolledCourse, Section, Unit, UnitCompleted
+from .models import Course, EnrolledCourse, Unit, UnitCompleted, LiveClass
 from lessons.models import Lesson, LessonCompleted
 from quizzes.models import Quiz, QuizCompleted
 from conversations.models import Conversation, ConversationCompleted
@@ -15,34 +15,46 @@ class StringSerializer(serializers.StringRelatedField):
         return value
 
 
-class UnitSerializer(serializers.ModelSerializer):
+class LiveClassSerializer(serializers.ModelSerializer):
+    teacher = serializers.CharField(
+        source="teacher.username", read_only=True)
+    class_date = serializers.DateTimeField(format="Date %d-%m-%Y Time %H:%M")
+
     class Meta:
-        model = Unit
+        model = LiveClass
         fields = '__all__'
 
 
-class SectionSerializer(serializers.ModelSerializer):
+# class UnitSerializer(serializers.ModelSerializer):
+#     liveClasses = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Section
-        fields = '__all__'
+#     class Meta:
+#         model = Unit
+#         fields = '__all__'
 
 
-class SectionDetailSerializer(serializers.ModelSerializer):
-    units = serializers.SerializerMethodField()
-    lessons = serializers.SerializerMethodField()
+# class SectionSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = Section
-        fields = '__all__'
+#     class Meta:
+#         model = Section
+#         fields = '__all__'
 
-    def get_units(self, obj):
-        units = UnitSerializer(obj.Units.all(), many=True).data
-        return units
 
-    def get_lessons(self, obj):
-        lessons = LessonSerializer(obj.Sections.all(), many=True).data
-        return lessons
+# class SectionDetailSerializer(serializers.ModelSerializer):
+#     units = serializers.SerializerMethodField()
+#     lessons = serializers.SerializerMethodField()
+
+#     class Meta:
+#         model = Section
+#         fields = '__all__'
+
+#     def get_units(self, obj):
+#         units = UnitSerializer(obj.Units.all(), many=True).data
+#         return units
+
+#     def get_lessons(self, obj):
+#         lessons = LessonSerializer(obj.Sections.all(), many=True).data
+#         return lessons
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -153,10 +165,15 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 
 class UnitSerializer(serializers.ModelSerializer):
     progress = serializers.SerializerMethodField()
+    liveClasses = serializers.SerializerMethodField()
 
     class Meta:
         model = Unit
         fields = '__all__'
+
+    def get_liveClasses(self, obj):
+        liveClasses = LiveClassSerializer(obj.units.all(), many=True).data
+        return liveClasses
 
     def get_progress(self, obj):
         try:

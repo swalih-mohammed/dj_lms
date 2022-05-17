@@ -10,8 +10,8 @@ from rest_framework.status import (
 )
 
 from users.models import User
-from .models import Course, EnrolledCourse, Section, Unit
-from .serializers import CourseSerializer, CourseDetailSerializer, EnrolledCourseSerializer, SectionSerializer, SectionDetailSerializer, UnitSerializer, UnitDetailSerializer
+from .models import Course, EnrolledCourse, Unit
+from .serializers import CourseSerializer, CourseDetailSerializer, EnrolledCourseSerializer, UnitSerializer, UnitDetailSerializer
 
 
 class CourseListView(generics.ListAPIView):
@@ -61,19 +61,19 @@ class CourseDetailView(RetrieveAPIView):
     queryset = Course.objects.all()
 
 
-class SectionListView(generics.ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = SectionSerializer
+# class SectionListView(generics.ListAPIView):
+#     permission_classes = (AllowAny,)
+#     serializer_class = SectionSerializer
 
-    def get_queryset(self):
-        id = self.kwargs['pk']
-        return Lesson.objects.filter(section=id)
+#     def get_queryset(self):
+#         id = self.kwargs['pk']
+#         return Lesson.objects.filter(section=id)
 
 
-class SectionDetailView(RetrieveAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = SectionDetailSerializer
-    queryset = Section.objects.all()
+# class SectionDetailView(RetrieveAPIView):
+#     permission_classes = (AllowAny,)
+#     serializer_class = SectionDetailSerializer
+#     queryset = Section.objects.all()
 
 
 class UnitListView(generics.ListAPIView):
