@@ -49,14 +49,13 @@ class Course(models.Model):
         max_length=250, choices=LANGUAGE_CHOICES, default="ENGLISH")
     is_free = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
-# testing
 
     def __str__(self):
         return self.title
 
     class Meta:
         verbose_name_plural = 'courses'
-        ordering = ['order']
+        ordering = ['-order']
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

@@ -76,7 +76,6 @@ class CurrentCourseDetailView(generics.ListAPIView):
                 total_completed_units = UnitCompleted.objects.filter(
                     student=user.id, is_completed=True, unit__course=course.id)
                 if len(total_units_in_course) == len(total_completed_units):
-                    print("all units completed")
                     level = level + 1
                 else:
                     break

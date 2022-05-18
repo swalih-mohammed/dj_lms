@@ -1,3 +1,4 @@
+from unicodedata import category
 from rest_framework import serializers
 from users.models import User
 from .models import Course, EnrolledCourse, Unit, UnitCompleted, LiveClass
@@ -25,44 +26,43 @@ class LiveClassSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# class UnitSerializer(serializers.ModelSerializer):
-#     liveClasses = serializers.SerializerMethodField()
-
-#     class Meta:
-#         model = Unit
-#         fields = '__all__'
-
-
-# class SectionSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = Section
-#         fields = '__all__'
-
-
-# class SectionDetailSerializer(serializers.ModelSerializer):
-#     units = serializers.SerializerMethodField()
-#     lessons = serializers.SerializerMethodField()
-
-#     class Meta:
-#         model = Section
-#         fields = '__all__'
-
-#     def get_units(self, obj):
-#         units = UnitSerializer(obj.Units.all(), many=True).data
-#         return units
-
-#     def get_lessons(self, obj):
-#         lessons = LessonSerializer(obj.Sections.all(), many=True).data
-#         return lessons
-
-
 class CourseSerializer(serializers.ModelSerializer):
+    completed_units = serializers.SerializerMethodField()
+    total_units = serializers.SerializerMethodField()
+    current_level = serializers.SerializerMethodField()
+
     class Meta:
         model = Course
-        # fields = '__all__'
-        fields = ['id', 'title', 'subtitle',
-                  'photo', 'description', 'category']
+        fields = '__all__'
+
+    def get_completed_units(self, obj):
+        request = self.context['request']
+        username = request.parser_context['kwargs']['username']
+        student = User.objects.get(username=username)
+        completed_units = UnitCompleted.objects.filter(
+            student=student, is_completed=True, unit__course=obj.id).distinct()
+        return len(completed_units)
+
+    def get_total_units(self, obj):
+        return len(obj.Units.all())
+
+    def get_current_level(self, obj):
+        request = self.context['request']
+        username = request.parser_context['kwargs']['username']
+        student = User.objects.get(username=username)
+        category = request.parser_context['kwargs']['category']
+        courses = Course.objects.filter(
+            category=category).order_by('order')
+        level = 1
+        for course in courses:
+            total_units_in_course = course.Units.all()
+            total_completed_units = UnitCompleted.objects.filter(
+                student=student, is_completed=True, unit__course=obj.id)
+            if len(total_units_in_course) == len(total_completed_units):
+                level = level + 1
+            else:
+                break
+        return level
 
 
 class EnrolledCourseSerializer(serializers.ModelSerializer):
