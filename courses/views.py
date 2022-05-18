@@ -10,7 +10,7 @@ from rest_framework.status import (
 )
 
 from users.models import User
-from .models import Course, EnrolledCourse, Unit
+from .models import Course, EnrolledCourse, Unit, UnitCompleted
 from .serializers import CourseSerializer, CourseDetailSerializer, EnrolledCourseSerializer, UnitSerializer, UnitDetailSerializer
 
 
@@ -39,7 +39,6 @@ class EnrolledCourseListView(generics.ListAPIView):
 
 
 class CourseEnrollView(CreateAPIView):
-    # print("course enrolll view")
     permission_classes = (AllowAny,)
     serializer_class = EnrolledCourseSerializer
     queryset = EnrolledCourse.objects.all()
@@ -49,10 +48,6 @@ class CourseEnrollView(CreateAPIView):
         serializer.is_valid()
         serializer.create(request)
         return Response(status=HTTP_201_CREATED)
-        # courseEnrolled = serializer.create(request)
-        # if courseEnrolled:
-        #     return Response(status=HTTP_201_CREATED)
-        # return Response(status=HTTP_400_BAD_REQUEST)
 
 
 class CourseDetailView(RetrieveAPIView):
@@ -61,28 +56,44 @@ class CourseDetailView(RetrieveAPIView):
     queryset = Course.objects.all()
 
 
-# class SectionListView(generics.ListAPIView):
+class CurrentCourseDetailView(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = CourseDetailSerializer
+
+    def get_queryset(self):
+        # print("course enrolled list")
+        username = self.kwargs['username']
+        category = self.kwargs['category']
+        order = self.kwargs['order']
+        # print("order", order, str(order) == str(0))
+        user = User.objects.get(username=username)
+        if str(order) == str(0):
+            courses = Course.objects.filter(
+                category=category).order_by('order')
+            level = 1
+            for course in courses:
+                total_units_in_course = course.Units.all()
+                total_completed_units = UnitCompleted.objects.filter(
+                    student=user.id, is_completed=True, unit__course=course.id)
+                if len(total_units_in_course) == len(total_completed_units):
+                    print("all units completed")
+                    level = level + 1
+                else:
+                    break
+            qs = Course.objects.filter(
+                category=category, order=level)
+        else:
+            qs = Course.objects.filter(
+                category=category, order=order)
+        return qs
+
+# class UnitListView(generics.ListAPIView):
 #     permission_classes = (AllowAny,)
-#     serializer_class = SectionSerializer
+#     serializer_class = UnitSerializer
 
 #     def get_queryset(self):
 #         id = self.kwargs['pk']
 #         return Lesson.objects.filter(section=id)
-
-
-# class SectionDetailView(RetrieveAPIView):
-#     permission_classes = (AllowAny,)
-#     serializer_class = SectionDetailSerializer
-#     queryset = Section.objects.all()
-
-
-class UnitListView(generics.ListAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = UnitSerializer
-
-    def get_queryset(self):
-        id = self.kwargs['pk']
-        return Lesson.objects.filter(section=id)
 
 
 class UnitDetailView(generics.ListAPIView):
