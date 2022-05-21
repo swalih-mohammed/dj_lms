@@ -46,14 +46,14 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
         fields = ('__all__')
 
     def create(self, request):
-        # data = request.data
-        # quiz = Quiz.objects.get(id=data['quizId'])
-        # student = User.objects.get(username=data['username'])
-        # score = data['score']
+        data = request.data
+        quiz = Quiz.objects.get(id=data['quizId'])
+        student = User.objects.get(username=data['username'])
+        score = data['score']
         # print("score", score)
-        quiz = Quiz.objects.get(order=1)
-        student = User.objects.get(username="sibiyan")
-        score = 3
+        # quiz = Quiz.objects.get(order=1)
+        # student = User.objects.get(username="sibiyan")
+        # score = 3
 
         if quiz.unit != None:
             unit = Unit.objects.get(pk=quiz.unit.id)
