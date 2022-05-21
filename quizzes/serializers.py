@@ -81,12 +81,12 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
                         is_completed=True
                     )
                     unitCompleted.save()
-                    ErnolledCourse = EnrolledCourse.objects.filter(
-                        student=student, course=course)
-                    ErnolledCourse[0].is_premium = True
-                    ErnolledCourse[0].save()
-                    print("len", ErnolledCourse[0].course)
-                    print("saved enrolled course")
+                    # ErnolledCourse = EnrolledCourse.objects.filter(
+                    #     student=student, course=course)
+                    # ErnolledCourse[0].is_premium = True
+                    # ErnolledCourse[0].save()
+                    # print("len", ErnolledCourse[0].course)
+                    # print("saved enrolled course")
         # print("proceeding to create new entry")
         quizCompleted_qs = QuizCompleted.objects.filter(
             student=student, quiz=quiz)
