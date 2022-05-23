@@ -74,7 +74,8 @@ ROOT_URLCONF = 'django_lms_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -161,6 +162,7 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'build/static')]
 # STATIC_ROOT = "/home/myusername/myproject/stati
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 

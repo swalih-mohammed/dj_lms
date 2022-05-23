@@ -8,25 +8,6 @@ from quizzes.models import Quiz, QuizCompleted
 from lessons.models import Lesson, LessonCompleted
 
 
-# class StringSerializer(serializers.StringRelatedField):
-#     def to_internal_value(self, value):
-#         return value
-
-
-# class TextChoiceSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = TextChoices
-#         fields = ('__all__')
-
-
-# class PhotoChoiceSerializer(serializers.ModelSerializer):
-#     photo = PhotoSerializer(read_only=True)
-
-#     class Meta:
-#         model = PhotoChoices
-#         fields = ('__all__')
-
-
 class QuestionSerializer(serializers.ModelSerializer):
     audio = AudioSerializer(read_only=True)
     photo_option_1 = PhotoSerializer(read_only=True)
@@ -50,14 +31,10 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
         quiz = Quiz.objects.get(id=data['quizId'])
         student = User.objects.get(username=data['username'])
         score = data['score']
-        # print("score", score)
-        # quiz = Quiz.objects.get(order=1)
-        # student = User.objects.get(username="sibiyan")
-        # score = 3
 
         if quiz.unit != None:
             unit = Unit.objects.get(pk=quiz.unit.id)
-            course = Course.objects.get(pk=unit.course.id)
+            # course = Course.objects.get(pk=unit.course.id)
             unitCompleted_qs = UnitCompleted.objects.filter(
                 student=student, is_completed=True, unit=unit)
             if not len(unitCompleted_qs) > 0:
@@ -81,13 +58,7 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
                         is_completed=True
                     )
                     unitCompleted.save()
-                    # ErnolledCourse = EnrolledCourse.objects.filter(
-                    #     student=student, course=course)
-                    # ErnolledCourse[0].is_premium = True
-                    # ErnolledCourse[0].save()
-                    # print("len", ErnolledCourse[0].course)
-                    # print("saved enrolled course")
-        # print("proceeding to create new entry")
+
         quizCompleted_qs = QuizCompleted.objects.filter(
             student=student, quiz=quiz)
         if not len(quizCompleted_qs) > 0:
