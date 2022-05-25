@@ -61,11 +61,9 @@ class CurrentCourseDetailView(generics.ListAPIView):
     serializer_class = CourseDetailSerializer
 
     def get_queryset(self):
-        # print("course enrolled list")
         username = self.kwargs['username']
         category = self.kwargs['category']
         order = self.kwargs['order']
-        # print("order", order, str(order) == str(0))
         user = User.objects.get(username=username)
         if str(order) == str(0):
             courses = Course.objects.filter(
@@ -85,14 +83,6 @@ class CurrentCourseDetailView(generics.ListAPIView):
             qs = Course.objects.filter(
                 category=category, order=order)
         return qs
-
-# class UnitListView(generics.ListAPIView):
-#     permission_classes = (AllowAny,)
-#     serializer_class = UnitSerializer
-
-#     def get_queryset(self):
-#         id = self.kwargs['pk']
-#         return Lesson.objects.filter(section=id)
 
 
 class UnitDetailView(generics.ListAPIView):

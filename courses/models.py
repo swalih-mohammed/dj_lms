@@ -47,8 +47,12 @@ class Course(models.Model):
         max_length=250, choices=CATEGORY_CHOICES, default="GENERAL_ENGLISH")
     language = models.CharField(
         max_length=250, choices=LANGUAGE_CHOICES, default="ENGLISH")
-    is_free = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    course_fee = models.CharField(
+        max_length=10, blank=True, null=True, default="1000")
+    discount = models.CharField(
+        max_length=10, blank=True, null=True, default="20%")
+    is_free = models.BooleanField(blank=True, null=True, default=False)
+    is_active = models.BooleanField(blank=True, null=True, default=False)
 
     def __str__(self):
         return self.title

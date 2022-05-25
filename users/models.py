@@ -5,10 +5,9 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     is_student = models.BooleanField(default=True)
     is_teacher = models.BooleanField(default=False)
-    # mobile_number = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
-        return self.username
+        return self.email
 
 
 class Student(models.Model):
