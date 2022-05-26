@@ -2,6 +2,13 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from allauth.account.views import ConfirmEmailView
+
+
+# from rest_auth.views import (
+#     LoginView, LogoutView, PasswordChangeView, PasswordResetConfirmView,
+#     PasswordResetView, UserDetailsView,
+# )
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),

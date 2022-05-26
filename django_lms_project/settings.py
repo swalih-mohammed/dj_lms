@@ -248,32 +248,12 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/path/to/file.json"
 
 GCS_CREDENTIALS_FILE_PATH = os.path.join(
     BASE_DIR, 'gcs_credentials_file.json')
-# print("test")
-
-# test = r'/filename.json
-
-# with open(GCS_CREDENTIALS_FILE_PATH, 'r') as source:
-#     # info = json.load(source)
-#     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = json.load(source)
 
 
-# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = info
-
-
-# print(GCS_CREDENTIALS_FILE_PATH)
-# f.write(os.getenv('GCS_CREDENTIALS'))
-
-# print("path", GCS_CREDENTIALS_FILE_PATH)
-# print(os.environ.get('GCS_CREDENTIALS'))
-# {
-#     "type":  os.environ.get('type'),
-#     "project_id": os.environ.get('project_id'),
-#     "private_key_id": os.environ.get('private_key_id'),
-#     "private_key": os.environ.get('private_key'),
-#     "client_email": os.environ.get('client_email'),
-#     "client_id": os.environ.get('client_id'),
-#     "auth_uri": os.environ.get('auth_uri'),
-#     "token_uri": os.environ.get('token_uri'),
-#     "auth_provider_x509_cert_url": os.environ.get('auth_provider_x509_cert_url'),
-#     "client_x509_cert_url": os.environ.get('client_x509_cert_url')
-# }
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS'),
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')

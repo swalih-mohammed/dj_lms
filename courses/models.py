@@ -50,7 +50,7 @@ class Course(models.Model):
     course_fee = models.CharField(
         max_length=10, blank=True, null=True, default="1000")
     discount = models.CharField(
-        max_length=10, blank=True, null=True, default="20%")
+        max_length=10, blank=True, null=True, default="0.2")
     is_free = models.BooleanField(blank=True, null=True, default=False)
     is_active = models.BooleanField(blank=True, null=True, default=False)
 
