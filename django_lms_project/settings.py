@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
-    'rest_auth',
-    'rest_auth.registration',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     'rest_framework',
     'rest_framework.authtoken',
     'users',
@@ -171,10 +171,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 CSRF_COOKIE_NAME = "csrftoken"
-
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
@@ -201,7 +198,9 @@ AUTHENTICATION_BACKENDS = (
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
-    'TOKEN_SERIALIZER': 'users.serializers.TokenSerializer'
+    'TOKEN_SERIALIZER': 'users.serializers.TokenSerializer',
+    # 'PASSWORD_RESET_SERIALIZER':
+    # 'django_lms_project.serializers.PasswordResetSerializer',
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
@@ -229,22 +228,8 @@ AWS_S3_FILE_OVERWRITE = True
 AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = False
 
-# print(AWS_STORAGE_BUCKET_NAME)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/path/to/file.json"
-
-
-# GOOGLE_APPLICATION_CREDENTIALS = os.environ.get(
-#     'GOOGLE_APPLICATION_CREDENTIALS')
-
-# env_path = os.path.join(BASE_DIR, '.env')
-# load_dotenv(dotenv_path=env_path)
-
-
-# os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'/filename.json'
-
-
-# This could be any path that the application has read/write permission to
 
 GCS_CREDENTIALS_FILE_PATH = os.path.join(
     BASE_DIR, 'gcs_credentials_file.json')

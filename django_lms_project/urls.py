@@ -3,17 +3,14 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from allauth.account.views import ConfirmEmailView
-
-
-# from rest_auth.views import (
-#     LoginView, LogoutView, PasswordChangeView, PasswordResetConfirmView,
-#     PasswordResetView, UserDetailsView,
-# )
+from dj_rest_auth.views import PasswordResetConfirmView, PasswordResetView
 
 urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
-    path('rest-auth/', include('rest_auth.urls')),
-    path('rest-auth/registration/', include('rest_auth.registration.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('dj-rest-auth/password/reset/confirm/<str:uidb64>/<str:token>', PasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('courses/', include('courses.urls')),
