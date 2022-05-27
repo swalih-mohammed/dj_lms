@@ -50,10 +50,10 @@ class CourseEnrollView(CreateAPIView):
         return Response(status=HTTP_201_CREATED)
 
 
-class CourseDetailView(RetrieveAPIView):
-    permission_classes = (AllowAny,)
-    serializer_class = CourseDetailSerializer
-    queryset = Course.objects.all()
+# class CourseDetailView(RetrieveAPIView):
+#     permission_classes = (AllowAny,)
+#     serializer_class = CourseDetailSerializer
+#     queryset = Course.objects.all()
 
 
 class CurrentCourseDetailView(generics.ListAPIView):

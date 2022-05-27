@@ -1,15 +1,20 @@
 from django.urls import path
-
-from .views import CourseListView, CourseEnrollView, CurrentCourseDetailView,  CourseDetailView, UnitDetailView, EnrolledCourseListView
+from .views import CourseListView, CourseEnrollView, CurrentCourseDetailView, UnitDetailView, EnrolledCourseListView
 
 urlpatterns = [
-    path('<username>/<category>',
-         CourseListView.as_view(), name='Course-list'),
-    path('<username>/category/<category>/<order>/', CurrentCourseDetailView.as_view(),
-         name='CourseEnrolled-list'),
-    path('enroll/', CourseEnrollView.as_view(), name='Course-enroll'),
-    path('<pk>/<username>', CourseDetailView.as_view(), name='Course-detail'),
-    path('units/<unitId>/<username>',
-         UnitDetailView.as_view(), name='Unit-detail'),
 
+    # different levels of a course grouped under a category
+    path('course-by-category-list/<username>/<category>/',
+         CourseListView.as_view(), name='course-by-category-list'),
+
+    # details of a course which is current
+    path('course-current-detail/<username>/<category>/<order>/', CurrentCourseDetailView.as_view(),
+         name='current-course-detail'),
+
+    # enolled courses list for account page
+    path('course-enrolled-list/<username>/<category>/',
+         EnrolledCourseListView.as_view(), name='enrolled-courses-list'),
+
+    # enrolling to a course
+    path('enroll/', CourseEnrollView.as_view(), name='course-enroll'),
 ]

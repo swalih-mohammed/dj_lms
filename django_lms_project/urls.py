@@ -9,8 +9,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
-    path('dj-rest-auth/password/reset/confirm/<str:uidb64>/<str:token>', PasswordResetConfirmView.as_view(),
-         name='password_reset_confirm'),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('courses/', include('courses.urls')),
@@ -18,6 +16,8 @@ urlpatterns = [
     path('quizzes/', include('quizzes.urls')),
     path('conversations/', include('conversations.urls')),
     re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
+    path('dj-rest-auth/password/reset/confirm/<str:uidb64>/<str:token>', PasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
 
 
 ]
