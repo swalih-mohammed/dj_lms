@@ -1,15 +1,11 @@
 from django.contrib import admin
-from .models import Course, EnrolledCourse, Unit, UnitCompleted, LiveClass
+from .models import Course, EnrolledCourse, Unit, UnitCompleted, LiveClass, CourseCategory
 from lessons.models import Lesson, LessonItem
 from quizzes.models import Quiz
 from conversations.models import Conversation
+from users.models import Teacher
 
 admin.site.site_header = 'Lakaters - Administration'
-
-
-# class inlineSection(admin.StackedInline):
-#     model = Section
-#     extra = 0
 
 
 class inlineUnit(admin.StackedInline):
@@ -21,23 +17,22 @@ class CourseAdmin(admin.ModelAdmin):
     inlines = [inlineUnit]
     list_display = [
         'title',
-        'language',
 
     ]
     list_display_links = [
         'title',
 
     ]
-    list_filter = ['language',
-                   'is_active', 'is_active']
+    list_filter = [
+        'is_active', 'is_active']
     search_fields = ['title']
 
 
-# class SectionAdmin(admin.ModelAdmin):
-#     list_display = [
-#         'title',
-#     ]
-#     list_filter = ['course']
+class CourseCategoryAdmin(admin.ModelAdmin):
+    list_display = [
+        'title',
+    ]
+    list_filter = ['title']
 
 
 class inlineLesson(admin.StackedInline):
@@ -86,15 +81,23 @@ class EnrolledCourseAdmin(admin.ModelAdmin):
 
 class LiveClassAdmin(admin.ModelAdmin):
     list_display = [
-        'unit', 'title', 'class_date', 'teacher',
+        'unit', 'title', 'class_date',
     ]
     list_display_links = ['unit', 'title']
     list_filter = ['unit', 'class_date']
     search_fields = ['unit', 'title']
 
 
+# class TeacherAdmin(admin.ModelAdmin):
+#     list_display = [
+#         'user',
+#     ]
+
+
+admin.site.register(CourseCategory, CourseCategoryAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(LiveClass, LiveClassAdmin)
+# admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(UnitCompleted, UnitCompletedAdmin)
 admin.site.register(Unit, UnitAdmin)
 admin.site.register(EnrolledCourse, EnrolledCourseAdmin)

@@ -8,9 +8,10 @@ from rest_framework.status import (
     HTTP_201_CREATED,
     HTTP_400_BAD_REQUEST
 )
+from users.models import Student
 
 from users.models import User
-from .models import Course, EnrolledCourse, Unit, UnitCompleted
+from .models import Course, CourseCategory, EnrolledCourse, Unit, UnitCompleted
 from .serializers import CourseSerializer, CourseDetailSerializer, EnrolledCourseSerializer, UnitSerializer, UnitDetailSerializer
 
 
@@ -33,8 +34,10 @@ class EnrolledCourseListView(generics.ListAPIView):
         username = self.kwargs['username']
         category = self.kwargs['category']
         user = User.objects.get(username=username)
+        student = Student.objects.get(user=user)
+        category = CourseCategory.objects.filter(order=category).first()
         courses = EnrolledCourse.objects.filter(
-            student=user, is_enrolled=True, course__category=category, course__is_active=True)
+            student=student, is_enrolled=True, course__category=category,  course__is_active=True)
         return courses
 
 

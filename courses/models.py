@@ -1,21 +1,11 @@
 from django.db import models
-from users.models import User
+from users.models import Student, Teacher, User
 from django.utils import timezone
 from PIL import Image
 from io import BytesIO
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.files.storage import default_storage as storage
-
-
-class Language(models.Model):
-    title = models.CharField(max_length=250, blank=True, null=True)
-
-    def __str__(self):
-        return self.title
-
-    class Meta:
-        verbose_name_plural = 'languages'
 
 
 CATEGORY_CHOICES = (
@@ -35,6 +25,17 @@ LANGUAGE_CHOICES = (
 )
 
 
+class CourseCategory(models.Model):
+    title = models.CharField(
+        max_length=250, choices=CATEGORY_CHOICES, blank=True, null=True)
+    language = models.CharField(
+        max_length=250, choices=LANGUAGE_CHOICES, blank=True, null=True, default="ENGLISH")
+    order = models.SmallIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Course(models.Model):
     order = models.SmallIntegerField(blank=True, null=True)
     title = models.CharField(max_length=250, blank=True, null=True)
@@ -43,10 +44,8 @@ class Course(models.Model):
     certificate = models.ImageField(
         upload_to='course_certificats', blank=True, null=True)
     description = models.CharField(max_length=250, blank=True, null=True)
-    category = models.CharField(
-        max_length=250, choices=CATEGORY_CHOICES, default="GENERAL_ENGLISH")
-    language = models.CharField(
-        max_length=250, choices=LANGUAGE_CHOICES, default="ENGLISH")
+    category = models.ForeignKey(
+        CourseCategory, related_name='courseCategories', on_delete=models.SET_NULL, blank=True, null=True)
     course_fee = models.CharField(
         max_length=10, blank=True, null=True, default="1000")
     discount = models.CharField(
@@ -77,7 +76,7 @@ class Course(models.Model):
 
 class EnrolledCourse(models.Model):
     student = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.CASCADE)
+        Student, blank=True, null=True, on_delete=models.CASCADE)
     course = models.ForeignKey(
         Course, related_name='enrolledCourses', on_delete=models.SET_NULL, blank=True, null=True)
     current_unit = models.IntegerField(default=1, blank=True, null=True)
@@ -89,7 +88,10 @@ class EnrolledCourse(models.Model):
     end_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.student.username + "_" + self.course.title
+        try:
+            return self.student.user.username + "_" + self.course.title
+        except:
+            return
 
     class Meta:
         verbose_name_plural = 'Enrollled Courses'
@@ -103,28 +105,6 @@ class EnrolledCourse(models.Model):
         return super(EnrolledCourse, self).save(*args, **kwargs)
 
 
-class Section(models.Model):
-    order = models.SmallIntegerField(blank=True, null=True)
-    title = models.CharField(max_length=250, blank=True, null=True)
-    subtitle = models.CharField(max_length=250, blank=True, null=True)
-    photo = models.ImageField(
-        upload_to='section_photos', blank=True, null=True)
-    course = models.ForeignKey(
-        Course, related_name='Sections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
-    has_units = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.title
-
-    def language(self):
-        t = self.course.title
-        return t
-
-    class Meta:
-        verbose_name_plural = 'sections'
-        ordering = ['order']
-
-
 class Unit(models.Model):
     number = models.IntegerField(default=1, blank=True, null=True)
     order = models.FloatField(default=1, blank=True, null=True)
@@ -136,8 +116,6 @@ class Unit(models.Model):
         upload_to='unit_photos', blank=True, null=True)
     course = models.ForeignKey(
         Course, related_name='Units', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
-    section = models.ForeignKey(
-        Section, related_name='UnitsSections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
 
     def __str__(self):
         order = self.order
@@ -171,7 +149,7 @@ class LiveClass(models.Model):
     unit = models.ForeignKey(
         Unit, related_name="units", blank=True, null=True, on_delete=models.CASCADE)
     teacher = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.CASCADE)
+        Teacher, blank=True, null=True, on_delete=models.CASCADE)
     class_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
@@ -195,26 +173,3 @@ class UnitCompleted(models.Model):
     class Meta:
         verbose_name_plural = 'Completedunits'
         ordering = ['student', 'unit']
-
-    # def save(self, *args, **kwargs):
-    #     if self.is_completed:
-    #         ErnolledCourse = EnrolledCourse.objects.filter(
-    #             student=self.student, course=self.unit.course)
-    #         ErnolledCourse[0].current_unit = 2
-    #         ErnolledCourse[0].save()
-    #         print("saved", ErnolledCourse[0])
-    #     return super(UnitCompleted, self).save(*args, **kwargs)
-
-
-# @receiver(post_save, sender=UnitCompleted)
-# def update_current_unit(sender, instance, **kwargs):
-#     ErnolledCourse = EnrolledCourse.objects.filter(
-#         student=instance.student, course=instance.unit.course)
-    # print("post save")
-    # if instance.is_completed:
-    #     ErnolledCourse = EnrolledCourse.objects.filter(
-    #         student=instance.student, course=instance.unit.course)
-    #     ErnolledCourse[0].is_premium = True
-    #     print(ErnolledCourse[0].current_unit)
-    #     ErnolledCourse[0].save()
-    #     print("saved", ErnolledCourse[0])

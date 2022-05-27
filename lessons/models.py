@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from users.models import User
-from courses.models import Unit, Section, UnitCompleted
+from courses.models import Unit, UnitCompleted
 from assets.models import Audio, Video, Photo
 
 LESSON_ITEM_TYPE_CHOICES = (
@@ -20,9 +20,6 @@ class Lesson(models.Model):
     photo = models.ImageField(upload_to='lesson_photos', blank=True, null=True)
     video = models.ForeignKey(
         Video, on_delete=models.DO_NOTHING,  blank=True, null=True)
-
-    # section = models.ForeignKey(
-    #     Section, related_name='Sections', blank=True, null=True, max_length=250, on_delete=models.CASCADE)
     unit = models.ForeignKey(Unit, related_name='Lessons',
                              on_delete=models.CASCADE,  blank=True, null=True, max_length=250)
     has_quiz = models.BooleanField(default=False)
@@ -72,18 +69,3 @@ class LessonCompleted(models.Model):
 
     def __str__(self):
         return self.student.username
-
-    # def update_unit_complete(self):
-    #     print("updating unit")
-    #     UnitCompleted, _ = UnitCompleted.objects.update_or_create(
-    #         unit=1,
-    #     )
-
-    # def save(self, *args, **kwargs):
-    #     self.update_unit_complete()
-    #     return super().save(*args, **kwargs)
-
-# @receiver(post_save, sender=LessonCompleted)
-# def update_unit(sender, instance, **kwargs):
-#     instance.product.stock -= instance.amount
-#     instance.product.save()
