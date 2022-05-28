@@ -5,6 +5,8 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.conf import settings
 from django.utils.translation import gettext as _
 from dj_rest_auth.registration.serializers import RegisterSerializer
+
+from courses.models import CourseCategory
 from .models import User, Student, Teacher
 
 
@@ -66,14 +68,6 @@ class TokenSerializer(serializers.ModelSerializer):
         name = serializer_data.get('username')
         return name
 
-        # return {
-        #     'is_student': is_student,
-        #     'is_teacher': is_teacher,
-        #     'username': username
-        #     # 'email': email
-
-        # }
-
 
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -115,6 +109,14 @@ class UpdateStudentDetailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = '__all__'
+
+    # def create(self, request):
+    #     data = request.data
+    #     print(data)
+        # course_category = CourseCategory.objects.get(id=data['course_id'])
+        # student = Student.objects.get(user=data['user_id'])
+        # student.current_course = course_category
+        # student.save()
 
 
 class StudentSerializer(serializers.ModelSerializer):

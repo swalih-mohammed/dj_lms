@@ -1,5 +1,5 @@
 from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, StudentDetailView
+from .views import UserViewSet, StudentDetailView, StudentCurrentCourseChangeView
 from django.urls import path
 
 
@@ -12,6 +12,10 @@ urlpatterns = [
     # default
     path('',
          UserViewSet, name="users"),
+    # get user current course and level
     path('details/<int:pk>/',
          StudentDetailView.as_view(), name="details"),
+    # get user current course and level
+    path('change-current-course/<pk>/',
+         StudentCurrentCourseChangeView.as_view(), name="change-order"),
 ]
