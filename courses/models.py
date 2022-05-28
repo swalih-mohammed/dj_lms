@@ -31,6 +31,7 @@ class CourseCategory(models.Model):
     language = models.CharField(
         max_length=250, choices=LANGUAGE_CHOICES, blank=True, null=True, default="ENGLISH")
     order = models.SmallIntegerField(blank=True, null=True)
+    is_active = models.BooleanField(blank=True, null=True, default=False)
 
     def __str__(self):
         return self.title
