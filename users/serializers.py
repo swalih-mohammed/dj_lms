@@ -105,33 +105,21 @@ class StudentDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UpdateStudentDetailsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Student
-        fields = '__all__'
-
-    # def create(self, request):
-    #     data = request.data
-    #     print(data)
-        # course_category = CourseCategory.objects.get(id=data['course_id'])
-        # student = Student.objects.get(user=data['user_id'])
-        # student.current_course = course_category
-        # student.save()
-
-
 class StudentSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(
-        source="user.username", read_only=True)
-    email = serializers.CharField(
-        source="user.email", read_only=True)
     current_course = serializers.CharField(
         source="current_course.title", read_only=True)
     current_course_language = serializers.CharField(
-        source="current_course.title", read_only=True)
+        source="current_course.language", read_only=True)
     current_course_level = serializers.CharField(
         source="level", read_only=True)
 
     class Meta:
         model = Student
-        fields = ['name', 'email', 'current_course',
+        fields = ['id', 'current_course',
                   'current_course_language', 'current_course_level', 'current_course_level']
+
+
+class UpdateStudentDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = '__all__'
