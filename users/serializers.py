@@ -46,22 +46,25 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 class TokenSerializer(serializers.ModelSerializer):
     email = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
 
     class Meta:
         model = Token
-        fields = ('key', 'user', 'email')
-
-        # fields = ('key', 'user', 'user_type')
+        fields = ('key', 'user', 'email', 'name')
 
     def get_email(self, obj):
         serializer_data = UserSerializer(
             obj.user
         ).data
-        # is_student = serializer_data.get('is_student')
-        # is_teacher = serializer_data.get('is_teacher')
-        # username = serializer_data.get('username')
         email = serializer_data.get('email')
         return email
+
+    def get_name(self, obj):
+        serializer_data = UserSerializer(
+            obj.user
+        ).data
+        name = serializer_data.get('username')
+        return name
 
         # return {
         #     'is_student': is_student,
