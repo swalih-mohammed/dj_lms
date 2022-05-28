@@ -4,7 +4,7 @@ from .views import CourseListView, CourseEnrollView, CurrentCourseDetailView, Un
 urlpatterns = [
 
     # different levels of a course grouped under a category
-    path('course-by-category-list/<username>/<category>/',
+    path('course-by-category-list/<user_id>/',
          CourseListView.as_view(), name='course-by-category-list'),
 
     # details of a course which is current

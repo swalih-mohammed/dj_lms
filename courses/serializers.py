@@ -45,10 +45,11 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = '__all__'
 
+# this is taking User, this has to be changed to student later on
     def get_completed_units(self, obj):
         request = self.context['request']
-        username = request.parser_context['kwargs']['username']
-        student = User.objects.get(username=username)
+        user_id = request.parser_context['kwargs']['user_id']
+        student = User.objects.get(pk=user_id)
         completed_units = UnitCompleted.objects.filter(
             student=student, is_completed=True, unit__course=obj.id).distinct()
         return len(completed_units)
@@ -58,27 +59,41 @@ class CourseSerializer(serializers.ModelSerializer):
 
     def get_current_level(self, obj):
         request = self.context['request']
-        username = request.parser_context['kwargs']['username']
-        student = User.objects.get(username=username)
-        category = request.parser_context['kwargs']['category']
-        courses = Course.objects.filter(
-            category=category).order_by('order')
-        level = 1
-        for course in courses:
-            total_units_in_course = course.Units.all()
-            total_completed_units = UnitCompleted.objects.filter(
-                student=student, is_completed=True, unit__course=obj.id)
-            if len(total_units_in_course) == len(total_completed_units):
-                level = level + 1
-            else:
-                break
+        user_id = request.parser_context['kwargs']['user_id']
+        level = Student.objects.get(user=user_id).level
         return level
+
+    # def get_current_level(self, obj):
+    #     request = self.context['request']
+    #     username = request.parser_context['kwargs']['id']
+    #     student = Student.objects(user=username)
+    #     return student
+
+    # def get_current_level(self, obj):
+    #     request = self.context['request']
+    #     username = request.parser_context['kwargs']['username']
+    #     student = User.objects.get(username=username)
+    #     category = student.current_course
+    #     level = student.level
+    #     # category = request.parser_context['kwargs']['category']
+    #     courses = Course.objects.filter(
+    #         category=category).order_by('order')
+    #     # level = 1
+    #     for course in courses:
+    #         total_units_in_course = course.Units.all()
+    #         total_completed_units = UnitCompleted.objects.filter(
+    #             student=student, is_completed=True, unit__course=obj.id)
+    #         if len(total_units_in_course) == len(total_completed_units):
+    #             level = level + 1
+    #         else:
+    #             break
+    #     return level
 
     def get_is_enrolled(self, obj):
         try:
             request = self.context['request']
-            username = request.parser_context['kwargs']['username']
-            user = User.objects.get(username=username)
+            user_id = request.parser_context['kwargs']['user_id']
+            user = User.objects.get(user=user_id)
             student = Student.objects.get(user=user)
             enrolledCourse_qs = EnrolledCourse.objects.filter(
                 student=student, is_enrolled=True, course=obj.id)
@@ -97,8 +112,8 @@ class CourseSerializer(serializers.ModelSerializer):
     def get_start_date(self, obj):
         try:
             request = self.context['request']
-            username = request.parser_context['kwargs']['username']
-            user = User.objects.get(username=username)
+            user_id = request.parser_context['kwargs']['user_id']
+            user = User.objects.get(pk=user_id)
             student = Student.objects.get(user=user)
             enrolledCourse_qs = EnrolledCourse.objects.filter(
                 student=student, is_enrolled=True, course=obj.id)
@@ -112,8 +127,8 @@ class CourseSerializer(serializers.ModelSerializer):
     def get_end_date(self, obj):
         try:
             request = self.context['request']
-            username = request.parser_context['kwargs']['username']
-            user = User.objects.get(username=username)
+            user_id = request.parser_context['kwargs']['user_id']
+            user = User.objects.get(id=user_id)
             student = Student.objects.get(user=user)
             enrolledCourse_qs = EnrolledCourse.objects.filter(
                 student=student, is_enrolled=True, course=obj.id)
