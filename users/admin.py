@@ -24,7 +24,9 @@ class UserAdmin(BaseUserAdmin):
             'fields': ('is_superuser', 'is_staff')
         })
     )
-    list_display = ['email', 'username', 'is_student', 'is_teacher']
+    list_display = ['id', 'email', 'username', 'is_student', 'is_teacher']
+    list_display_link = ['email', 'username', 'is_student', 'is_teacher']
+
     search_fields = ('email', 'username')
     ordering = ('email',)
 

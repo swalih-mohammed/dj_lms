@@ -3,6 +3,7 @@ import datetime
 import pytz
 from unicodedata import category
 from rest_framework import serializers
+from users.models import Student
 from users.models import User
 from .models import Course, EnrolledCourse, Unit, UnitCompleted, LiveClass
 from lessons.models import Lesson, LessonCompleted
@@ -36,6 +37,9 @@ class CourseSerializer(serializers.ModelSerializer):
     completed_units = serializers.SerializerMethodField()
     total_units = serializers.SerializerMethodField()
     current_level = serializers.SerializerMethodField()
+    is_enrolled = serializers.SerializerMethodField()
+    start_date = serializers.SerializerMethodField()
+    end_date = serializers.SerializerMethodField()
 
     class Meta:
         model = Course
@@ -69,6 +73,56 @@ class CourseSerializer(serializers.ModelSerializer):
             else:
                 break
         return level
+
+    def get_is_enrolled(self, obj):
+        try:
+            request = self.context['request']
+            username = request.parser_context['kwargs']['username']
+            user = User.objects.get(username=username)
+            student = Student.objects.get(user=user)
+            enrolledCourse_qs = EnrolledCourse.objects.filter(
+                student=student, is_enrolled=True, course=obj.id)
+            if len(enrolledCourse_qs) > 0:
+                end_date = enrolledCourse_qs.last().end_date.replace(tzinfo=utc)
+                time_now = datetime.datetime.now().replace(tzinfo=utc)
+                if end_date > time_now:
+                    return True
+                else:
+                    return False
+            else:
+                return False
+        except:
+            return False
+
+    def get_start_date(self, obj):
+        try:
+            request = self.context['request']
+            username = request.parser_context['kwargs']['username']
+            user = User.objects.get(username=username)
+            student = Student.objects.get(user=user)
+            enrolledCourse_qs = EnrolledCourse.objects.filter(
+                student=student, is_enrolled=True, course=obj.id)
+            if len(enrolledCourse_qs) > 0:
+                start_date = enrolledCourse_qs.last().start_date
+                start_date = start_date.strftime("%d-%m-%y")
+                return start_date
+        except:
+            return None
+
+    def get_end_date(self, obj):
+        try:
+            request = self.context['request']
+            username = request.parser_context['kwargs']['username']
+            user = User.objects.get(username=username)
+            student = Student.objects.get(user=user)
+            enrolledCourse_qs = EnrolledCourse.objects.filter(
+                student=student, is_enrolled=True, course=obj.id)
+            if len(enrolledCourse_qs) > 0:
+                end_date = enrolledCourse_qs.last().end_date
+                end_date = end_date.strftime("%d-%m-%y")
+                return end_date
+        except:
+            return None
 
 
 class EnrolledCourseSerializer(serializers.ModelSerializer):
@@ -111,10 +165,9 @@ class EnrolledCourseSerializer(serializers.ModelSerializer):
     def get_completed_units(self, obj):
         request = self.context['request']
         username = request.parser_context['kwargs']['username']
-        student = User.objects.get(username=username)
-
+        user = User.objects.get(username=username)
         completed_units = UnitCompleted.objects.filter(
-            student=student, is_completed=True, unit__course=obj.course.id).distinct()
+            student=user, is_completed=True, unit__course=obj.course.id).distinct()
         return len(completed_units)
 
     def get_total_units(self, obj):
@@ -125,12 +178,7 @@ class EnrolledCourseSerializer(serializers.ModelSerializer):
     def get_is_enrolled(self, obj):
         try:
             print(self.end_date)
-            # end_date = self.end_date.replace(tzinfo=utc)
-            # time_now = datetime.datetime.now().replace(tzinfo=utc)
-            # if end_date > time_now:
-            #     return True
-            # else:
-            #     return False
+
         except:
             return False
 
@@ -156,7 +204,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         try:
             request = self.context['request']
             username = request.parser_context['kwargs']['username']
-            user = User.objects.get(username=username)
+            user = Student.objects.get(username=username)
             completed_units = UnitCompleted.objects.filter(
                 student=user.id, is_completed=True, unit__course=obj.id).distinct()
             return len(completed_units)
@@ -173,8 +221,9 @@ class CourseDetailSerializer(serializers.ModelSerializer):
             request = self.context['request']
             username = request.parser_context['kwargs']['username']
             user = User.objects.get(username=username)
+            student = Student.objects.get(user=user)
             enrolledCourse_qs = EnrolledCourse.objects.filter(
-                student=user, is_enrolled=True, course=obj.id)
+                student=student, is_enrolled=True, course=obj.id)
             if len(enrolledCourse_qs) > 0:
                 end_date = enrolledCourse_qs.last().end_date.replace(tzinfo=utc)
                 time_now = datetime.datetime.now().replace(tzinfo=utc)

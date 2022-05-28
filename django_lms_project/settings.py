@@ -28,6 +28,11 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 
 SITE_ID = 1
 # Application definition
@@ -56,6 +61,7 @@ INSTALLED_APPS = [
     'quizzes',
     'assets',
     'conversations',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +73,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
 ]
 
 ROOT_URLCONF = 'django_lms_project.urls'

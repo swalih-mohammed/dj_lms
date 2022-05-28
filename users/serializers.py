@@ -1,11 +1,11 @@
 from allauth.account.adapter import get_adapter
-from dj_rest_auth.registration.serializers import RegisterSerializer
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.forms import PasswordResetForm
 from django.conf import settings
 from django.utils.translation import gettext as _
-from .models import User
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from .models import User, Student, Teacher
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -23,6 +23,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         fields = ('email', 'username', 'password', 'is_student', 'is_teacher')
 
     def get_cleaned_data(self):
+        # print(self.validated_data)
         return {
             'username': self.validated_data.get('username', ''),
             'password1': self.validated_data.get('password1', ''),
@@ -44,28 +45,30 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 
 class TokenSerializer(serializers.ModelSerializer):
-    user_type = serializers.SerializerMethodField()
+    # user_type = serializers.SerializerMethodField()
 
     class Meta:
         model = Token
-        fields = ('key', 'user', 'user_type')
+        fields = ('key', 'user', )
 
-    def get_user_type(self, obj):
-        serializer_data = UserSerializer(
-            obj.user
-        ).data
-        is_student = serializer_data.get('is_student')
-        is_teacher = serializer_data.get('is_teacher')
-        username = serializer_data.get('username')
+        # fields = ('key', 'user', 'user_type')
+
+    # def get_user_type(self, obj):
+    #     serializer_data = UserSerializer(
+    #         obj.user
+    #     ).data
+    #     is_student = serializer_data.get('is_student')
+    #     is_teacher = serializer_data.get('is_teacher')
+    #     username = serializer_data.get('username')
         # email = serializer_data.get('email')
 
-        return {
-            'is_student': is_student,
-            'is_teacher': is_teacher,
-            'username': username
-            # 'email': email
+        # return {
+        #     'is_student': is_student,
+        #     'is_teacher': is_teacher,
+        #     'username': username
+        #     # 'email': email
 
-        }
+        # }
 
 
 class PasswordResetSerializer(serializers.Serializer):
@@ -93,3 +96,36 @@ class PasswordResetSerializer(serializers.Serializer):
             'request': request,
         }
         self.reset_form.save(**opts)
+
+
+class StudentDetailSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(
+        source="user.username", read_only=True)
+
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+
+class UpdateStudentDetailsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(
+        source="user.username", read_only=True)
+    email = serializers.CharField(
+        source="user.email", read_only=True)
+    current_course = serializers.CharField(
+        source="current_course.title", read_only=True)
+    current_course_language = serializers.CharField(
+        source="current_course.title", read_only=True)
+    current_course_level = serializers.CharField(
+        source="level", read_only=True)
+
+    class Meta:
+        model = Student
+        fields = ['name', 'email', 'current_course',
+                  'current_course_language', 'current_course_level', 'current_course_level']
