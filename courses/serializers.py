@@ -5,7 +5,7 @@ from unicodedata import category
 from rest_framework import serializers
 from users.models import Student
 from users.models import User
-from .models import Course, EnrolledCourse, Unit, UnitCompleted, LiveClass
+from .models import Course, CourseCategory, EnrolledCourse, Unit, UnitCompleted, LiveClass
 from lessons.models import Lesson, LessonCompleted
 from quizzes.models import Quiz, QuizCompleted
 from conversations.models import Conversation, ConversationCompleted
@@ -30,6 +30,12 @@ class LiveClassSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = LiveClass
+        fields = '__all__'
+
+
+class CourseCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseCategory
         fields = '__all__'
 
 

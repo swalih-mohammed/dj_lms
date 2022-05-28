@@ -1,7 +1,11 @@
 from django.urls import path
-from .views import CourseListView, CourseEnrollView, CurrentCourseDetailView, UnitDetailView, EnrolledCourseListView
+from .views import CourseCategoryView, CourseListView, CourseEnrollView, CurrentCourseDetailView, UnitDetailView, EnrolledCourseListView
 
 urlpatterns = [
+
+    # course category
+    path('course-categories/',
+         CourseCategoryView.as_view(), name='course-categories'),
 
     # different levels of a course grouped under a category
     path('course-by-category-list/<user_id>/',

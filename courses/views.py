@@ -12,7 +12,16 @@ from users.models import Student
 
 from users.models import User
 from .models import Course, CourseCategory, EnrolledCourse, Unit, UnitCompleted
-from .serializers import CourseSerializer, CourseDetailSerializer, EnrolledCourseSerializer, UnitSerializer, UnitDetailSerializer
+from .serializers import CourseSerializer, CourseCategorySerializer, CourseDetailSerializer, EnrolledCourseSerializer, UnitSerializer, UnitDetailSerializer
+
+
+class CourseCategoryView(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = CourseCategorySerializer
+
+    def get_queryset(self):
+        qs = CourseCategory.objects.all()
+        return qs
 
 
 class CourseListView(generics.ListAPIView):
