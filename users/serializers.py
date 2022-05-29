@@ -106,6 +106,8 @@ class StudentDetailSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    student_name = serializers.CharField(
+        source="user.username", read_only=True)
     current_course = serializers.CharField(
         source="current_course.title", read_only=True)
     current_course_language = serializers.CharField(
@@ -117,7 +119,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ['id', 'user', 'current_course',
+        fields = ['student_name', 'id', 'user', 'current_course',
                   'current_course_id', 'current_course_language', 'current_course_level']
 
 
