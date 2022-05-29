@@ -12,7 +12,7 @@ urlpatterns = [
          CourseListView.as_view(), name='course-by-category-list'),
 
     # details of a course which is current
-    path('course-current-detail/<username>/<category>/<order>/', CurrentCourseDetailView.as_view(),
+    path('course-current-detail/<user_id>/', CurrentCourseDetailView.as_view(),
          name='current-course-detail'),
 
     # enolled courses list for account page

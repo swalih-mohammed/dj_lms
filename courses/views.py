@@ -80,27 +80,10 @@ class CurrentCourseDetailView(generics.ListAPIView):
     serializer_class = CourseDetailSerializer
 
     def get_queryset(self):
-        username = self.kwargs['username']
-        category = self.kwargs['category']
-        order = self.kwargs['order']
-        user = User.objects.get(username=username)
-        if str(order) == str(0):
-            courses = Course.objects.filter(
-                category=category).order_by('order')
-            level = 1
-            for course in courses:
-                total_units_in_course = course.Units.all()
-                total_completed_units = UnitCompleted.objects.filter(
-                    student=user.id, is_completed=True, unit__course=course.id)
-                if len(total_units_in_course) == len(total_completed_units):
-                    level = level + 1
-                else:
-                    break
-            qs = Course.objects.filter(
-                category=category, order=level)
-        else:
-            qs = Course.objects.filter(
-                category=category, order=order)
+        user_id = self.kwargs['user_id']
+        student = Student.objects.get(user=user_id)
+        qs = Course.objects.filter(
+            is_active=True, category=student.current_course, order=student.level)
         return qs
 
 

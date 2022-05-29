@@ -1,7 +1,7 @@
-from curses import flash
+# from curses import flash
 import datetime
 import pytz
-from unicodedata import category
+# from unicodedata import category
 from rest_framework import serializers
 from users.models import Student
 from users.models import User
@@ -216,18 +216,18 @@ class CourseDetailSerializer(serializers.ModelSerializer):
 
     def get_units(self, obj):
         request = self.context['request']
-        username = request.parser_context['kwargs']['username']
+        user_id = request.parser_context['kwargs']['user_id']
         units = UnitSerializer(
-            obj.Units.all(), many=True, context={'username': username}).data
+            obj.Units.all(), many=True, context={'user_id': user_id}).data
         return units
 
     def get_completed_units(self, obj):
         try:
             request = self.context['request']
-            username = request.parser_context['kwargs']['username']
-            user = Student.objects.get(username=username)
+            user_id = request.parser_context['kwargs']['user_id']
+            user = Student.objects.get(id=user_id)
             completed_units = UnitCompleted.objects.filter(
-                student=user.id, is_completed=True, unit__course=obj.id).distinct()
+                student=user_id, is_completed=True, unit__course=obj.id).distinct()
             return len(completed_units)
         except:
             print("error in finding progress")
@@ -240,9 +240,9 @@ class CourseDetailSerializer(serializers.ModelSerializer):
     def get_is_enrolled(self, obj):
         try:
             request = self.context['request']
-            username = request.parser_context['kwargs']['username']
-            user = User.objects.get(username=username)
-            student = Student.objects.get(user=user)
+            user_id = request.parser_context['kwargs']['user_id']
+            user_id = User.objects.get(id=user_id)
+            student = Student.objects.get(user=user_id)
             enrolledCourse_qs = EnrolledCourse.objects.filter(
                 student=student, is_enrolled=True, course=obj.id)
             if len(enrolledCourse_qs) > 0:
@@ -272,15 +272,11 @@ class UnitSerializer(serializers.ModelSerializer):
 
     def get_progress(self, obj):
         try:
-            username = self.context['username']
-            user = User.objects.get(username=username)
-
-            # lessons in unit
+            user_id = self.context['user_id']
+            user = User.objects.get(id=user_id)
             lessons_in_unit = obj.Lessons.all()
             completed_lessons = LessonCompleted.objects.filter(
                 student=user.id, is_completed=True, lesson__unit=obj.id).distinct()
-
-            # quizzes in unit
             quizzes_in_unit = obj.unitQuizzes.all()
             completed_quizzes = QuizCompleted.objects.filter(
                 student=user.id, is_completed=True, quiz__unit=obj.id).distinct()
