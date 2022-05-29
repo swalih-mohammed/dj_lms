@@ -15,6 +15,10 @@ urlpatterns = [
     path('course-current-detail/<user_id>/', CurrentCourseDetailView.as_view(),
          name='current-course-detail'),
 
+    # details of unit in a course
+    path('units/<unit_id>/<user_id>/', UnitDetailView.as_view(),
+         name='unit-detail'),
+
     # enolled courses list for account page
     path('course-enrolled-list/<username>/<category>/',
          EnrolledCourseListView.as_view(), name='enrolled-courses-list'),

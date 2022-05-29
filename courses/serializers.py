@@ -314,21 +314,21 @@ class UnitDetailSerializer(serializers.ModelSerializer):
 
     def get_lessons(self, obj):
         request = self.context['request']
-        username = request.parser_context['kwargs']['username']
+        user_id = request.parser_context['kwargs']['user_id']
         lessons = LessonSerializer(
-            obj.Lessons.all(), many=True, context={'username': username}).data
+            obj.Lessons.all(), many=True, context={'user_id': user_id}).data
         return lessons
 
     def get_quizzes(self, obj):
         request = self.context['request']
-        username = request.parser_context['kwargs']['username']
+        user_id = request.parser_context['kwargs']['user_id']
         quizzes = QuizSerializer(obj.unitQuizzes.all(), many=True, context={
-            'username': username}).data
+            'user_id': user_id}).data
         return quizzes
 
     def get_conversations(self, obj):
         request = self.context['request']
-        username = request.parser_context['kwargs']['username']
+        user_id = request.parser_context['kwargs']['user_id']
         conversations = ConversationSerializer(obj.conversations.all(), many=True, context={
-            'username': username}).data
+            'user_id': user_id}).data
         return conversations

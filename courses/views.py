@@ -92,7 +92,7 @@ class UnitDetailView(generics.ListAPIView):
     serializer_class = UnitDetailSerializer
 
     def get_queryset(self):
-        username = self.kwargs['username']
-        unitId = self.kwargs['unitId']
-        qs = Unit.objects.filter(pk=unitId)
+        # user_id = self.kwargs['user_id']
+        unit_id = self.kwargs['unit_id']
+        qs = Unit.objects.filter(pk=unit_id)
         return qs
