@@ -64,7 +64,7 @@ class StudentDetailView(APIView):
 
     def get_object(self, pk):
         try:
-            return Student.objects.get(pk=pk)
+            return Student.objects.get(user=pk)
         except Student.DoesNotExist:
             raise Http404
 
