@@ -89,4 +89,5 @@ class StudentCurrentCourseChangeView(GenericAPIView, UpdateModelMixin):
     permission_classes = (AllowAny,)
 
     def put(self, request, *args, **kwargs):
+        print("putting in curren tchange")
         return self.partial_update(request, *args, **kwargs)
