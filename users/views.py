@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework import status
+from rest_framework import generics
 
 
 from rest_framework.status import (
@@ -26,6 +27,18 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
 
 
+class StudentListView(viewsets.ModelViewSet):
+    serializer_class = StudentSerializer
+    queryset = Student.objects.all()
+
+
+class StudentListView(generics.ListAPIView):
+    permission_classes = (AllowAny,)
+    serializer_class = StudentSerializer
+
+    def get_queryset(self):
+        qs = Student.objects.all()
+        return qs
 # class StudentDetailView(RetrieveAPIView):
 #     permission_classes = (AllowAny,)
 #     serializer_class = StudentDetailSerializer
