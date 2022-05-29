@@ -37,7 +37,7 @@ class CourseListView(generics.ListAPIView):
         user_id = self.kwargs['user_id']
         student = Student.objects.get(user=user_id)
         qs = Course.objects.filter(
-            is_active=True, category=student.current_course)
+            category=student.current_course)
         return qs
 
 
