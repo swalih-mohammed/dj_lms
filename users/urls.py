@@ -15,7 +15,8 @@ urlpatterns = [
     # get user current course and level
     path('details/<int:pk>/',
          StudentDetailView.as_view(), name="details"),
-    # get user current course and level
+
+    # get user current course and level pk is student id
     path('change-current-course/<pk>/',
          StudentCurrentCourseChangeView.as_view(), name="change-order"),
 ]
