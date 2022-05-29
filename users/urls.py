@@ -12,10 +12,12 @@ urlpatterns = [
     # default
     path('',
          UserViewSet, name="users"),
-    # default
+
+    # list of students with their current course details
     path('students/',
          StudentListView.as_view(), name="student-list"),
-    # get user current course and level
+
+    # get studet details with their current course and level pk is user id
     path('details/<int:pk>/',
          StudentDetailView.as_view(), name="details"),
 

@@ -98,7 +98,7 @@ class StudentCurrentCourseChangeView(GenericAPIView, UpdateModelMixin):
     You just need to provide the field which is to be modified.
     '''
     queryset = Student.objects.all()
-    serializer_class = UpdateStudentDetailsSerializer
+    serializer_class = StudentSerializer
     permission_classes = (AllowAny,)
 
     def put(self, request, *args, **kwargs):
