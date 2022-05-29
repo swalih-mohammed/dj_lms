@@ -96,24 +96,25 @@ class CourseSerializer(serializers.ModelSerializer):
     #     return level
 
     def get_is_enrolled(self, obj):
-        try:
-            request = self.context['request']
-            user_id = request.parser_context['kwargs']['user_id']
-            user = User.objects.get(user=user_id)
-            student = Student.objects.get(user=user)
-            enrolledCourse_qs = EnrolledCourse.objects.filter(
-                student=student, is_enrolled=True, course=obj.id)
-            if len(enrolledCourse_qs) > 0:
-                end_date = enrolledCourse_qs.last().end_date.replace(tzinfo=utc)
-                time_now = datetime.datetime.now().replace(tzinfo=utc)
-                if end_date > time_now:
-                    return True
-                else:
-                    return False
+        # try:
+        request = self.context['request']
+        user_id = request.parser_context['kwargs']['user_id']
+        user = User.objects.get(id=user_id)
+        student = Student.objects.get(user=user)
+        enrolledCourse_qs = EnrolledCourse.objects.filter(
+            student=student, is_enrolled=True, course=obj.id)
+        print(enrolledCourse_qs)
+        if len(enrolledCourse_qs) > 0:
+            end_date = enrolledCourse_qs.last().end_date.replace(tzinfo=utc)
+            time_now = datetime.datetime.now().replace(tzinfo=utc)
+            if end_date > time_now:
+                return True
             else:
                 return False
-        except:
+        else:
             return False
+        # except:
+        #     return False
 
     def get_start_date(self, obj):
         try:
