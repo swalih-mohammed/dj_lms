@@ -15,6 +15,7 @@ urlpatterns = [
     path('lessons/', include('lessons.urls')),
     path('quizzes/', include('quizzes.urls')),
     path('conversations/', include('conversations.urls')),
+    path('bugs/', include('bugs.urls')),
     # path('__debug__/', include('debug_toolbar.urls')),
     re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
     path('dj-rest-auth/password/reset/confirm/<str:uidb64>/<str:token>', PasswordResetConfirmView.as_view(),

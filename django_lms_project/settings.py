@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'quizzes',
     'assets',
     'conversations',
+    'bugs',
+
     # 'debug_toolbar',
 ]
 

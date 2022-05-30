@@ -124,15 +124,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class UpdateStudentDetailsSerializer(serializers.ModelSerializer):
-    # current_course = serializers.CharField(
-    #     source="current_course.title", read_only=True)
-    # current_course_language = serializers.CharField(
-    #     source="current_course.language", read_only=True)
-    # current_course_level = serializers.CharField(
-    #     source="level", read_only=True)
 
     class Meta:
         model = Student
         fields = '__all__'
-        # fields = ['id', 'current_course',
-        #           'current_course_language', 'current_course_level', 'current_course_level']
