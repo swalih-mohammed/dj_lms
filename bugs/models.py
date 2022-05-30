@@ -19,3 +19,6 @@ class Bug(models.Model):
         Quiz, on_delete=models.CASCADE,  related_name='quiz_bugs', blank=True, null=True, )
     conversation = models.ForeignKey(
         Conversation, on_delete=models.CASCADE,  related_name='conversation_bugs', blank=True, null=True, )
+
+    def __str__(self):
+        return str(self.message[0:100])
