@@ -6,14 +6,15 @@ from django.conf import settings
 from django.utils.translation import gettext as _
 from dj_rest_auth.registration.serializers import RegisterSerializer
 
-from courses.models import CourseCategory
+# from courses.models import CourseCategory
 from .models import User, Student, Teacher
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'is_student', 'is_teacher')
+        fields = ('email', 'username', 'password',
+                  'is_student', 'is_teacher', 'is_test_user')
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -22,7 +23,8 @@ class CustomRegisterSerializer(RegisterSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'password', 'is_student', 'is_teacher')
+        fields = ('email', 'username', 'password',
+                  'is_student', 'is_teacher', 'is_test_user')
 
     def get_cleaned_data(self):
         # print(self.validated_data)
@@ -32,7 +34,9 @@ class CustomRegisterSerializer(RegisterSerializer):
             'password2': self.validated_data.get('password2', ''),
             'email': self.validated_data.get('email', ''),
             'is_student': self.validated_data.get('is_student', ''),
-            'is_teacher': self.validated_data.get('is_teacher', '')
+            'is_teacher': self.validated_data.get('is_teacher', ''),
+            'is_test_user': self.validated_data.get('is_test_user', '')
+
         }
 
     def save(self, request):
@@ -41,6 +45,8 @@ class CustomRegisterSerializer(RegisterSerializer):
         self.cleaned_data = self.get_cleaned_data()
         user.is_student = self.cleaned_data.get('is_student')
         user.is_teacher = self.cleaned_data.get('is_teacher')
+        user.is_test_user = self.cleaned_data.get('is_test_user')
+
         user.save()
         adapter.save_user(request, user, self)
         return user
@@ -49,10 +55,12 @@ class CustomRegisterSerializer(RegisterSerializer):
 class TokenSerializer(serializers.ModelSerializer):
     email = serializers.SerializerMethodField()
     name = serializers.SerializerMethodField()
+    is_teacher = serializers.SerializerMethodField()
+    is_test_user = serializers.SerializerMethodField()
 
     class Meta:
         model = Token
-        fields = ('key', 'user', 'email', 'name')
+        fields = ('key', 'user', 'email', 'name', 'is_teacher', 'is_test_user')
 
     def get_email(self, obj):
         serializer_data = UserSerializer(
@@ -66,6 +74,20 @@ class TokenSerializer(serializers.ModelSerializer):
             obj.user
         ).data
         name = serializer_data.get('username')
+        return name
+
+    def get_is_teacher(self, obj):
+        serializer_data = UserSerializer(
+            obj.user
+        ).data
+        name = serializer_data.get('is_teacher')
+        return name
+
+    def get_is_test_user(self, obj):
+        serializer_data = UserSerializer(
+            obj.user
+        ).data
+        name = serializer_data.get('is_test_user')
         return name
 
 
