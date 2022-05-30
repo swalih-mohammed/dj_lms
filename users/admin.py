@@ -52,9 +52,13 @@ class inlineEnrolledCourse(admin.StackedInline):
 class StudentAdmin(admin.ModelAdmin):
     inlines = [inlineEnrolledCourse]
     list_display = [
-        'user',
+        'user', 'current_course', 'level'
     ]
     search_fields = ['user']
+
+    list_display_links = ['user']
+    list_filter = ['current_course', 'level', 'created_at', 'updated_at', ]
+    # search_fields = ['message']
 
 
 admin.site.register(Teacher, TeacherAdmin)

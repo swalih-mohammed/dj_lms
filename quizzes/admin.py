@@ -25,7 +25,7 @@ class QuizCompletedAdmin(admin.ModelAdmin):
         'student', 'quiz', 'is_completed', 'score'
 
     ]
-    list_filter = ['student', 'quiz', 'is_completed']
+    list_filter = ['created_at']
     search_fields = ['quiz__title', 'quiz__category']
 
 

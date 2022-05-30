@@ -20,6 +20,9 @@ class Student(models.Model):
     current_course = models.ForeignKey(
         'courses.CourseCategory', blank=True, null=True, on_delete=models.CASCADE)
     level = models.SmallIntegerField(blank=True, null=True, default=1)
+    created_at = models.DateTimeField(
+        editable=False, auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     def __str__(self):
         return self.user.username
