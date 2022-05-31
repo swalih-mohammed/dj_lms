@@ -29,7 +29,7 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
     def create(self, request):
         data = request.data
         quiz = Quiz.objects.get(id=data['quizId'])
-        student = User.objects.get(username=data['username'])
+        student = User.objects.get(id=data['user_id'])
         score = data['score']
 
         if quiz.unit != None:
@@ -87,11 +87,10 @@ class QuizSerializer(serializers.ModelSerializer):
 
     def get_quizCompleted(self, obj):
         try:
-            username = self.context['username']
-            user = User.objects.get(username=username)
-            userId = user.id
+            user_id = self.context['user_id']
+            user = User.objects.get(id=user_id)
             quizCompleted = QuizCompletedSerializer(
-                obj.QuizCompleted.filter(student=userId), many=True).data
+                obj.QuizCompleted.filter(student=user), many=True).data
             # print(len(quizCompleted))
             if quizCompleted:
                 if len(quizCompleted) > 0:

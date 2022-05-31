@@ -103,7 +103,7 @@ class CourseSerializer(serializers.ModelSerializer):
         student = Student.objects.get(user=user)
         enrolledCourse_qs = EnrolledCourse.objects.filter(
             student=student, is_enrolled=True, course=obj.id)
-        print(enrolledCourse_qs)
+        # print(enrolledCourse_qs)
         if len(enrolledCourse_qs) > 0:
             end_date = enrolledCourse_qs.last().end_date.replace(tzinfo=utc)
             time_now = datetime.datetime.now().replace(tzinfo=utc)
