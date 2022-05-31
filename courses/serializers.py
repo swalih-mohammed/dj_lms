@@ -228,7 +228,7 @@ class CourseDetailSerializer(serializers.ModelSerializer):
             user_id = request.parser_context['kwargs']['user_id']
             user = Student.objects.get(id=user_id)
             completed_units = UnitCompleted.objects.filter(
-                student=user_id, is_completed=True, unit__course=obj.id).distinct()
+                student=user.id, is_completed=True, unit__course=obj.id).distinct()
             return len(completed_units)
         except:
             print("error in finding progress")
