@@ -223,16 +223,23 @@ class CourseDetailSerializer(serializers.ModelSerializer):
         return units
 
     def get_completed_units(self, obj):
-        try:
-            request = self.context['request']
-            user_id = request.parser_context['kwargs']['user_id']
-            user = Student.objects.get(id=user_id)
-            completed_units = UnitCompleted.objects.filter(
-                student=user.id, is_completed=True, unit__course=obj.id).distinct()
-            return len(completed_units)
-        except:
-            print("error in finding progress")
-            return 0
+        request = self.context['request']
+        user_id = request.parser_context['kwargs']['user_id']
+        student = User.objects.get(pk=user_id)
+        completed_units = UnitCompleted.objects.filter(
+            student=student, is_completed=True, unit__course=obj.id).distinct()
+        return len(completed_units)
+    # def get_completed_units(self, obj):
+    #     try:
+    #         request = self.context['request']
+    #         user_id = request.parser_context['kwargs']['user_id']
+    #         user = Student.objects.get(id=user_id)
+    #         completed_units = UnitCompleted.objects.filter(
+    #             student=user.id, is_completed=True, unit__course=obj.id).distinct()
+    #         return len(completed_units)
+    #     except:
+    #         print("error in finding progress")
+    #         return 0
 
     def get_total_units(self, obj):
         units_in_course = obj.Units.all()
