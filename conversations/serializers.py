@@ -20,14 +20,9 @@ class ConversationCompletedSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-        # print("data in conv create", data)
         conversation = Conversation.objects.get(id=data['conversationId'])
         student = User.objects.get(username=data['username'])
-        # conversation = Conversation.objects.get(id=1)
-        # student = User.objects.get(username='sibiyan')
-
         unit = Unit.objects.get(pk=conversation.unit.id)
-
         unitCompleted_qs = UnitCompleted.objects.filter(
             student=student, is_completed=True, unit=unit)
         if not len(unitCompleted_qs) > 0:
@@ -88,11 +83,10 @@ class ConversationSerializer(serializers.ModelSerializer):
 
     def get_conversationCompleted(self, obj):
         try:
-            username = self.context['username']
-            user = User.objects.get(username=username)
-            userId = user.id
+            user_id = self.context['user_id']
+            user = User.objects.get(id=user_id)
             conversationCompleted = ConversationCompletedSerializer(
-                obj.ConversationCompleted.filter(student=userId), many=True).data
+                obj.ConversationCompleted.filter(student=user), many=True).data
             # print(len(quizCompleted))
             if conversationCompleted:
                 if len(conversationCompleted) > 0:
@@ -127,7 +121,6 @@ class ConversationDetailSerializer(serializers.ModelSerializer):
             request = self.context['request']
             username = request.parser_context['kwargs']['name']
             user = User.objects.get(username=username)
-
             pk = request.parser_context['kwargs']['pk']
             conversation = Conversation.objects.get(id=pk)
 

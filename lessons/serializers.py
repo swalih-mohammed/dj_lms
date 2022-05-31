@@ -130,10 +130,8 @@ class LessonDetailSerializer(serializers.ModelSerializer):
             request = self.context['request']
             user_id = request.parser_context['kwargs']['user_id']
             user = User.objects.get(id=user_id)
-            userId = user.id
-
             lessonCompleted = LessonCompletedSerializer(
-                obj.lessonCompleted.filter(student=userId), many=True).data
+                obj.lessonCompleted.filter(student=user), many=True).data
             if lessonCompleted:
                 # print("lesson completed")
                 if len(lessonCompleted) > 0:

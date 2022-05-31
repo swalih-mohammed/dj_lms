@@ -28,7 +28,7 @@ class QuizCompletedSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-        quiz = Quiz.objects.get(id=data['quizId'])
+        quiz = Quiz.objects.get(id=data['quiz_id'])
         student = User.objects.get(id=data['user_id'])
         score = data['score']
 
@@ -91,7 +91,6 @@ class QuizSerializer(serializers.ModelSerializer):
             user = User.objects.get(id=user_id)
             quizCompleted = QuizCompletedSerializer(
                 obj.QuizCompleted.filter(student=user), many=True).data
-            # print(len(quizCompleted))
             if quizCompleted:
                 if len(quizCompleted) > 0:
                     return True
@@ -113,8 +112,8 @@ class GeneralQuizListSerializer(serializers.ModelSerializer):
     def get_score(self, obj):
         try:
             request = self.context['request']
-            username = request.parser_context['kwargs']['username']
-            user = User.objects.get(username=username)
+            user_id = request.parser_context['kwargs']['user_id']
+            user = User.objects.get(id=user_id)
             category = request.parser_context['kwargs']['category']
             qs = obj.QuizCompleted.filter(
                 student=user, quiz__category=category)
@@ -141,7 +140,7 @@ class QuizDetailSerializer(serializers.ModelSerializer):
     def get_is_completed(self, obj):
         try:
             request = self.context['request']
-            username = request.parser_context['kwargs']['username']
+            username = request.parser_context['kwargs']['user_id']
             # username = self.context['username']
             user = User.objects.get(username=username)
             userId = user.id
