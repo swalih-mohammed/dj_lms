@@ -16,8 +16,6 @@ eggs/
 lib/
 lib64/
 parts/
-static/
-staticfiles/
 sdist/
 var/
 wheels/
