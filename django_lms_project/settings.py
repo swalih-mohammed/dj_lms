@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 import json
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,7 +85,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # 'DIRS': [],
-        'DIRS': [os.path.join(BASE_DIR, 'build')],
+        # 'DIRS': [os.path.join(BASE_DIR, 'build')],
+        
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -174,11 +174,9 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'build/static')]
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # STATIC_ROOT = "/home/myusername/myproject/stati
-
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -231,7 +229,6 @@ DBBACKUP_STORAGE_OPTIONS = {
 
 AWS_POLLY_ACCESS = os.environ.get('ACCESS_KEY_ID')
 AWS_POLLY_SECRET = os.environ.get('POLLY_SECRET_ACCESS_KEY')
-
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
 DEFAULT_FILE_STORAGE = os.environ.get('DEFAULT_FILE_STORAGE')
 AWS_S3_ACCESS_KEY_ID = os.environ.get('AWS_S3_ACCESS_KEY_ID')
