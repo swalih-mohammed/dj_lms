@@ -9,6 +9,8 @@ import Typography from '@mui/material/Typography';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
 import MenuSharp from '@mui/icons-material/MenuSharp';
 import Navbar from "./Components/Navbar"
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { purple } from '@mui/material/colors';
 
 
 // import About from "./pages/About/About";
@@ -24,8 +26,24 @@ import {
 import Footer  from "./Components/Footer";
 // import Privacy from ". /pages/Privacy/privacy";
 
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#14a800",
+    },
+    secondary: {
+      main: '#651fff',
+    },
+    text:{
+      primary: "#14a800"
+    }
+  },
+});
+
+
 function App() {
   return (
+    <ThemeProvider theme={theme} >
     <BrowserRouter>
       {/* <GlobalStyle /> */}
       {/* <ScrollToTop /> */}
@@ -60,6 +78,8 @@ function App() {
  
       <Footer />
       </BrowserRouter>
+      </ThemeProvider>
+
   );
 }
 

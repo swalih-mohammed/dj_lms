@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "../globalStyles";
+// import { Button } from "../globalStyles";
 import { AiOutlineWhatsApp } from "react-icons/ai";
+import Button from '@mui/material/Button';
+// import { Link } from "react-router-dom";
+
 
 export const Section = styled.div`
   color: #fff;
@@ -90,12 +93,13 @@ export const Subtitle = styled.p`
   color: ${({ lightTextDesc }) => (lightTextDesc ? "#a9b3c1" : "#1c2237")};
 `;
 
+const handleButtonClick = ()=>{
+  const link = "https://wa.me/7207724191/?text=Please%20help%20me%20to%20join%20the%20course"
+  window.open(link, "_blank")
+}
 export const WhatsAppButton = () => {
   return (
-    <a href="https://wa.me/7207724191/?text=Please%20help%20me%20to%20join%20the%20course">
-      <Button>
-        {"Join today"} <AiOutlineWhatsApp />
-      </Button>
-    </a>
+    <Button sx={{mt:2}} onClick={handleButtonClick} variant="contained">Join today</Button>
   );
 };
+
