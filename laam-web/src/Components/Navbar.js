@@ -11,6 +11,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../images/logo.png'; // Tell webpack this JS file uses this image
+import Link from '@mui/material/Link';
+
 
 
 const pages = ['About', 'Support'];
@@ -76,22 +78,23 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
+        
             <img style={{width: '140px', height:"20%", marginTop:10}} src={logo} alt="logo" />
-
+         
           </Box>
      
          
           <Box sx={{  display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            {/* {pages.map((page) => ( */}
               <Button 
               variant='contained'
-                key={page}
+                // key={page}h
                 onClick={handleCloseNavMenu}
                 sx={{ m: 2, my: 2, color: "inherint" , display: 'block', borderRadius: '10%' }}
               >
-                {page}
+                {"page"}
               </Button>
-            ))}
+            {/* ))} */}
           </Box>
         </Toolbar>
       </Container>

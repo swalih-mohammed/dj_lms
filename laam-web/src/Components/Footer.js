@@ -9,11 +9,12 @@ import Link from '@mui/material/Link';
 
 
 
+
 function Footer() {
   return (
-      <Box sx={{ flexGrow: 1, paddingBottom:10 , paddingTop:15, backgroundColor: "#002240"}}>
+      <Box sx={{ flexGrow: 1, paddingBottom:10 , paddingTop:15, backgroundColor: "#002240", }}>
       <Container >
-       <Grid container spacing={2}>
+       <Grid sx={{pl: 3}} container spacing={2}>
        <Grid  item gap={2} xs={12} md={6}>
         <Box>
         <Typography  sx={{mb: 1, color: "#f1faee"}}>ADDRESS</Typography>
@@ -43,7 +44,11 @@ function Footer() {
         </Grid>
         <Box sx={{ display: "flex",  justifyContent: "center", alignItems: "center", paddingTop:1}}>
         <Typography  sx={{mb: 1, color: "#f1faee"}}> Laam Academy © 2022</Typography>
+        
         </Box>
+        <Link href="/privacy-policy">
+        <Typography  sx={{mb: 1, color: "#f1faee",  display: "flex",  justifyContent: "center", alignItems: "center",}}> Privacy Policy</Typography>
+        </Link>
        </Box>
       </Container>
     </Box>

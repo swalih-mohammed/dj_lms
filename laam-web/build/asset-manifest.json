@@ -1,19 +1,23 @@
 {
   "files": {
     "main.css": "/static/css/main.e6c13ad2.css",
-    "main.js": "/static/js/main.b573c3f7.js",
+    "main.js": "/static/js/main.ccf4ebd3.js",
     "static/js/787.f2bfe5c9.chunk.js": "/static/js/787.f2bfe5c9.chunk.js",
-    "static/media/application.png": "/static/media/application.2492a40599eb7a4a6c5b.png",
-    "static/media/section_5.jpg": "/static/media/section_5.c976b5a017f601c4679d.jpg",
-    "static/media/section_1.png": "/static/media/section_1.19c924bcbe779259b5a9.png",
-    "static/media/section_4.jpg": "/static/media/section_4.7f9f7b5cc7b228422644.jpg",
+    "static/media/playstore.png": "/static/media/playstore.68b0b4ca44cc0b8e6108.png",
+    "static/media/card3.png": "/static/media/card3.e63c9847f0cd2a928eef.png",
+    "static/media/professional.png": "/static/media/professional.ed588ee6d55277348dff.png",
+    "static/media/card2.png": "/static/media/card2.3f8e9bff7224db8d988f.png",
+    "static/media/card1.png": "/static/media/card1.824acee6afdc99ad1480.png",
+    "static/media/section_1.png": "/static/media/section_1.1d2e85ae0c308073c1c5.png",
+    "static/media/phone.png": "/static/media/phone.17bd9bf3f6df809ec535.png",
+    "static/media/weeklyclass.png": "/static/media/weeklyclass.0cc2b506c1feda880c18.png",
     "index.html": "/index.html",
     "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
-    "main.b573c3f7.js.map": "/static/js/main.b573c3f7.js.map",
+    "main.ccf4ebd3.js.map": "/static/js/main.ccf4ebd3.js.map",
     "787.f2bfe5c9.chunk.js.map": "/static/js/787.f2bfe5c9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.b573c3f7.js"
+    "static/js/main.ccf4ebd3.js"
   ]
 }

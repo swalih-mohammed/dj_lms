@@ -20,7 +20,7 @@ function SectionOne() {
           <WhatsAppButton  />
         </Grid>
         <Grid item xs={12} md={6}>
-        <img src={require("../../images/section_1.png")} alt={""} />
+        <img src={require("../../images/professional.png")} alt={""} />
         </Grid>
       </Grid>
       </Container>
